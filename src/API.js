@@ -1,87 +1,9 @@
+import Client from '@/Client';
+import Center from '@/Center';
+
+// TODO: Move these urls to a constants file eventually
 const API_URL = `http://localhost:8190`;
-const WS_URL = 'ws://localhost:8191';
-
-
-class Client {
-	constructor(url, username, password) {
-		this.url = url;
-		if (!url.includes('smpp://')) {
-			url = 'smpp://' + url;
-		}
-		this.username = username;
-		this.password = password;
-		this.status = 'none?';
-		this.sendCounter = 0;
-		this.pdus = [];
-
-		this.ws = new WebSocket(WS_URL);
-		this.ws.on('open', () => {
-			this.ws.send(`client:${this.id}`);
-		});
-		this.ws.on('message', this.wsMessage.bind(this));
-
-		api.postClient(this);
-	}
-
-	wsMessage(data) {
-		data = JSON.parse(data);
-		switch (data.type) {
-			case 'status':
-				this.status = data.value;
-				break;
-			case 'pdu':
-				this.pdus.push(data.value);
-				break;
-			case 'counterUpdate':
-				this.sendCounter = data.value;
-				break;
-			default:
-				console.log('Unknown message type: ' + data.type);
-		}
-	}
-
-	setUsername(username) {
-		this.username = username;
-		api.patchClient(this);
-	}
-
-	setPassword(password) {
-		this.password = password;
-		api.patchClient(this);
-	}
-
-	connect() {
-		api.clientConnect(this);
-	}
-
-	disconnect() {
-		this.ws.close();
-		api.clientDisconnect(this);
-	}
-
-	bind() {
-		api.clientBind(this);
-	}
-
-	delete() {
-		api.clientDelete(this);
-	}
-
-	send(source, destination, message) {
-		api.clientSend(this, source, destination, message);
-	}
-
-	sendMany(source, destinations, message, perSecond, count) {
-		api.clientSendMany(this, source, destinations, message, perSecond, count);
-	}
-
-	cancelSendMany() {
-		api.clientCancelSendMany(this);
-	}
-}
-
-class Center {
-}
+const WS_URL = `ws://localhost:8191`;
 
 class API {
 	clientCache = {};
@@ -91,7 +13,7 @@ class API {
 		this.url = API_URL;
 	}
 
-	getCilents() {
+	getClients() {
 		return new Promise((resolve, reject) => {
 			const options = {
 				method: 'GET',
@@ -101,7 +23,11 @@ class API {
 				.then(response => response.json())
 				.then(data => {
 					data.forEach(client => {
-						this.clientCache[client.id] = client;
+						let clientObj = new Client(client.url, client.username, client.password, false);
+						clientObj.id = client.id;
+						clientObj.status = client.status;
+						clientObj.openWebsocket();
+						this.clientCache[client.id] = clientObj;
 					});
 					resolve(data);
 				})
@@ -121,9 +47,13 @@ class API {
 			};
 			fetch(`${API_URL}/api/client/${id}`, options)
 				.then(response => response.json())
-				.then(data => {
-					this.clientCache[data.id] = data;
-					resolve(data);
+				.then(client => {
+					let clientObj = new Client(client.url, client.username, client.password, false);
+					clientObj.id = client.id;
+					clientObj.status = client.status;
+					clientObj.openWebsocket();
+					this.clientCache[client.id] = clientObj;
+					resolve(client);
 				})
 				.catch(err => reject(err));
 		});
@@ -280,21 +210,4 @@ class API {
 	}
 }
 
-let api = new API();
-
-export default {
-	Client,
-	Center,
-	api
-};
-// export default {
-// 	getPath(path) {
-// 		return new Promise((resolve, reject) => {
-// 			const options = {method: 'GET'};
-// 			fetch(`${API_URL}/path?query=${path}`, options)
-// 				.then(response => response.json())
-// 				.then(data => resolve(data))
-// 				.catch(err => console.error(err));
-// 		});
-// 	},
-// };
+export default API;
