@@ -1,4 +1,5 @@
 import API from "@/API";
+import EventEmitter from "events";
 
 const API_URL = `http://localhost:8190`;
 const WS_URL = `ws://localhost:8191`;
@@ -32,7 +33,6 @@ class Client {
 			this.ws.send(`client:${this.id}`);
 		}
 		this.ws.onmessage = this.wsMessage.bind(this);
-
 	}
 
 	wsMessage(data) {
@@ -46,6 +46,7 @@ class Client {
 				this.pdus.push(data.value);
 				break;
 			case 'counterUpdate':
+				console.log(data);
 				this.sendCounter = data.value;
 				break;
 			default:

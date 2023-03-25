@@ -22,13 +22,15 @@ class API {
 			fetch(`${API_URL}/api/client`, options)
 				.then(response => response.json())
 				.then(data => {
-					data.forEach(client => {
+					for (let i = 0; i < data.length; i++) {
+						let client = data[i];
 						let clientObj = new Client(client.url, client.username, client.password, false);
 						clientObj.id = client.id;
 						clientObj.status = client.status;
 						clientObj.openWebsocket();
 						this.clientCache[client.id] = clientObj;
-					});
+						data[i] = clientObj;
+					}
 					resolve(data);
 				})
 				.catch(err => reject(err));
