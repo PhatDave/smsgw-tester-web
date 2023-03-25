@@ -27,20 +27,17 @@ class Client {
 	}
 
 	openWebsocket() {
-		if (!!this.id) {
-
 		this.ws = new WebSocket(WS_URL);
 		this.ws.onopen = () => {
 			this.ws.send(`client:${this.id}`);
 		}
 		this.ws.onmessage = this.wsMessage.bind(this);
-		}
+
 	}
 
 	wsMessage(data) {
 		data = data.data;
 		data = JSON.parse(data);
-		console.log(data);
 		switch (data.type) {
 			case 'status':
 				this.status = data.value;

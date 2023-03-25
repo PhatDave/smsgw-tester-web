@@ -1,6 +1,11 @@
 <script>
 import API from '@/API.js';
+import Client from '@/components/Client.vue';
+
 export default {
+	components: {
+		Client,
+	},
 	data() {
 		return {
 			clients: [],
@@ -9,14 +14,16 @@ export default {
 	},
 	beforeMount() {
 		this.api.getClients().then(response => {
-			console.log(response);
-			this.clients = response.data;
+			this.clients = response;
 		});
 	}
 }
 </script>
 
 <template>
+	<div class="listContainer">
+		<Client v-for="client in clients" :client="client"/>
+	</div>
 </template>
 
 <style>
