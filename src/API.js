@@ -380,7 +380,7 @@ class API {
 		});
 	}
 
-	getModes() {
+	getCenterModes() {
 		return new Promise((resolve, reject) => {
 			const options = {
 				method: 'GET',

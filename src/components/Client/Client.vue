@@ -13,10 +13,8 @@ export default {
 		this.client.openWebsocket();
 	},
 	methods: {
-		nekaMetoda() {
-			this.client.username = this.$refs.clientUsername.innerText;
-			console.log(this.client.username);
-			this.client.setUsername(this.client.username);
+		usernameChanged(event) {
+			this.client.setUsername(event.target.innerText);
 		}
 	}
 }
@@ -26,12 +24,11 @@ export default {
 	<!--	:class="{ 'online': client.status === 'online', 'offline': client.status === 'offline' }">{{ client.status }}</div>-->
 	<div :class="client.status">
 		<div>
-			{{ number }}
 			<div>{{ client.status }}</div>
 		</div>
 		<div>
 			<div>{{ client.url }}</div>
-			<div contenteditable @keyup="usernameChange" @mousemove="nekaMetoda">{{ client.username }}</div>
+			<div contenteditable @keyup="usernameChanged">{{ client.username }}</div>
 			<div contenteditable>{{ client.password }}</div>
 			<div>{{ client.sendCounter }}</div>
 		</div>
