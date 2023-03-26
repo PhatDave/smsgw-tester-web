@@ -2,50 +2,50 @@
 import DefaultJob from "@/components/Client/DefaultJob.vue";
 
 export default {
-	components: {DefaultJob},
-	props: ['client'],
-	data() {
-		return {
-			client: this.client,
-		}
-	},
-	beforeMount() {
-		this.client.openWebsocket();
-	},
-	methods: {
-		usernameChanged(event) {
-			this.client.setUsername(event.target.innerText);
-		}
-	}
+  components: {DefaultJob},
+  props: ['client'],
+  data() {
+    return {
+      client: this.client,
+    }
+  },
+  beforeMount() {
+    this.client.openWebsocket();
+  },
+  methods: {
+    usernameChanged(event) {
+      this.client.setUsername(event.target.innerText);
+    }
+  }
 }
 </script>
 
 <template>
-	<!--	:class="{ 'online': client.status === 'online', 'offline': client.status === 'offline' }">{{ client.status }}</div>-->
-	<div :class="client.status">
-		<div>
-			<div>{{ client.status }}</div>
-		</div>
-		<div>
-			<div>{{ client.url }}</div>
-			<div contenteditable @keyup="usernameChanged">{{ client.username }}</div>
-			<div contenteditable>{{ client.password }}</div>
-			<div>{{ client.sendCounter }}</div>
-		</div>
-		<DefaultJob :default-job="client.defaultJob" :default-multi-job="client.defaultMultiJob"/>
-	</div>
+  <!--	:class="{ 'online': client.status === 'online', 'offline': client.status === 'offline' }">{{ client.status }}</div>-->
+  <div :class="client.status">
+    <div>
+      <div>{{ client.status }}</div>
+    </div>
+    <div>
+      <div>{{ client.url }}</div>
+      <div contenteditable @keyup="usernameChanged">{{ client.username }}</div>
+      <div contenteditable>{{ client.password }}</div>
+      <div>{{ client.sendCounter }}</div>
+    </div>
+    <DefaultJob :default-job="client.defaultJob" :default-multi-job="client.defaultMultiJob"/>
+  </div>
 </template>
 
 <style scoped>
 .NOT_CONNECTED {
-	background-color: rgba(255, 0, 0, 0.3);
+  background-color: rgba(255, 0, 0, 0.3);
 }
 
 .CONNECTING, .CONNECTED {
-	background-color: rgba(255, 255, 0, 0.3);
+  background-color: rgba(255, 255, 0, 0.3);
 }
 
 .BINDING, .BOUND {
-	background-color: rgba(0, 255, 0, 0.3);
+  background-color: rgba(0, 255, 0, 0.3);
 }
 </style>
