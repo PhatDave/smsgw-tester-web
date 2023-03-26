@@ -98,8 +98,25 @@ class Client {
 		this.api.clientSend(this, source, destination, message);
 	}
 
+	configDefault() {
+		this.api.clientConfigureDefaultSend(this, this.defaultJob.source, this.defaultJob.destination, this.defaultJob.message);
+	}
+
+	sendDefault() {
+		this.api.clientSendDefault(this);
+	}
+
 	sendMany(source, destinations, message, perSecond, count) {
 		this.api.clientSendMany(this, source, destinations, message, perSecond, count);
+	}
+
+	configureDefaultMany() {
+		this.api.clientConfigureDefaultSendMany(this, this.defaultMultiJob.source, this.defaultMultiJob.destination, this.defaultMultiJob.message,
+		                                        this.defaultMultiJob.interval, this.defaultMultiJob.count);
+	}
+
+	sendDefaultMany() {
+		this.api.clientSendDefaultMany(this);
 	}
 
 	cancelSendMany() {

@@ -31,7 +31,7 @@ class Center {
 		this.api = new API();
 
 		if (doPost) {
-			this.api.postClient(this).then(data => {
+			this.api.postCenter(this).then(data => {
 				this.id = data.id;
 				this.status = data.status;
 				this.defaultJob = data.configuredMessageJob;
@@ -75,41 +75,50 @@ class Center {
 
 	setUsername(username) {
 		this.username = username;
-		this.api.patchClient(this);
+		this.api.patchCenter(this);
 	}
 
 	setPassword(password) {
 		this.password = password;
-		this.api.patchClient(this);
-	}
-
-	connect() {
-		this.api.clientConnect(this);
+		this.api.patchCenter(this);
 	}
 
 	disconnect() {
 		this.ws.close();
-		this.api.clientDisconnect(this);
-	}
-
-	bind() {
-		this.api.clientBind(this);
+		this.api.centerDisconnect(this);
 	}
 
 	delete() {
-		this.api.clientDelete(this);
+		this.api.centerDelete(this);
 	}
 
 	send(source, destination, message) {
-		this.api.clientSend(this, source, destination, message);
+		this.api.centerSend(this, source, destination, message);
+	}
+
+	configDefault() {
+		this.api.centerConfigureDefaultSend(this, this.defaultJob.source, this.defaultJob.destination, this.defaultJob.message);
+	}
+
+	sendDefault() {
+		this.api.centerSendDefault(this);
 	}
 
 	sendMany(source, destinations, message, perSecond, count) {
-		this.api.clientSendMany(this, source, destinations, message, perSecond, count);
+		this.api.centerSendMany(this, source, destinations, message, perSecond, count);
+	}
+
+	configDefaultMany() {
+		this.api.centerConfigureDefaultSendMany(this, this.defaultMultiJob.source, this.defaultMultiJob.destinations, this.defaultMultiJob.message,
+		                                        this.defaultMultiJob.interval, this.defaultMultiJob.count);
+	}
+
+	sendDefaultMany() {
+		this.api.centerSendDefaultMany(this);
 	}
 
 	cancelSendMany() {
-		this.api.clientCancelSendMany(this);
+		this.api.centerCancelSendMany(this);
 	}
 }
 
