@@ -49,10 +49,10 @@ export default {
       </h5>
       <form class="row g-1 align-items-center">
         <div class="col-5">
-          <input type="text" class="form-control" id="floatingInput" v-model="client.username">
+          <input type="text" class="form-control" v-model="client.username">
         </div>
         <div class="col-5">
-          <input type="text" class="form-control" id="floatingPassword" v-model="client.password">
+          <input type="text" class="form-control" v-model="client.password">
         </div>
         <div class="col-2">
           <button type="button" class="btn btn-sm btn-outline-danger" v-on:dblclick="deleteClient">Delete</button>
