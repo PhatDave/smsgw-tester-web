@@ -16,13 +16,28 @@ class Client {
 		this.sendCounter = 0;
 		this.pdus = [];
 
+		this.defaultJob = {
+			source: '',
+			destination: '',
+			message: '',
+		}
+		this.defaultMultiJob = {
+			source: '',
+			destination: '',
+			message: '',
+			interval: 1000,
+			count: 1,
+		}
+
 		this.api = new API();
 
 		if (doPost) {
 			this.api.postClient(this).then(data => {
 				this.id = data.id;
 				this.status = data.status;
-				this.openWebsocket();
+				this.defaultJob = data.configuredMessageJob;
+				this.defaultMultiJob = data.configuredMultiMessageJob;
+				// this.openWebsocket();
 			});
 		}
 	}
@@ -46,7 +61,6 @@ class Client {
 				this.pdus.push(data.value);
 				break;
 			case 'counterUpdate':
-				console.log(data);
 				this.sendCounter = data.value;
 				break;
 			default:

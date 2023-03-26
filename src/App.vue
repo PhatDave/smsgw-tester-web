@@ -1,6 +1,6 @@
 <script>
 import API from '@/API.js';
-import Client from '@/components/Client.vue';
+import Client from '@/components/Client/Client.vue';
 
 export default {
 	components: {

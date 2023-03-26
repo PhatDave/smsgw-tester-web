@@ -27,7 +27,8 @@ class API {
 						let clientObj = new Client(client.url, client.username, client.password, false);
 						clientObj.id = client.id;
 						clientObj.status = client.status;
-						clientObj.openWebsocket();
+						clientObj.defaultJob = client.configuredMessageJob;
+						clientObj.defaultMultiJob = client.configuredMultiMessageJob;
 						this.clientCache[client.id] = clientObj;
 						data[i] = clientObj;
 					}
@@ -53,7 +54,8 @@ class API {
 					let clientObj = new Client(client.url, client.username, client.password, false);
 					clientObj.id = client.id;
 					clientObj.status = client.status;
-					clientObj.openWebsocket();
+					clientObj.defaultJob = client.configuredMessageJob;
+					clientObj.defaultMultiJob = client.configuredMultiMessageJob;
 					this.clientCache[client.id] = clientObj;
 					resolve(client);
 				})
