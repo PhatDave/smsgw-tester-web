@@ -16,29 +16,30 @@ export default {
 </script>
 
 <template>
+  <!-- TODO: Implement onChange events to submit data (API?) -->
   <div class="row">
     <div class="col-6 p-2">
       <h6 class="text-center">Single Send</h6>
-      <form class="row g-1 text-center">
+      <div class="row g-1 text-center">
         <div class="col-12">
-          <input class="form-control" type="text" v-model="defaultJob.source" placeholder="Source"/>
+          <input class="form-control" type="text" placeholder="Source" :value="defaultJob.source" @change="event => defaultJob.source = event.target.value"/>
         </div>
         <div class="col-12">
           <input class="form-control" type="text" v-model="defaultJob.destination" placeholder="Destination"/>
         </div>
         <div class="col-12">
-          <textarea class="form-control" v-model="defaultJob.message" placeholder="Message"/>
+          <textarea class="form-control" placeholder="Message" :value="defaultJob.message" @change="event => defaultJob.message = event.target.value"/>
         </div>
         <div class="col-12 mt-3">
-          <button type="submit" class="btn btn-success w-75">
+          <button class="btn btn-success w-75">
             Send
           </button>
         </div>
-      </form>
+      </div>
     </div>
     <div class="col-6 p-2">
       <h6 class="text-center">Multi Send</h6>
-      <form class="row g-1 text-center">
+      <div class="row g-1 text-center">
         <div class="col-12">
           <input class="form-control" type="text" v-model="defaultMultiJob.source" placeholder="Source"/>
         </div>
@@ -51,7 +52,7 @@ export default {
         <div class="col-8">
           <div class="input-group">
             <input class="form-control" type="number" step="0.01" v-model="roundedInterval" placeholder="0.0"/>
-            <label id="button-1" class="input-group-text" v-b-tooltip.hover title="Messages per second">
+            <label id="button-1" class="input-group-text">
               m/s
             </label>
           </div>
@@ -60,21 +61,16 @@ export default {
           <input class="form-control" type="number" v-model="defaultMultiJob.count" placeholder="0"/>
         </div>
         <div class="col-12 mt-3">
-          <button type="submit" class="btn btn-success w-75">
+          <button class="btn btn-success w-75">
             Send
           </button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.job-container {
-  border: 1px solid #bbb;
-  border-radius: .4em;
-}
-
 input {
   border: none;
   border-bottom: 1px solid #eee;
