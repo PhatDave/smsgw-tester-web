@@ -418,6 +418,40 @@ class API {
 		});
 	}
 
+	centerConfigureDefaultSend(center, source, destination, message) {
+		return new Promise((resolve, reject) => {
+			let body = {
+				source: source,
+				destination: destination,
+				message: message
+			}
+
+			const options = {
+				method: 'PATCH',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(body)
+			};
+
+			fetch(`${API_URL}/api/center/${center.id}/send`, options)
+				.then(response => response.json())
+				.then(data => resolve(data))
+				.catch(err => reject(err));
+		});
+	}
+
+	centerSendDefault(center) {
+		return new Promise((resolve, reject) => {
+			const options = {
+				method: 'POST',
+			};
+
+			fetch(`${API_URL}/api/center/${center.id}/send/default`, options)
+				.then(response => response.json())
+				.then(data => resolve(data))
+				.catch(err => reject(err));
+		});
+	}
+
 	centerSend(center, source, destination, message) {
 		return new Promise((resolve, reject) => {
 			let body = {
@@ -433,6 +467,42 @@ class API {
 			};
 
 			fetch(`${API_URL}/api/center/${center.id}/send`, options)
+				.then(response => response.json())
+				.then(data => resolve(data))
+				.catch(err => reject(err));
+		});
+	}
+
+	centerConfigureDefaultSendMany(center, source, destination, message, interval, count) {
+		return new Promise((resolve, reject) => {
+			let body = {
+				source: source,
+				destination: destination,
+				message: message,
+				interval: interval,
+				count: count
+			}
+
+			const options = {
+				method: 'PATCH',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(body)
+			};
+
+			fetch(`${API_URL}/api/center/${center.id}/sendMany`, options)
+				.then(response => response.json())
+				.then(data => resolve(data))
+				.catch(err => reject(err));
+		});
+	}
+
+	centerSendDefaultMany(center) {
+		return new Promise((resolve, reject) => {
+			const options = {
+				method: 'POST',
+			};
+
+			fetch(`${API_URL}/api/center/${center.id}/sendMany/default`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
