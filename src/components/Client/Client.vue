@@ -13,39 +13,56 @@ export default {
     this.client.openWebsocket();
   },
   methods: {
-    usernameChanged(event) {
-      this.client.setUsername(event.target.innerText);
+    deleteClient() {
+      // TODO: Implement delete
+    },
+    getStatusClass() {
+      if (this.client.status === 'NOT CONNECTED') return "bg-danger";
+      else if (this.client.status === 'CONNECTED') return "bg-warning";
+      else return "bg-success";
     }
   }
 }
 </script>
 
 <template>
-  <!--	:class="{ 'online': client.status === 'online', 'offline': client.status === 'offline' }">{{ client.status }}</div>-->
-  <div :class="client.status">
-    <div>
-      <div>{{ client.status }}</div>
+  <div class="card my-2">
+    <div class="card-header" :class="getStatusClass()">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-6">{{ client.status }}</div>
+        <div class="col-6 text-end">
+          <button v-if="client.status === 'NOT CONNECTED'" class="btn btn-sm btn-warning mx-1">
+            Connect
+          </button>
+          <button v-if="client.status !== 'NOT CONNECTED' && client.status !== 'BOUND'" class="btn btn-sm btn-success mx-1">
+            Bind
+          </button>
+          <button v-if="client.status === 'CONNECTED' || client.status === 'BOUND'" class="btn btn-sm btn-danger mx-1">
+            Disconnect
+          </button>
+        </div>
+      </div>
     </div>
-    <div>
-      <div>{{ client.url }}</div>
-      <div contenteditable @keyup="usernameChanged">{{ client.username }}</div>
-      <div contenteditable>{{ client.password }}</div>
-      <div>{{ client.sendCounter }}</div>
+    <div class="card-body">
+      <h5 class="card-title mb-3">
+        {{ client.url }}
+      </h5>
+      <form class="row g-1 align-items-center">
+        <div class="col-5">
+          <input type="text" class="form-control" id="floatingInput" v-model="client.username">
+        </div>
+        <div class="col-5">
+          <input type="text" class="form-control" id="floatingPassword" v-model="client.password">
+        </div>
+        <div class="col-2">
+          <button type="button" class="btn btn-sm btn-outline-danger" v-on:dblclick="deleteClient">Delete</button>
+        </div>
+        <!-- TODO: Progress Bar -->
+      </form>
+      <hr>
+      <div class="p-2">
+        <DefaultJob :default-job="client.defaultJob" :default-multi-job="client.defaultMultiJob"/>
+      </div>
     </div>
-    <DefaultJob :default-job="client.defaultJob" :default-multi-job="client.defaultMultiJob"/>
   </div>
 </template>
-
-<style scoped>
-.NOT_CONNECTED {
-  background-color: rgba(255, 0, 0, 0.3);
-}
-
-.CONNECTING, .CONNECTED {
-  background-color: rgba(255, 255, 0, 0.3);
-}
-
-.BINDING, .BOUND {
-  background-color: rgba(0, 255, 0, 0.3);
-}
-</style>
