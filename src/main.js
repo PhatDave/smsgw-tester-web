@@ -3,20 +3,16 @@ import {createApp} from 'vue'
 import {createRouter, createWebHistory} from "vue-router";
 
 import './style.css';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.min.js'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-const routes = [
-	{
-		path: '/',
-		component: App
-	}
-]
+const routes = [{
+    path: '/', component: App
+}]
 
 const router = createRouter({
-	                            history: createWebHistory(),
-	                            routes,
-                            });
+    history: createWebHistory(), routes,
+});
 
-const app = createApp({});
-app.use(router);
-
-app.mount('#app');
+createApp({}).use(router).mount('#app');
