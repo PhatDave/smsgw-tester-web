@@ -37,7 +37,6 @@ class Client {
 				this.status = data.status;
 				this.defaultJob = data.configuredMessageJob;
 				this.defaultMultiJob = data.configuredMultiMessageJob;
-				// this.openWebsocket();
 			});
 		}
 	}
