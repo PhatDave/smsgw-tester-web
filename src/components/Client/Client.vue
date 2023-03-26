@@ -44,21 +44,21 @@ export default {
       </div>
     </div>
     <div class="card-body">
-      <h5 class="card-title mb-3">
+      <h5 class="card-title mb-3 text-center">
         {{ client.url }}
       </h5>
-      <form class="row g-1 align-items-center">
+      <div class="row g-1 align-items-center">
         <div class="col-5">
-          <input type="text" class="form-control" v-model="client.username">
+          <input type="text" class="form-control" placeholder="Username" :value="client.username" @input="event => client.setUsername(event.target.value)">
         </div>
         <div class="col-5">
-          <input type="text" class="form-control" v-model="client.password">
+          <input type="text" class="form-control" placeholder="Password" :value="client.password" @input="event => client.setPassword(event.target.value)">
         </div>
         <div class="col-2">
-          <button type="button" class="btn btn-sm btn-outline-danger" v-on:dblclick="deleteClient">Delete</button>
+          <button type="button" class="btn btn-sm btn-outline-danger" v-on:dblclick="deleteClient()">Delete</button>
         </div>
         <!-- TODO: Progress Bar -->
-      </form>
+      </div>
       <hr>
       <div class="p-2">
         <DefaultJob :default-job="client.defaultJob" :default-multi-job="client.defaultMultiJob"/>
@@ -66,3 +66,24 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+input {
+  border: none;
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+}
+
+input:focus,
+textarea:focus {
+  outline: none !important;
+  box-shadow: none;
+  border-bottom: 1px solid #bbb;
+}
+
+textarea {
+  border: none;
+  border-bottom: 1px solid #eee;
+  border-radius: 0;
+}
+</style>
