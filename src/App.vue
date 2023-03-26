@@ -30,13 +30,13 @@ export default {
   <div class="container-fluid my-2 row">
     <div class="col-6">
       <div class="display-6 text-center">Clients</div>
-      <div class="row g-2 p-2">
+      <div class="g-2 p-2">
         <Client v-for="client in clients" :client="client"/>
       </div>
     </div>
     <div class="col-6">
       <div class="display-6 text-center">Centers</div>
-      <div class="row g-2 p-2">
+      <div class="g-2 p-2">
         <Center v-for="center in centers" :center="center"/>
       </div>
     </div>
