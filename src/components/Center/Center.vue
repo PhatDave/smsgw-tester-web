@@ -6,7 +6,6 @@ export default {
 	props: ['center'],
 	data() {
 		return {
-			center: this.center,
 		}
 	},
 	emits: ['deleteCenterFromList'],
@@ -18,13 +17,6 @@ export default {
 	},
 	methods: {
 		getStatusClass() {
-			if (this.center.status === 'WAITING_CONNECTION') {
-				return "bg-warning";
-			} else if (this.center.status === 'CONNECTION_PENDING') {
-				return "bg-custom-yellow-green";
-			} else {
-				return "bg-success";
-			}
 		},
 		disconnectCenter() {
 			this.center.disconnect();
@@ -34,14 +26,29 @@ export default {
 			this.center.delete();
 			this.$emit('deleteCenterFromList', centerId);
 		},
+	},
+	computed: {
+		statusClass() {
+			switch (this.center.status) {
+				case 'WAITING CONNECTION':
+					return "bg-warning";
+				case 'CONNECTION PENDING':
+					return "bg-custom-yellow-green";
+				case 'CONNECTED':
+					return "bg-success";
+				case 'BUSY':
+					return "bg-info";
+				default:
+					return "bg-danger";
+			}
+		}
 	}
 }
 </script>
 
 <template>
-
 	<div class="card my-2">
-		<div class="card-header" :class="getStatusClass()">
+		<div class="card-header" :class="statusClass">
 			<div class="row justify-content-center align-items-center">
 				<div class="col-6">{{ center.status }}</div>
 				<div class="col-6 text-end">

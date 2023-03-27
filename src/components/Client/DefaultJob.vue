@@ -13,8 +13,6 @@ export default {
 	],
 	data() {
 		return {
-			defaultJob: this.defaultJob,
-			defaultMultiJob: this.defaultMultiJob,
 		}
 	},
 	methods: {

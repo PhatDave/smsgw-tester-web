@@ -5,9 +5,7 @@ export default {
 	components: {DefaultJob},
 	props: ['client'],
 	data() {
-		return {
-			client: this.client,
-		}
+		return {}
 	},
 	emits: [
 		'deleteClientFromList',
@@ -23,15 +21,6 @@ export default {
 			const clientId = this.client.id;
 			this.client.delete();
 			this.$emit('deleteClientFromList', clientId);
-		},
-		getStatusClass() {
-			if (this.client.status === 'NOT CONNECTED') {
-				return "bg-danger";
-			} else if (this.client.status === 'CONNECTED') {
-				return "bg-warning";
-			} else {
-				return "bg-success";
-			}
 		},
 		updateSingleJob() {
 			this.client.configDefault();
@@ -55,23 +44,48 @@ export default {
 		sendMany() {
 			this.client.sendDefaultMany();
 		}
+	},
+	computed: {
+		statusClass() {
+			switch (this.client.status) {
+				case 'NOT CONNECTED':
+					return "bg-danger";
+				case 'CONNECTED':
+					return "bg-warning";
+				case 'BOUND':
+					return "bg-success";
+				case 'BUSY':
+					return "bg-info";
+				default:
+					return "bg-danger";
+			}
+		},
+		showConnect() {
+			return this.client.status === 'NOT CONNECTED';
+		},
+		showBind() {
+			return this.client.status === 'CONNECTED';
+		},
+		showDisconnect() {
+			return this.client.status === 'BOUND' || this.client.status === 'CONNECTED';
+		}
 	}
 }
 </script>
 
 <template>
 	<div class="card my-2">
-		<div class="card-header" :class="getStatusClass()">
+		<div class="card-header" :class="statusClass">
 			<div class="row justify-content-center align-items-center">
 				<div class="col-6">{{ client.status }}</div>
 				<div class="col-6 text-end">
-					<button v-if="client.status === 'NOT CONNECTED'" class="btn btn-sm btn-warning mx-1" @click="connectClient">
+					<button v-if="showConnect" class="btn btn-sm btn-warning mx-1" @click="connectClient">
 						Connect
 					</button>
-					<button v-if="client.status !== 'NOT CONNECTED' && client.status !== 'BOUND'" class="btn btn-sm btn-success mx-1" @click="bindClient">
+					<button v-if="showBind" class="btn btn-sm btn-success mx-1" @click="bindClient">
 						Bind
 					</button>
-					<button v-if="client.status === 'CONNECTED' || client.status === 'BOUND'" class="btn btn-sm btn-danger mx-1" @click="disconnectClient">
+					<button v-if="showDisconnect" class="btn btn-sm btn-danger mx-1" @click="disconnectClient">
 						Disconnect
 					</button>
 				</div>
@@ -91,7 +105,7 @@ export default {
 					       @input="event => client.setPassword(event.target.value)">
 				</div>
 				<div class="col-2">
-					<button type="button" class="btn btn-sm btn-outline-danger" @dblclick="deleteClientFromList()">Delete</button>
+					<button type="button" class="btn btn-sm btn-outline-danger" @dblclick="deleteClientFromList">Delete</button>
 				</div>
 				<!-- TODO: Progress Bar -->
 			</div>
