@@ -8,6 +8,8 @@ export default {
 	emits: [
 		'singleJob',
 		'multiJob',
+		'sendOne',
+		'sendMany'
 	],
 	data() {
 		return {
@@ -50,6 +52,12 @@ export default {
 				this.defaultMultiJob.count = event.target.value;
 			}
 			this.$emit('multiJob');
+		},
+		doSendOne() {
+			this.$emit('sendOne');
+		},
+		doSendMany() {
+			this.$emit('sendMany');
 		}
 	}
 }
@@ -72,7 +80,7 @@ export default {
 					          @input="updateSingleJob"/>
 				</div>
 				<div class="col-12 mt-3">
-					<button class="btn btn-success w-75">
+					<button class="btn btn-success w-75" @click="doSendOne">
 						Send
 					</button>
 				</div>
@@ -104,7 +112,7 @@ export default {
 					<input class="form-control" type="number" :value="defaultMultiJob.count" id="multiJobCount" placeholder="0" @input="updateMultiJob"/>
 				</div>
 				<div class="col-12 mt-3">
-					<button class="btn btn-success w-75">
+					<button class="btn btn-success w-75" @click="doSendMany">
 						Send
 					</button>
 				</div>
