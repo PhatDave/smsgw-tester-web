@@ -60,7 +60,8 @@ class API {
         client.status = data.status;
         client.defaultJob = data.configuredMessageJob;
         client.defaultMultiJob = data.configuredMultiMessageJob;
-        client.defaultMultiJob.interval = 1 / parseInt(client.defaultMultiJob.interval);
+        client.defaultMultiJob.mps = 1 / client.defaultMultiJob.interval;
+		console.log(client.defaultMultiJob);
         this.clientCache[client.id] = data;
         return client;
     }
@@ -333,7 +334,7 @@ class API {
         center.activeSessions = data.activeSessions;
         center.defaultJob = data.configuredMessageJob;
         center.defaultMultiJob = data.configuredMultiMessageJob;
-        center.defaultMultiJob.interval = 1 / parseInt(center.defaultMultiJob.interval);
+        center.defaultMultiJob.mps = 1 / center.defaultMultiJob.interval;
         this.clientCache[center.id] = center;
         return center;
     }
