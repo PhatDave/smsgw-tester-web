@@ -9,38 +9,66 @@ export default {
       center: this.center,
     }
   },
+  emits: ['deleteCenterFromList'],
   beforeMount() {
     this.center.openWebsocket();
   },
-  methods: {}
+  methods: {
+    getStatusClass() {
+      if (this.center.status === 'WAITING_CONNECTION') return "bg-warning";
+      else if (this.center.status === 'CONNECTION_PENDING') return "bg-custom-yellow-green";
+      else return "bg-success";
+    },
+    disconnectCenter() {
+      this.center.disconnect();
+    },
+    deleteCenterFromList() {
+      const centerId = this.center.id;
+      this.center.delete();
+      this.$emit('deleteCenterFromList', centerId);
+    },
+  }
 }
 </script>
 
 <template>
-  <!--	:class="{ 'online': client.status === 'online', 'offline': client.status === 'offline' }">{{ client.status }}</div>-->
-  <div :class="center.status">
-    <div>
-      <div>{{ center.status }}</div>
+
+  <div class="card my-2">
+    <div class="card-header" :class="getStatusClass()">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-6">{{ center.status }}</div>
+        <div class="col-6 text-end">
+          <button v-if="center.status === 'CONNECTED' || center.status === 'CONNECTION PENDING'" class="btn btn-sm btn-danger mx-1" @click="disconnectCenter">
+            Disconnect
+          </button>
+        </div>
+      </div>
     </div>
-    <div>
-      <div>{{ center.url }}</div>
-      <div contenteditable>{{ center.username }}</div>
-      <div contenteditable>{{ center.password }}</div>
-      <div>{{ center.sendCounter }}</div>
+    <div class="card-body">
+      <h5 class="card-title mb-3 text-center">
+        {{ center.url }}
+      </h5>
+      <div class="row g-1 align-items-center">
+        <div class="col-5">
+          <input type="text" class="form-control" placeholder="Username" :value="center.username" @input="event => center.setUsername(event.target.value)">
+        </div>
+        <div class="col-5">
+          <input type="text" class="form-control" placeholder="Password" :value="center.password" @input="event => center.setPassword(event.target.value)">
+        </div>
+        <div class="col-2">
+          <button type="button" class="btn btn-sm btn-outline-danger" @dblclick="deleteCenterFromList()">Delete</button>
+        </div>
+        <div class="col-12">
+          <!-- <div>{{ center.sendCounter }}</div>
+          TODO: Implement progress bar -->
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.WAITING_CONNECTION {
-  background-color: rgba(255, 255, 0, 0.3);
-}
-
-.CONNECTION_PENDING {
-  background-color: rgba(255, 255, 0, 0.6);
-}
-
-.CONNECTED {
-  background-color: rgba(0, 255, 0, 0.3);
+.bg-custom-yellow-green {
+  background-color: #9ACD32;
 }
 </style>
