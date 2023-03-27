@@ -11,7 +11,7 @@ class APIClient {
         }
         this.username = username;
         this.password = password;
-        this.status = 'none?';
+        this.status = 'NOT CONNECTED';
         this.sendCounter = 0;
         this.pdus = [];
 
