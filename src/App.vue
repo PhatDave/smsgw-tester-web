@@ -8,7 +8,7 @@ import APICenter from "@/APICenter";
 export default {
 	components: {
 		Client,
-		Center
+		Center,
 	},
 	data() {
 		return {
@@ -24,7 +24,7 @@ export default {
 				port: '',
 				username: '',
 				password: ''
-			}
+			},
 		}
 	},
 	beforeMount() {

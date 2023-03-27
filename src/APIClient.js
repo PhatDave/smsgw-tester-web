@@ -1,4 +1,5 @@
 import API from "@/API";
+import Metrics from "@/Metrics";
 
 const API_URL = `http://localhost:8190`;
 const WS_URL = `ws://localhost:8191`;
@@ -13,7 +14,7 @@ class APIClient {
 		this.password = password;
 		this.status = 'NOT CONNECTED';
 		this.sendCounter = 0;
-		this.pdus = [];
+		this.metrics = new Metrics();
 
 		this.defaultJob = {
 			source: '',
@@ -70,7 +71,7 @@ class APIClient {
 				this.status = data.value;
 				break;
 			case 'pdu':
-				this.pdus.push(data.value);
+				this.metrics.processPdu(data.value);
 				break;
 			case 'counterUpdate':
 				this.sendCounter = data.value;

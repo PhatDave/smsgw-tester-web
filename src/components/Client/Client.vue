@@ -1,17 +1,33 @@
 <script>
 import DefaultJob from "@/components/Client/DefaultJob.vue";
+import Line from "@/components/Line.vue";
 
 export default {
-	components: {DefaultJob},
+	components: {
+		DefaultJob,
+		Line
+	},
 	props: ['client'],
 	data() {
-		return {}
+		return {
+			chartOptions: {
+				responsive: true,
+				maintainAspectRatio: false,
+				tooltips: {
+					intersect: false
+				}
+			},
+		}
 	},
 	emits: [
 		'deleteClientFromList',
 	],
 	mounted() {
 		this.client.openWebsocket();
+	},
+	beforeMount() {
+		this.client.metrics.graphData.data.labels.push(0);
+		this.client.metrics.graphData.data.datasets[0].data.push(0);
 	},
 	updated() {
 		this.client.openWebsocket();
@@ -124,8 +140,12 @@ export default {
 				            @multiJob="updateMultiJob"
 				            @sendOne="sendOne"
 				            @sendMany="sendMany"
-				@stop="sendManyStop"/>
+				            @stop="sendManyStop"/>
 			</div>
+		</div>
+
+		<div class="chartContainer">
+			<Line :data="client.metrics.graphData" :options="chartOptions"/>
 		</div>
 	</div>
 </template>
@@ -148,5 +168,10 @@ textarea {
 	border: none;
 	border-bottom: 1px solid #eee;
 	border-radius: 0;
+}
+
+.chartContainer {
+	height: 35vh;
+	width: 50vw;
 }
 </style>

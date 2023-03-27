@@ -1,4 +1,5 @@
 import API from '@/API';
+import Metrics from "@/Metrics";
 
 const API_URL = `http://localhost:8190`;
 const WS_URL = `ws://localhost:8191`;
@@ -11,7 +12,7 @@ class APICenter {
 		this.password = password;
 		this.status = 'WAITING_CONNECTION';
 		this.sendCounter = 0;
-		this.pdus = [];
+		this.metrics = new Metrics();
 		this.activeSessions = 0;
 		this.mode = "";
 
@@ -71,7 +72,7 @@ class APICenter {
 				this.status = data.value;
 				break;
 			case 'pdu':
-				this.pdus.push(data.value);
+				this.metrics.processPdu(data.value);
 				break;
 			case 'counterUpdate':
 				this.sendCounter = data.value;
