@@ -36,17 +36,30 @@ class APIClient {
 				this.status = data.status;
 				this.defaultJob = data.configuredMessageJob;
 				this.defaultMultiJob = data.configuredMultiMessageJob;
-                this.defaultMultiJob.mps = 1 / data.configuredMultiMessageJob.interval;
+				this.defaultMultiJob.mps = 1 / data.configuredMultiMessageJob.interval;
 			});
 		}
 	}
 
 	openWebsocket() {
-		this.ws = new WebSocket(WS_URL);
+		if (!!!this.ws) {
+			this.ws = new WebSocket(WS_URL);
+		}
+
+		this.ws.onclose = this.onWsCroak.bind(this);
+		this.ws.onerror = this.onWsCroak.bind(this);
+
 		this.ws.onopen = () => {
-			this.ws.send(`client:${this.id}`);
+			if (this.ws.readyState === 1) {
+				this.ws.send(`client:${this.id}`);
+			}
 		}
 		this.ws.onmessage = this.wsMessage.bind(this);
+	}
+
+	onWsCroak() {
+		this.ws = null;
+		this.openWebsocket();
 	}
 
 	wsMessage(data) {

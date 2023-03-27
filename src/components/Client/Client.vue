@@ -12,7 +12,10 @@ export default {
 	emits: [
 		'deleteClientFromList',
 	],
-	beforeMount() {
+	mounted() {
+		this.client.openWebsocket();
+	},
+	updated() {
 		this.client.openWebsocket();
 	},
 	methods: {

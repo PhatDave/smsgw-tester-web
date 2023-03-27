@@ -41,12 +41,26 @@ class APICenter {
 		}
 	}
 
+	// TODO: Generify this to reduce duplicate code one day
 	openWebsocket() {
-		this.ws = new WebSocket(WS_URL);
+		if (!!!this.ws) {
+			this.ws = new WebSocket(WS_URL);
+		}
+
+		this.ws.onclose = this.onWsCroak.bind(this);
+		this.ws.onerror = this.onWsCroak.bind(this);
+
 		this.ws.onopen = () => {
-			this.ws.send(`center:${this.id}`);
+			if (this.ws.readyState === 1) {
+				this.ws.send(`center:${this.id}`);
+			}
 		}
 		this.ws.onmessage = this.wsMessage.bind(this);
+	}
+
+	onWsCroak() {
+		this.ws = null;
+		this.openWebsocket();
 	}
 
 	wsMessage(data) {
