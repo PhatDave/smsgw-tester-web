@@ -138,7 +138,6 @@ class API {
             };
 
             fetch(`${API_URL}/api/client/${client.id}`, options)
-                .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });
@@ -411,7 +410,6 @@ class API {
             };
 
             fetch(`${API_URL}/api/center/${center.id}`, options)
-                .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });
