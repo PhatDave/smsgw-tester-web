@@ -3,7 +3,7 @@ import API from "@/API";
 const API_URL = `http://localhost:8190`;
 const WS_URL = `ws://localhost:8191`;
 
-class Client {
+class APIClient {
     constructor(url, username, password, doPost = true) {
         this.url = url;
         if (!url.includes('smpp://')) {
@@ -123,4 +123,4 @@ class Client {
     }
 }
 
-export default Client;
+export default APIClient;

@@ -1,5 +1,5 @@
-import Client from '@/Client';
-import Center from '@/Center';
+import APIClient from '@/APIClient';
+import APICenter from '@/APICenter';
 
 // TODO: Move these urls to a constants file eventually
 const API_URL = `http://localhost:8190`;
@@ -55,7 +55,7 @@ class API {
     }
 
     buildClient(data) {
-        let client = new Client(data.url, data.username, data.password, false);
+        let client = new APIClient(data.url, data.username, data.password, false);
         client.id = data.id;
         client.status = data.status;
         client.defaultJob = data.configuredMessageJob;
@@ -327,7 +327,7 @@ class API {
     }
 
     buildCenter(data) {
-        let center = new Center(data.url, data.username, data.password, false);
+        let center = new APICenter(data.url, data.username, data.password, false);
         center.id = data.id;
         center.status = data.status;
         center.mode = data.mode;

@@ -3,7 +3,7 @@ import API from '@/API';
 const API_URL = `http://localhost:8190`;
 const WS_URL = `ws://localhost:8191`;
 
-class Center {
+class APICenter {
 	// TODO: Create a getAvailableModes()
 	constructor(port, username, password, doPost = true) {
 		this.port = port;
@@ -122,4 +122,4 @@ class Center {
 	}
 }
 
-export default Center;
+export default APICenter;
