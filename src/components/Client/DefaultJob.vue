@@ -3,7 +3,8 @@ export default {
 	name: "DefaultJob",
 	props: [
 		'defaultJob',
-		'defaultMultiJob'
+		'defaultMultiJob',
+		'busy'
 	],
 	emits: [
 		'singleJob',
@@ -56,6 +57,9 @@ export default {
 		},
 		doSendMany() {
 			this.$emit('sendMany');
+		},
+		doStop() {
+			this.$emit('stop');
 		}
 	}
 }
@@ -110,8 +114,11 @@ export default {
 					<input class="form-control" type="number" :value="defaultMultiJob.count" id="multiJobCount" placeholder="0" @input="updateMultiJob"/>
 				</div>
 				<div class="col-12 mt-3">
-					<button class="btn btn-success w-75" @click="doSendMany">
+					<button v-if="!busy" class="btn btn-success w-75" @click="doSendMany">
 						Send
+					</button>
+					<button v-if="busy" class="btn btn-success w-75" @click="doStop">
+						Stop
 					</button>
 				</div>
 			</div>

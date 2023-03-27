@@ -43,6 +43,12 @@ export default {
 		},
 		sendMany() {
 			this.client.sendDefaultMany();
+		},
+		isBusy() {
+			return this.client.status === 'BUSY';
+		},
+		sendManyStop() {
+			this.client.cancelSendMany();
 		}
 	},
 	computed: {
@@ -68,7 +74,7 @@ export default {
 		},
 		showDisconnect() {
 			return this.client.status === 'BOUND' || this.client.status === 'CONNECTED';
-		}
+		},
 	}
 }
 </script>
@@ -111,11 +117,14 @@ export default {
 			</div>
 			<hr>
 			<div class="p-2">
-				<DefaultJob :default-job="client.defaultJob" :default-multi-job="client.defaultMultiJob"
+				<DefaultJob :default-job="client.defaultJob"
+				            :default-multi-job="client.defaultMultiJob"
+				            :busy="isBusy()"
 				            @singleJob="updateSingleJob"
 				            @multiJob="updateMultiJob"
 				            @sendOne="sendOne"
-				            @sendMany="sendMany"/>
+				            @sendMany="sendMany"
+				@stop="sendManyStop"/>
 			</div>
 		</div>
 	</div>
