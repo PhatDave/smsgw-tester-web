@@ -60,6 +60,7 @@ class API {
         client.status = data.status;
         client.defaultJob = data.configuredMessageJob;
         client.defaultMultiJob = data.configuredMultiMessageJob;
+        client.defaultMultiJob.interval = 1 / parseInt(client.defaultMultiJob.interval);
         this.clientCache[client.id] = data;
         return client;
     }
@@ -211,13 +212,13 @@ class API {
         });
     }
 
-    clientConfigureDefaultSendMany(client, source, destination, message, interval, count) {
+    clientConfigureDefaultSendMany(client, source, destination, message, perSecond, count) {
         return new Promise((resolve, reject) => {
             let body = {
                 source: source,
                 destination: destination,
                 message: message,
-                interval: interval,
+                perSecond: perSecond,
                 count: count
             }
 
@@ -333,6 +334,7 @@ class API {
         center.activeSessions = data.activeSessions;
         center.defaultJob = data.configuredMessageJob;
         center.defaultMultiJob = data.configuredMultiMessageJob;
+        center.defaultMultiJob.interval = 1 / parseInt(center.defaultMultiJob.interval);
         this.clientCache[center.id] = center;
         return center;
     }
