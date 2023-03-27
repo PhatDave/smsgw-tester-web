@@ -9,13 +9,17 @@ export default {
       client: this.client,
     }
   },
+  emits: [
+    'deleteClientFromList',
+  ],
   beforeMount() {
     this.client.openWebsocket();
-    setInterval(this.checkStatus, 1000);
   },
   methods: {
-    deleteClient() {
-      // TODO: Implement delete
+    deleteClientFromList() {
+      const clientId = this.client.id;
+      this.client.delete();
+      this.$emit('deleteClientFromList', clientId);
     },
     getStatusClass() {
       if (this.client.status === 'NOT CONNECTED') return "bg-danger";
@@ -37,11 +41,6 @@ export default {
     },
     disconnectClient() {
       this.client.disconnect();
-    },
-    checkStatus() {
-      let currentTimeMillis = Date.now();
-      let currentTime = new Date(currentTimeMillis).toISOString().slice(11, 19);
-      console.log(`${currentTime}: ${this.client.id} is ${this.client.status}`);
     },
   }
 }
@@ -77,7 +76,7 @@ export default {
           <input type="text" class="form-control" placeholder="Password" :value="client.password" @input="event => client.setPassword(event.target.value)">
         </div>
         <div class="col-2">
-          <button type="button" class="btn btn-sm btn-outline-danger" @dblclick="deleteClient()">Delete</button>
+          <button type="button" class="btn btn-sm btn-outline-danger" @dblclick="deleteClientFromList()">Delete</button>
         </div>
         <!-- TODO: Progress Bar -->
       </div>
