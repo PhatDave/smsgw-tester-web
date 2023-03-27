@@ -98,11 +98,11 @@ class APICenter {
 	}
 
 	configDefault() {
-		this.api.centerConfigureDefaultSend(this, this.defaultJob.source, this.defaultJob.destination, this.defaultJob.message);
+		this.api.centerConfigureDefaultSendOne(this, this.defaultJob.source, this.defaultJob.destination, this.defaultJob.message);
 	}
 
 	sendDefault() {
-		this.api.centerSendDefault(this);
+		this.api.centerDefaultSendOne(this);
 	}
 
 	sendMany(source, destinations, message, perSecond, count) {
@@ -115,7 +115,7 @@ class APICenter {
 	}
 
 	sendDefaultMany() {
-		this.api.centerSendDefaultMany(this);
+		this.api.centerDefaultSendMany(this);
 	}
 
 	cancelSendMany() {

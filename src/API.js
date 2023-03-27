@@ -157,7 +157,7 @@ class API {
         });
     }
 
-    clientConfigureDefaultSend(client, source, destination, message) {
+    clientConfigureDefaultSendOne(client, source, destination, message) {
         return new Promise((resolve, reject) => {
             let body = {
                 source: source,
@@ -178,7 +178,7 @@ class API {
         });
     }
 
-    clientSendDefault(client) {
+    clientDefaultSendOne(client) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -235,7 +235,7 @@ class API {
         });
     }
 
-    clientSendDefaultMany(client) {
+    clientDefaultSendMany(client) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -265,7 +265,6 @@ class API {
             };
 
             fetch(`${API_URL}/api/client/${client.id}/sendMany`, options)
-                .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });
@@ -342,7 +341,7 @@ class API {
     postCenter(center) {
         return new Promise((resolve, reject) => {
             let body = {
-                url: center.url,
+                port: center.port,
                 username: center.username,
                 password: center.password
             }
@@ -417,7 +416,7 @@ class API {
         });
     }
 
-    centerConfigureDefaultSend(center, source, destination, message) {
+    centerConfigureDefaultSendOne(center, source, destination, message) {
         return new Promise((resolve, reject) => {
             let body = {
                 source: source,
@@ -438,7 +437,7 @@ class API {
         });
     }
 
-    centerSendDefault(center) {
+    centerDefaultSendOne(center) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -495,7 +494,7 @@ class API {
         });
     }
 
-    centerSendDefaultMany(center) {
+    centerDefaultSendMany(center) {
         return new Promise((resolve, reject) => {
             const options = {
                 method: 'POST',
@@ -525,7 +524,6 @@ class API {
             };
 
             fetch(`${API_URL}/api/center/${center.id}/sendMany`, options)
-                .then(response => response.json())
                 .then(data => resolve(data))
                 .catch(err => reject(err));
         });

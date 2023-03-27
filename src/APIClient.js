@@ -7,7 +7,7 @@ class APIClient {
 	constructor(url, username, password, doPost = true) {
 		this.url = url;
 		if (!url.includes('smpp://')) {
-			url = 'smpp://' + url;
+			this.url = 'smpp://' + url;
 		}
 		this.username = username;
 		this.password = password;
@@ -99,11 +99,11 @@ class APIClient {
 	}
 
 	configDefault() {
-		this.api.clientConfigureDefaultSend(this, this.defaultJob.source, this.defaultJob.destination, this.defaultJob.message);
+		this.api.clientConfigureDefaultSendOne(this, this.defaultJob.source, this.defaultJob.destination, this.defaultJob.message);
 	}
 
 	sendDefault() {
-		this.api.clientSendDefault(this);
+		this.api.clientDefaultSendOne(this);
 	}
 
 	sendMany(source, destinations, message, perSecond, count) {
@@ -116,7 +116,7 @@ class APIClient {
 	}
 
 	sendDefaultMany() {
-		this.api.clientSendDefaultMany(this);
+		this.api.clientDefaultSendMany(this);
 	}
 
 	cancelSendMany() {
