@@ -1,21 +1,18 @@
 <script>
 import DefaultJob from "@/components/Client/DefaultJob.vue";
-import Line from "@/components/Charts/Line.vue";
 
 export default {
   components: {
-    Line,
     DefaultJob
   },
   props: ['client'],
   data() {
     return {
       chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        tooltips: {
-          intersect: false
-        }
+        chart: {
+          id: 'vuechart-example'
+        },
+        xaxis: this.client.metrics.graphData.xaxis
       },
     }
   },
@@ -143,9 +140,8 @@ export default {
                     @stop="sendManyStop"/>
       </div>
     </div>
-
     <div class="container">
-      <Line :series="client.metrics.graphData" :options="chartOptions"/> <!-- :data="client.metrics.graphData" :options="chartOptions" -->
+      <apexchart type="line" :options="chartOptions" :series="client.metrics.graphData.series"></apexchart>
     </div>
   </div>
 </template>
