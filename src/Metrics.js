@@ -5,17 +5,24 @@ class Metrics {
 	];
 	metrics = {};
 
-	dataset = {
-		label: 'submit_sm',
-		backgroundColor: '#f87979',
-		data: [0]
-	};
 	graphData = {
-		dataset: this.dataset,
-		data: {
-			labels: [0],
-			datasets: [this.dataset]
+		chart: {
+			id: 'client-metrics'
 		},
+		xaxis: {
+			submit_sm: [],
+			deliver_sm: []
+		},
+		series: [
+			{
+				name: 'submit_sm',
+				data: [0]
+			},
+			{
+				name: 'deliver_sm',
+				data: [0]
+			}
+		]
 	}
 
 	constructor() {
@@ -34,9 +41,11 @@ class Metrics {
 
 			this.metrics[timestamp][pdu.command] += 1;
 
-			if (!!this.metrics[timestamp - 1] && this.graphData.data.labels.indexOf(timestamp - 1) === -1) {
-				this.graphData.data.labels.push(timestamp - 1);
-				this.graphData.dataset.data.push(this.metrics[timestamp - 1]['submit_sm']);
+			if (!!this.metrics[timestamp - 1] && this.graphData.xaxis.submit_sm.indexOf(timestamp - 1) === -1) {
+				this.graphData.xaxis.submit_sm.push(timestamp - 1);
+				this.graphData.xaxis.deliver_sm.push(timestamp - 1);
+				this.graphData.series[0].data.push(this.metrics[timestamp - 1]['submit_sm']);
+				this.graphData.series[1].data.push(this.metrics[timestamp - 1]['deliver_sm']);
 				console.log(this.graphData);
 			}
 		}

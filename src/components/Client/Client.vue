@@ -26,8 +26,8 @@ export default {
     this.client.openWebsocket();
   },
   beforeMount() {
-    this.client.metrics.graphData.data.labels.push(0);
-    this.client.metrics.graphData.data.datasets[0].data.push(0);
+    // this.client.metrics.graphData.data.labels.push(0);
+    // this.client.metrics.graphData.data.datasets[0].data.push(0);
   },
   updated() {
     this.client.openWebsocket();
