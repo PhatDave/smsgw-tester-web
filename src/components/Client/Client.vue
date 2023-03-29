@@ -10,9 +10,37 @@ export default {
     return {
       chartOptions: {
         chart: {
-          id: 'vuechart-example'
+          height: 350,
+          type: 'area',
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+              enabled: true,
+              delay: 150
+            },
+            dynamicAnimation: {
+              enabled: true,
+              speed: 350
+            }
+          },
+          toolbar: {
+            show: false
+          }
         },
-        xaxis: this.client.metrics.graphData.xaxis
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'smooth'
+        },
+        xaxis: this.client.metrics.graphData.xaxis,
+        tooltip: {
+          x: {
+            format: 'dd/MM/yy HH:mm'
+          },
+        },
       },
     }
   },
@@ -21,10 +49,6 @@ export default {
   ],
   mounted() {
     this.client.openWebsocket();
-  },
-  beforeMount() {
-    // this.client.metrics.graphData.data.labels.push(0);
-    // this.client.metrics.graphData.data.datasets[0].data.push(0);
   },
   updated() {
     this.client.openWebsocket();
@@ -65,20 +89,6 @@ export default {
     }
   },
   computed: {
-    statusClass() {
-      switch (this.client.status) {
-        case 'NOT CONNECTED':
-          return "bg-danger";
-        case 'CONNECTED':
-          return "bg-warning";
-        case 'BOUND':
-          return "bg-success";
-        case 'BUSY':
-          return "bg-info";
-        default:
-          return "bg-danger";
-      }
-    },
     showConnect() {
       return this.client.status === 'NOT CONNECTED';
     },
@@ -93,56 +103,73 @@ export default {
 </script>
 
 <template>
-  <div class="card my-2">
-    <div class="card-header" :class="statusClass">
-      <div class="row justify-content-center align-items-center">
-        <div class="col-6">{{ client.status }}</div>
-        <div class="col-6 text-end">
-          <button v-if="showConnect" class="btn btn-sm btn-warning mx-1" @click="connectClient">
-            Connect
-          </button>
-          <button v-if="showBind" class="btn btn-sm btn-success mx-1" @click="bindClient">
-            Bind
-          </button>
-          <button v-if="showDisconnect" class="btn btn-sm btn-danger mx-1" @click="disconnectClient">
-            Disconnect
-          </button>
-        </div>
-      </div>
+  <div class="row mt-0 mb-2 text-center">
+    <div v-if="showConnect" class="col-6">
+      <button class="btn btn-sm btn-warning w-100" @click="connectClient">
+        Connect
+      </button>
     </div>
-    <div class="card-body">
-      <h5 class="card-title mb-3 text-center">
-        {{ client.url }}
-      </h5>
-      <div class="row g-1 align-items-center">
-        <div class="col-5">
-          <input type="text" class="form-control" placeholder="Username" :value="client.username"
-                 @input="event => client.setUsername(event.target.value)">
-        </div>
-        <div class="col-5">
-          <input type="text" class="form-control" placeholder="Password" :value="client.password"
-                 @input="event => client.setPassword(event.target.value)">
-        </div>
-        <div class="col-2">
-          <button type="button" class="btn btn-sm btn-outline-danger" @dblclick="deleteClientFromList">Delete</button>
-        </div>
-        <!-- TODO: Progress Bar -->
-      </div>
-      <hr>
-      <div class="p-2">
-        <DefaultJob :default-job="client.defaultJob"
-                    :default-multi-job="client.defaultMultiJob"
-                    :busy="isBusy()"
-                    @singleJob="updateSingleJob"
-                    @multiJob="updateMultiJob"
-                    @sendOne="sendOne"
-                    @sendMany="sendMany"
-                    @stop="sendManyStop"/>
-      </div>
+    <div v-if="showBind" class="col-6">
+      <button class="btn btn-sm btn-success w-100" @click="bindClient">
+        Bind
+      </button>
     </div>
-    <div class="container">
-      <apexchart type="line" :options="chartOptions" :series="client.metrics.graphData.series"></apexchart>
+    <div class="col-6 ms-auto">
+      <button :class="{'disabled' : !showDisconnect}" class="btn btn-sm btn-danger w-100" @click="disconnectClient">
+        Disconnect
+      </button>
     </div>
+  </div>
+  <div class="row g-1 align-items-center">
+    <div class="col-5">
+      <input type="text" class="form-control" placeholder="Username" :value="client.username"
+             @input="event => client.setUsername(event.target.value)">
+    </div>
+    <div class="col-5">
+      <input type="text" class="form-control" placeholder="Password" :value="client.password"
+             @input="event => client.setPassword(event.target.value)">
+    </div>
+    <div class="col-2">
+      <button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteClientFromList">Delete</button>
+    </div>
+    <!-- TODO: Progress Bar -->
+  </div>
+  <DefaultJob :default-job="client.defaultJob"
+              :default-multi-job="client.defaultMultiJob"
+              :busy="isBusy()"
+              :isClient="true"
+              @singleJob="updateSingleJob"
+              @multiJob="updateMultiJob"
+              @sendOne="sendOne"
+              @sendMany="sendMany"
+              @stop="sendManyStop"
+              :clientId="client.id"/>
+  <div class="container row text-center my-2 align-items-center justify-content-center">
+    <h6 class="mb-3">Modes **PLACEHOLDER**</h6>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 1</button>
+    </div>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 2</button>
+    </div>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 3</button>
+    </div>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 4</button>
+    </div>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 5</button>
+    </div>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 6</button>
+    </div>
+    <div class="col-3 my-1">
+      <button class="btn btn-dark w-100">Mode 7</button>
+    </div>
+  </div>
+  <div class="container">
+    <apexchart type="area" height="250" ref="chart" :options="chartOptions" :series="client.metrics.graphData.series"></apexchart>
   </div>
 </template>
 
@@ -151,13 +178,15 @@ input {
   border: none;
   border-bottom: 1px solid #eee;
   border-radius: 0;
+  background-color: inherit;
 }
 
 input:focus,
 textarea:focus {
   outline: none !important;
   box-shadow: none;
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #eee;
+  background-color: inherit;
 }
 
 textarea {
