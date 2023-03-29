@@ -28,6 +28,7 @@ export default {
     }
   },
   beforeMount() {
+    // TODO: Make backend ping
     this.api.getClients().then(response => {
       this.clients = response;
     });

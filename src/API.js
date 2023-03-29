@@ -30,7 +30,11 @@ class API {
 					}
 					resolve(data);
 				})
-				.catch(err => reject(err));
+				.catch(err => {
+					reject(err);
+					alert(`${err.toString()}\n\nAPI not started.\n\nCannot fetch clients.`);
+					window.close();
+				});
 		});
 	}
 
@@ -299,7 +303,11 @@ class API {
 					}
 					resolve(data);
 				})
-				.catch(err => reject(err));
+				.catch(err => {
+					reject(err);
+					alert(`${err.toString()}\n\nAPI not started.\n\nCannot fetch centers.`);
+					window.close();
+				});
 		});
 	}
 
