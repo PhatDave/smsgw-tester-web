@@ -4,8 +4,7 @@ import ClientAPI from "./API/ClientAPI";
 import CenterEntity from "./API/Entity/CenterEntity";
 import ClientEntity from "./API/Entity/ClientEntity";
 import Entity from "./API/Entity/Entity";
-import Center from "./components/Center/Center.vue";
-import Client from "./components/Client/Client.vue";
+import EntityComp from "./components/EntityComp.vue";
 
 export default {
 	computed: {
@@ -17,8 +16,7 @@ export default {
 		}
 	},
 	components: {
-		Client,
-		Center,
+		EntityComp
 	},
 	data(): {
 		entities: {
@@ -151,34 +149,34 @@ export default {
 
 <template>
 	<div class="container-fluid row">
-		<!--		<div class="col-6">-->
-		<!--			<div class="text-center">-->
-		<!--				<span class="display-6">Clients</span> &nbsp;-->
-		<!--				<span class="addButton" data-bs-toggle="modal" data-bs-target="#addClientModal">-->
-		<!--          Add+-->
-		<!--        </span>-->
-		<!--			</div>-->
-		<!--			<div class="accordion accordion-flush" id="clientAccordion">-->
-		<!--				<div class="accordion-item" v-for="(client, index) in this.entities.ClientEntity" :key="client.id">-->
-		<!--					<h2 class="accordion-header" :id="'flush-heading-client'+client.id">-->
-		<!--						<button class="accordion-button collapsed" :style="clientStatusButtonStyle(client)" :class="{ 'collapsed': index !== 0 }" type="button"-->
-		<!--						        data-bs-toggle="collapse"-->
-		<!--						        :data-bs-target="'#flush-collapse-client'+client.id"-->
-		<!--						        aria-expanded="false"-->
-		<!--						        :aria-controls="'flush-collapse-client'+client.id">-->
-		<!--							{{ client.status }} [{{ client.url }}]-->
-		<!--						</button>-->
-		<!--					</h2>-->
-		<!--					<div :id="'flush-collapse-client'+client.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }"-->
-		<!--					     :aria-labelledby="'flush-heading-client'+client.id"-->
-		<!--					     data-bs-parent="#clientAccordion">-->
-		<!--						<div class="accordion-body py-1 px-2" :style="clientStatusBodyStyle(client)">-->
-		<!--							<Client :client="client" @deleteEntity="deleteEntity.bind(this, ClientEntity)"/>-->
-		<!--						</div>-->
-		<!--					</div>-->
-		<!--				</div>-->
-		<!--			</div>-->
-		<!--		</div>-->
+				<div class="col-6">
+					<div class="text-center">
+						<span class="display-6">Clients</span> &nbsp;
+						<span class="addButton" data-bs-toggle="modal" data-bs-target="#addClientModal">
+		          Add+
+		        </span>
+					</div>
+					<div class="accordion accordion-flush" id="clientAccordion">
+						<div class="accordion-item" v-for="(client, index) in this.entities.ClientEntity" :key="client.id">
+							<h2 class="accordion-header" :id="'flush-heading-client'+client.id">
+								<button class="accordion-button collapsed" :style="clientStatusButtonStyle(client)" :class="{ 'collapsed': index !== 0 }" type="button"
+								        data-bs-toggle="collapse"
+								        :data-bs-target="'#flush-collapse-client'+client.id"
+								        aria-expanded="false"
+								        :aria-controls="'flush-collapse-client'+client.id">
+									{{ client.status }} [{{ client.url }}]
+								</button>
+							</h2>
+							<div :id="'flush-collapse-client'+client.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }"
+							     :aria-labelledby="'flush-heading-client'+client.id"
+							     data-bs-parent="#clientAccordion">
+								<div class="accordion-body py-1 px-2" :style="clientStatusBodyStyle(client)">
+									<EntityComp :entity="client" @deleteEntity="deleteEntity.bind(this, ClientEntity)"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 		<div class="col-6">
 			<div class="text-center">
@@ -202,7 +200,7 @@ export default {
 					     :aria-labelledby="'flush-heading-center'+center.id"
 					     data-bs-parent="#centerAccordion">
 						<div class="accordion-body py-1 px-2" :style="centerStatusBodyStyle(center)">
-							<Center :entity="center" @deleteEntity="deleteEntity.bind(this, CenterEntity)"/>
+							<EntityComp :entity="center" @deleteEntity="deleteEntity.bind(this, CenterEntity)"/>
 						</div>
 					</div>
 				</div>

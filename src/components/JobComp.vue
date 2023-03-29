@@ -59,7 +59,7 @@ export default {
 					<textarea class="form-control" rows="2" cols="50" :value="job.message" ref="message" placeholder="Message"
 					          @input="changed"/>
 			</div>
-			<div class="col-8" v-if="job.perSecond">
+			<div class="col-8" v-if="!!job.perSecond">
 				<div class="input-group">
 					<input class="form-control" type="number" :value="job.perSecond" ref="perSecond" min="0" placeholder="0"
 					       @input="changed"/>
@@ -68,16 +68,16 @@ export default {
 					</label>
 				</div>
 			</div>
-			<div class="col-4" v-if="job.count">
+			<div class="col-4" v-if="!!job.count">
 				<input class="form-control" type="number" :value="job.count" ref="count" min="0" placeholder="0"
 				       @input="changed"/>
 			</div>
 			<div class="col-12 mt-2">
 				<button v-if="!busy" class="btn btn-success w-75" @click="runJob">
-					Send Many
+					Run Job
 				</button>
 				<button v-if="busy" class="btn btn-success w-75" @click="stopJob">
-					Stop Many
+					Stop Job
 				</button>
 			</div>
 		</div>

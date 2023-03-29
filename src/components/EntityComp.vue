@@ -1,9 +1,10 @@
 <script lang="ts">
-import Entity from "../../API/Entity/Entity";
-import JobComponent from "../JobComponent.vue";
+import Entity from "../API/Entity/Entity";
+import JobComp from "./JobComp.vue";
 
 export default {
-	components: {JobComponent},
+	name: "Entity",
+	components: {JobComp},
 	props: {
 		entity: Entity
 	},
@@ -103,10 +104,10 @@ export default {
 		<!-- TODO: Progress Bar -->
 	</div>
 	<div class="row">
-		<JobComponent :job="entity.getDefaultSingleJob()"
-		              :title="singleSendJobTitle"/>
-		<JobComponent :job="entity.getDefaultMultipleJob()"
-		              :title="multiSendJobTitle"/>
+		<JobComp :job="entity.getDefaultSingleJob()"
+		         :title="singleSendJobTitle"/>
+		<JobComp :job="entity.getDefaultMultipleJob()"
+		         :title="multiSendJobTitle"/>
 	</div>
 	<div class="container row text-center my-2 align-items-center justify-content-center">
 		<h6 class="mb-3">Modes **PLACEHOLDER**</h6>
