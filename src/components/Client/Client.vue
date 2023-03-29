@@ -98,7 +98,14 @@ export default {
     showDisconnect() {
       return this.client.status === 'BOUND' || this.client.status === 'CONNECTED';
     },
-  }
+  },
+	watch: {
+	  // Watch for changes on client.counter
+			  'client.this.sendCounter': function (newVal, oldVal) {
+	    // Update the chart
+	    this.chartOptions.series[0].data = this.client.metrics.graphData.series[0].data;
+	  }
+	}
 }
 </script>
 

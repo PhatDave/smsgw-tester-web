@@ -14,6 +14,7 @@ class APIClient {
 		this.password = password;
 		this.status = 'NOT CONNECTED';
 		this.sendCounter = 0;
+		this.counter = 0;
 		this.metrics = new Metrics();
 
 		this.defaultJob = {
@@ -130,6 +131,7 @@ class APIClient {
 	}
 
 	sendDefaultMany() {
+		this.counter = this.defaultMultiJob.count;
 		this.api.clientDefaultSendMany(this);
 	}
 
