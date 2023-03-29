@@ -10,7 +10,7 @@ class APICenter {
 		this.port = port;
 		this.username = username;
 		this.password = password;
-		this.status = 'WAITING_CONNECTION';
+		this.status = 'WAITING CONNECTION';
 		this.sendCounter = 0;
 		this.metrics = new Metrics();
 		this.activeSessions = 0;
@@ -126,7 +126,7 @@ class APICenter {
 
 	configDefaultMany() {
 		this.api.centerConfigureDefaultSendMany(this, this.defaultMultiJob.source, this.defaultMultiJob.destination, this.defaultMultiJob.message,
-		                                        this.defaultMultiJob.mps, this.defaultMultiJob.count);
+			this.defaultMultiJob.mps, this.defaultMultiJob.count);
 	}
 
 	sendDefaultMany() {
