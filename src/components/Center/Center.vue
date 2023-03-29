@@ -88,7 +88,7 @@ export default {
              @input="event => center.setPassword(event.target.value)">
     </div>
     <div class="col-2">
-      <button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteCenterFromList()">Delete</button>
+      <button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteCenterFromList">Delete</button>
     </div>
     <!-- TODO: Progress Bar -->
   </div>

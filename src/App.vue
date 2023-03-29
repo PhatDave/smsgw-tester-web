@@ -46,10 +46,6 @@ export default {
       this.clients.push(newClient);
       this.closeModal("closeClientModal");
     },
-    deleteClientFromList(clientId) {
-      let i = this.clients.map(item => item.id).indexOf(clientId)
-      this.clients.splice(i, 1)
-    },
     createNewCenter() {
       const newCenter = new APICenter(
           this.centerForm['port'],
@@ -59,6 +55,10 @@ export default {
       );
       this.centers.push(newCenter);
       this.closeModal("closeCenterModal");
+    },
+    deleteClientFromList(clientId) {
+      let i = this.clients.map(item => item.id).indexOf(clientId)
+      this.clients.splice(i, 1)
     },
     deleteCenterFromList(centerId) {
       let i = this.centers.map(item => item.id).indexOf(centerId)
@@ -173,7 +173,7 @@ export default {
           <div :id="'flush-collapse-center'+center.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }" :aria-labelledby="'flush-heading-center'+center.id"
                data-bs-parent="#centerAccordion">
             <div class="accordion-body py-1 px-2" :style="centerStatusBodyStyle(center)">
-              <Center :center="center" @deleteClientFromList="deleteClientFromList"/>
+              <Center :center="center" @deleteCenterFromList="deleteCenterFromList"/>
             </div>
           </div>
         </div>
