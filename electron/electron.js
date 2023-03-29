@@ -9,12 +9,12 @@ const isDev = process.env.IS_DEV == "true" ? true : false;
 
 function createWindow() {
 	const mainWindow = new BrowserWindow({
-		width: 1600,
-		height: 800,
-		webPreferences: {
-			webSecurity: false
-		},
-	});
+		                                     width: 1600,
+		                                     height: 800,
+		                                     webPreferences: {
+			                                     webSecurity: false
+		                                     },
+	                                     });
 
 	mainWindow.loadURL(isDev ? 'http://localhost:5173' : `file://${path.join(__dirname, '../dist/index.html')}`);
 	// Open the DevTools.
@@ -25,7 +25,7 @@ function createWindow() {
 
 app.whenReady().then(() => {
 	createWindow()
-	app.on('activate', function () {
+	app.on('activate', function() {
 		if (BrowserWindow.getAllWindows().length === 0) {
 			createWindow()
 		}

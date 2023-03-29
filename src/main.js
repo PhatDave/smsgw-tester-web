@@ -6,12 +6,20 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueApexCharts from "vue3-apexcharts";
 
-const routes = [{
-    path: '/', component: App
-}]
+const routes = [
+	{
+		path: '/:any*',
+		component: App
+	}
+]
 
 const router = createRouter({
-    history: createWebHistory(), routes,
-});
+	                            history: createWebHistory(),
+	                            routes,
+                            });
 
-createApp({}).use(router).use(VueApexCharts).mount('#app');
+
+const app = createApp({});
+app.use(router);
+
+app.mount('#app');
