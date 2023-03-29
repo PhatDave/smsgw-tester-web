@@ -24,6 +24,39 @@ export default abstract class Entity {
 
 	abstract serialize(): object;
 
+	connect(): Promise<void> {
+		return this.api.connect(this);
+	}
+
+	disconnect(): Promise<void> {
+		return this.api.disconnect(this);
+	}
+
+	bind(): Promise<void> {
+		return this.api.bind(this);
+	}
+
+	update(): Promise<void> {
+		return this.api.update(this);
+	}
+
+	updateJobs(): void {
+		this.api.configureSendOneDefault(this);
+		this.api.configureSendManyDefault(this);
+	}
+
+	runJob(job: Job): void {
+		if (!job.perSecond) {
+			this.api.sendManyDefault(this);
+		} else {
+			this.api.sendOneDefault(this);
+		}
+	}
+
+	stopJob(): void {
+		this.api.cancelSendMany(this);
+	}
+
 	getId(): number {
 		return this.id;
 	}
@@ -34,9 +67,7 @@ export default abstract class Entity {
 
 	setUsername(username: string): void {
 		this.username = username;
-		this.api.update(this);
-		// TODO: Call API to update object
-		// Maybe have a reference to the API object
+		this.update();
 	}
 
 	getPassword(): string {
@@ -45,8 +76,7 @@ export default abstract class Entity {
 
 	setPassword(password: string): void {
 		this.password = password;
-		this.api.update(this);
-		// TODO: Call API to update object
+		this.update();
 	}
 
 	getStatus(): string {
@@ -65,12 +95,11 @@ export default abstract class Entity {
 		return this.defaultMultipleJob;
 	}
 
-	updateJobs(): void {
-		this.api.configureSendOneDefault(this);
-		this.api.configureSendManyDefault(this);
-	}
-
 	getGraphData(): { xaxis: { submit_sm: any[] }; series: { data: number[]; name: string }[] } {
 		return this.metrics.graphData;
+	}
+
+	delete(): Promise<void> {
+		return this.api.delete(this);
 	}
 }

@@ -1,10 +1,12 @@
 import API from "../API";
+import CenterAPI from "../CenterAPI";
+import ClientAPI from "../ClientAPI";
 import Entity from "./Entity";
 import Job from "./Job";
 import Metrics from "./Metrics";
 
 export default class CenterEntity extends Entity {
-	metrics: Metrics;
+	readonly metrics: Metrics = new Metrics();
 	id: number;
 	status: string;
 	arg: string;
@@ -20,6 +22,7 @@ export default class CenterEntity extends Entity {
 		this._username = username;
 		this._password = password;
 		this.arg = port;
+		this.api = new CenterAPI();
 
 		if (doPost) {
 			this.api.create(this).then((entity: any) => {
@@ -43,6 +46,9 @@ export default class CenterEntity extends Entity {
 	}
 
 	serialize(): object {
-		throw new Error("Method not implemented.");
+		return {
+			username: this._username,
+			password: this._password,
+		}
 	}
 }

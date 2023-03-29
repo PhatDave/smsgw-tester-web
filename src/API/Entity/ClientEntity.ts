@@ -1,10 +1,11 @@
 import API from "../API";
+import ClientAPI from "../ClientAPI";
 import Entity from "./Entity";
 import Job from "./Job";
 import Metrics from "./Metrics";
 
 export default class ClientEntity extends Entity {
-	metrics: Metrics;
+	readonly metrics: Metrics = new Metrics();
 	id: number;
 	status: string;
 	arg: string;
@@ -20,6 +21,7 @@ export default class ClientEntity extends Entity {
 		this._username = username;
 		this._password = password;
 		this.arg = url;
+		this.api = new ClientAPI();
 
 		if (doPost) {
 			this.api.create(this).then((entity: any) => {

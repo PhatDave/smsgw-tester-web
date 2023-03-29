@@ -1,9 +1,7 @@
 <script>
-import DefaultJob from "@/components/Client/DefaultJob.vue";
 
 export default {
   components: {
-    DefaultJob
   },
   props: ['client'],
   data() {

@@ -19,12 +19,20 @@ export default class Job {
 
 	private _source: string;
 
+	get source(): string {
+		return this._source;
+	}
+
 	set source(value: string) {
 		this._source = value;
 		this.parent.updateJobs();
 	}
 
 	private _destination: string;
+
+	get destination(): string {
+		return this._destination;
+	}
 
 	set destination(value: string) {
 		this._destination = value;
@@ -33,12 +41,20 @@ export default class Job {
 
 	private _message: string;
 
+	get message(): string {
+		return this._message;
+	}
+
 	set message(value: string) {
 		this._message = value;
 		this.parent.updateJobs();
 	}
 
 	private _count?: number;
+
+	get count(): number {
+		return this._count;
+	}
 
 	set count(value: number) {
 		this._count = value;
@@ -47,27 +63,32 @@ export default class Job {
 
 	private _perSecond?: number;
 
+	get perSecond(): number {
+		return this._perSecond;
+	}
+
 	set perSecond(value: number) {
 		this._perSecond = value;
 		this.parent.updateJobs();
 	}
 
-	static parse(parent: Entity, jobObject: object): Job {
+	static parse(parent: Entity, jobObject: any): Job {
+		console.log(jobObject);
 		return new Job(parent,
-			jobObject._source,
-			jobObject._destination,
-			jobObject._message,
-			jobObject._count,
-			jobObject._perSecond);
+			jobObject.pdu.source_addr || '',
+			jobObject.pdu.destination_addr || '',
+			jobObject.pdu.short_message || '',
+			jobObject.count,
+			jobObject.perSecond);
 	}
 
 	serialize(): object {
 		return {
-			source: this._source,
-			destination: this._destination,
-			message: this._message,
-			count: this._count,
-			perSecond: this._perSecond
+			source: this.source,
+			destination: this.destination,
+			message: this.message,
+			count: this.count,
+			perSecond: this.perSecond
 		};
 	}
 }
