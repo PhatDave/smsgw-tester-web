@@ -11,27 +11,18 @@ export default class CenterEntity extends Entity {
 	_username: string;
 	_password: string;
 	readonly metrics: Metrics = new Metrics();
-	defaultSingleJob: Job;
-	defaultMultipleJob: Job;
+	_defaultSingleJob: Job;
+	_defaultMultipleJob: Job;
 	api: API;
 
 	constructor(port: string,
 	            username: string,
-	            password: string,
-	            doPost: boolean = false) {
+	            password: string) {
 		super();
 		this._username = username;
 		this._password = password;
 		this._arg = port;
 		this.api = new CenterAPI();
-
-		if (doPost) {
-			this.api.create(this).then((entity: any) => {
-				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
-				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
-				this._id = entity.id;
-			});
-		}
 	}
 
 	serialize(): object {

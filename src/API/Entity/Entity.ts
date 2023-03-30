@@ -4,11 +4,29 @@ import Job from "./Job";
 import Metrics from "./Metrics";
 
 export default abstract class Entity {
-	abstract defaultSingleJob: Job;
-	abstract defaultMultipleJob: Job;
 	abstract api: API;
 	// TODO: Implement interaction with WS
 	abstract metrics: Metrics;
+
+	abstract _defaultSingleJob: Job;
+
+	get defaultSingleJob(): Job {
+		return this._defaultSingleJob;
+	}
+
+	set defaultSingleJob(value: Job) {
+		this._defaultSingleJob = value;
+	}
+
+	abstract _defaultMultipleJob: Job;
+
+	get defaultMultipleJob(): Job {
+		return this._defaultMultipleJob;
+	}
+
+	set defaultMultipleJob(value: Job) {
+		this._defaultMultipleJob = value;
+	}
 
 	abstract _id: number;
 
@@ -81,6 +99,17 @@ export default abstract class Entity {
 		this.api.configureSendManyDefault(this);
 	}
 
+	save(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			this.api.create(this).then((entity: any) => {
+				this._defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
+				this._defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
+				this._id = entity.id;
+				resolve();
+			});
+		});
+	}
+
 	runJob(job: Job): void {
 		if (!job.perSecond) {
 			this.api.sendManyDefault(this);
@@ -91,14 +120,6 @@ export default abstract class Entity {
 
 	stopJob(): void {
 		this.api.cancelSendMany(this);
-	}
-
-	getDefaultSingleJob(): Job {
-		return this.defaultSingleJob;
-	}
-
-	getDefaultMultipleJob(): Job {
-		return this.defaultMultipleJob;
 	}
 
 	getGraphData(): GraphData {

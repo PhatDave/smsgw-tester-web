@@ -4,7 +4,7 @@ import Job from "../API/Entity/Job";
 export default {
 	name: "Job",
 	props: {
-		job: Job | undefined,
+		job: Job,
 		busy: Boolean,
 		title: String,
 	},

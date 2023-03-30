@@ -10,6 +10,7 @@ export default {
 	},
 	data() {
 		return {
+			// TODO: Create a type for this
 			chartOptions: {
 				chart: {
 					height: 350,
@@ -104,9 +105,9 @@ export default {
 		<!-- TODO: Progress Bar -->
 	</div>
 	<div class="row">
-		<JobComp :job="entity.getDefaultSingleJob()"
+		<JobComp :job="entity.defaultSingleJob"
 		         :title="singleSendJobTitle"/>
-		<JobComp :job="entity.getDefaultMultipleJob()"
+		<JobComp :job="entity.defaultMultipleJob"
 		         :title="multiSendJobTitle"/>
 	</div>
 	<div class="container row text-center my-2 align-items-center justify-content-center">

@@ -11,27 +11,18 @@ export default class ClientEntity extends Entity {
 	_username: string;
 	_password: string;
 	readonly metrics: Metrics = new Metrics();
-	defaultSingleJob: Job;
-	defaultMultipleJob: Job;
+	_defaultSingleJob: Job;
+	_defaultMultipleJob: Job;
 	api: API;
 
 	constructor(url: string,
 	            username: string,
-	            password: string,
-	            doPost: boolean = false) {
+	            password: string) {
 		super();
 		this._username = username;
 		this._password = password;
 		this._arg = url;
 		this.api = new ClientAPI();
-
-		if (doPost) {
-			this.api.create(this).then((entity: any) => {
-				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
-				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
-				this._id = entity.id;
-			});
-		}
 	}
 
 	serialize(): object {

@@ -104,7 +104,7 @@ export default abstract class API {
 
 	configureSendOneDefault(entity: Entity): Promise<void> {
 		return new Promise((resolve, reject) => {
-			let body = entity.getDefaultSingleJob().serialize();
+			let body = entity.defaultSingleJob.serialize();
 			const options = {
 				method: 'PUT',
 				headers: {'Content-Type': 'application/json'},
@@ -133,7 +133,7 @@ export default abstract class API {
 
 	configureSendManyDefault(entity: Entity): Promise<void> {
 		return new Promise((resolve, reject) => {
-			let body = entity.getDefaultMultipleJob().serialize();
+			let body = entity.defaultMultipleJob.serialize();
 			const options = {
 				method: 'PUT',
 				headers: {'Content-Type': 'application/json'},

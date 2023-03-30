@@ -2,7 +2,7 @@ import {PDU} from "../CommonObjects";
 import Entity from "./Entity";
 
 export default class Job {
-	private readonly parent: Entity;
+	readonly parent: Entity;
 
 	constructor(parent: Entity,
 	            source: string,

@@ -63,9 +63,11 @@ export default {
 				form.password,
 				true
 			);
-			this.entities[this.currentlyManagedEntityType.name].push(newEntity);
-			this.closeModal();
-			return newEntity;
+			newEntity.save().then(() => {
+				this.entities[this.currentlyManagedEntityType.name].push(newEntity);
+				this.closeModal();
+				return newEntity;
+			});
 		},
 		updateManaged(entity: typeof Entity): void {
 			this.currentlyManagedEntityType = entity;
