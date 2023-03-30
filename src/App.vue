@@ -72,12 +72,11 @@ export default {
 		updateManaged(entity: typeof Entity): void {
 			this.currentlyManagedEntityType = entity;
 		},
-		deleteEntity(type: typeof Entity, id: number): void {
+		deleteEntity(entity: Entity, id: number): void {
 			// this.entities[type.constructor.name] is intentionally not a variable
-			let entity: Entity = this.entities[type.constructor.name].find(item => item.id === id);
 			if (entity) {
 				entity.delete();
-				this.entities[type.constructor.name].splice(this.entities[type.constructor.name].indexOf(entity), 1);
+				this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
 			}
 		},
 		closeModal(): void {
@@ -169,7 +168,7 @@ export default {
 					     :aria-labelledby="'flush-heading-client'+client.id"
 					     data-bs-parent="#clientAccordion">
 						<div class="accordion-body py-1 px-2" :style="clientStatusBodyStyle(client)">
-							<EntityComp :entity="client" @deleteEntity="deleteEntity.bind(this, ClientEntity)"/>
+							<EntityComp :entity="client" @deleteEntity="deleteEntity"/>
 						</div>
 					</div>
 				</div>
@@ -193,7 +192,7 @@ export default {
 					     :aria-labelledby="'flush-heading-center'+center.id"
 					     data-bs-parent="#centerAccordion">
 						<div class="accordion-body py-1 px-2" :style="centerStatusBodyStyle(center)">
-							<EntityComp :entity="center" @deleteEntity="deleteEntity.bind(this, CenterEntity)"/>
+							<EntityComp :entity="center" @deleteEntity="deleteEntity"/>
 						</div>
 					</div>
 				</div>
