@@ -80,7 +80,9 @@ export default {
 		},
 		closeModal(): void {
 			// This is dumb...
-			this.$refs.closeModal.click();
+			if (this.$refs.closeModal) {
+				this.$refs.closeModal.click();
+			}
 		},
 		clientStatusButtonStyle(client) {
 			switch (client.status) {

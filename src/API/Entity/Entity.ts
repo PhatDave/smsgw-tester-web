@@ -1,4 +1,5 @@
 import API from "../API";
+import {GraphData} from "../CommonObjects";
 import Job from "./Job";
 import Metrics from "./Metrics";
 
@@ -49,8 +50,8 @@ export default abstract class Entity {
 		this.update();
 	}
 
-	static parseObject(object: any, constructor: any): Entity {
-		let entity: Entity = new constructor(object.arg, object.username, object.password, false);
+	static parseObject(object: any, constructor: new (...args: any[]) => Entity): Entity {
+		let entity: Entity = new constructor(object.url || object.port, object.username, object.password, false);
 		entity._id = object.id;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
@@ -100,7 +101,7 @@ export default abstract class Entity {
 		return this.defaultMultipleJob;
 	}
 
-	getGraphData(): { xaxis: { submit_sm: any[] }; series: { data: number[]; name: string }[] } {
+	getGraphData(): GraphData {
 		return this.metrics.graphData;
 	}
 

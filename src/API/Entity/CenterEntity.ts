@@ -36,6 +36,7 @@ export default class CenterEntity extends Entity {
 
 	serialize(): object {
 		return {
+			port: this.arg,
 			username: this.username,
 			password: this.password,
 		}

@@ -6,7 +6,6 @@ export default abstract class API {
 	abstract entityType: any;
 
 	protected constructor() {
-		console.log(`Creating an ${this.constructor.name} object`);
 	}
 
 	doGetAll(): Promise<Entity[]> {
@@ -55,10 +54,7 @@ export default abstract class API {
 
 			fetch(`${API.API_URL}/api/${this.entityType.name}`, options)
 				.then(response => response.json())
-				.then(data => {
-					let entityObj: Entity = this.build(data);
-					resolve(entityObj);
-				})
+				.then(data => resolve(data))
 				.catch(err => reject(err));
 		});
 	}

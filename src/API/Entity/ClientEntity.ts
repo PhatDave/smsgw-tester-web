@@ -36,6 +36,7 @@ export default class ClientEntity extends Entity {
 
 	serialize(): object {
 		return {
+			url: this.arg,
 			username: this.username,
 			password: this.password,
 		}

@@ -7,7 +7,6 @@ export default class CenterAPI extends API {
 
 	constructor() {
 		super();
-		console.log(`Creating an ${this.constructor.name} object`);
 	}
 
 	connect(entity: Entity): Promise<void> {

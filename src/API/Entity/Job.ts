@@ -1,3 +1,4 @@
+import {PDU} from "../CommonObjects";
 import Entity from "./Entity";
 
 export default class Job {
@@ -72,13 +73,28 @@ export default class Job {
 		this.parent.updateJobs();
 	}
 
-	static parse(parent: Entity, jobObject: any): Job {
-		return new Job(parent,
-			jobObject.pdu.source_addr || '',
-			jobObject.pdu.destination_addr || '',
-			jobObject.pdu.short_message || '',
+	static parse(parent: Entity, jobObject: { pdu: PDU, count: number, perSecond: number }): Job {
+		let source: string = '';
+		let destination: string = '';
+		let message: string = '';
+
+		if (!!jobObject.pdu && !!jobObject.pdu.source_addr) {
+			source = jobObject.pdu.source_addr;
+		}
+		if (!!jobObject.pdu && !!jobObject.pdu.destination_addr) {
+			destination = jobObject.pdu.destination_addr;
+		}
+		if (!!jobObject.pdu && !!jobObject.pdu.short_message) {
+			message = jobObject.pdu.short_message;
+		}
+
+		let job = new Job(parent,
+			source,
+			destination,
+			message,
 			jobObject.count,
 			jobObject.perSecond);
+		return job;
 	}
 
 	serialize(): object {
