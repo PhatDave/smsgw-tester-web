@@ -3,7 +3,7 @@ import ClientEntity from "./Entity/ClientEntity";
 import Entity from "./Entity/Entity";
 
 export default class ClientAPI extends API {
-	entityType: any = ClientEntity;
+	entityType: typeof ClientEntity = ClientEntity;
 
 	constructor() {
 		super();

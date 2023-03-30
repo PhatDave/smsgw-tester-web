@@ -1,10 +1,12 @@
 <script lang="ts">
 
+import Entity from "../API/Entity/Entity";
+
 export default {
 	name: "HeaderComp",
 	emits: ['updateManagedEntity'],
 	props: {
-		entity: null,
+		entity: typeof Entity,
 	},
 	methods: {
 		updateManagedEntity(): void {

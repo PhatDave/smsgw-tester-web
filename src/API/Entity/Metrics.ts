@@ -1,11 +1,12 @@
+import {GraphData, Metric, PDU} from "../CommonObjects";
+
 export default class Metrics {
 	static interestingMetrics: string[] = [
 		'submit_sm',
 		'deliver_sm'
 	];
-	metrics: {} = {};
-
-	graphData: { xaxis: { submit_sm: any[] }; series: ({ data: number[]; name: string })[] } = {
+	metrics: Metric = {};
+	graphData: GraphData = {
 		xaxis: {
 			submit_sm: [],
 		},
@@ -23,7 +24,7 @@ export default class Metrics {
 	constructor() {
 	}
 
-	processPdu(pdu: any): void {
+	processPdu(pdu: PDU): void {
 		if (Metrics.interestingMetrics.indexOf(pdu.command) !== -1) {
 			let timestamp: number = Math.floor(new Date().getTime() / 1000);
 

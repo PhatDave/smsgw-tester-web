@@ -3,7 +3,7 @@ import CenterEntity from "./Entity/CenterEntity";
 import Entity from "./Entity/Entity";
 
 export default class CenterAPI extends API {
-	entityType: any = CenterEntity;
+	entityType: typeof CenterEntity = CenterEntity;
 
 	constructor() {
 		super();

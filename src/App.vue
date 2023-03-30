@@ -19,7 +19,7 @@ export default {
 			'ClientEntity': ClientEntity[],
 			'CenterEntity': CenterEntity[],
 		},
-		currentlyManagedEntityType: any | null,
+		currentlyManagedEntityType: typeof Entity | null,
 		clientApi: ClientAPI,
 		centerApi: CenterAPI,
 		apiAlive: boolean,
@@ -67,10 +67,10 @@ export default {
 			this.closeModal();
 			return newEntity;
 		},
-		updateManaged(entity: any): void {
+		updateManaged(entity: typeof Entity): void {
 			this.currentlyManagedEntityType = entity;
 		},
-		deleteEntity(type: any, id: number): void {
+		deleteEntity(type: typeof Entity, id: number): void {
 			// this.entities[type.constructor.name] is intentionally not a variable
 			let entity: Entity = this.entities[type.constructor.name].find(item => item.id === id);
 			if (entity) {

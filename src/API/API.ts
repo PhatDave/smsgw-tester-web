@@ -19,8 +19,7 @@ export default abstract class API {
 				.then(response => response.json())
 				.then(data => {
 					data = data.map((entity: object) => {
-						let entityObj: Entity = this.build(entity);
-						return entityObj;
+						return this.build(entity);
 					});
 					resolve(data);
 				})
