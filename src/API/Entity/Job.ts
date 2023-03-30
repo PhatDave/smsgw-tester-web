@@ -73,7 +73,6 @@ export default class Job {
 	}
 
 	static parse(parent: Entity, jobObject: any): Job {
-		console.log(jobObject);
 		return new Job(parent,
 			jobObject.pdu.source_addr || '',
 			jobObject.pdu.destination_addr || '',

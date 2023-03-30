@@ -6,9 +6,11 @@ import ClientEntity from "./API/Entity/ClientEntity";
 import Entity from "./API/Entity/Entity";
 import EntityComp from "./components/EntityComp.vue";
 import HeaderComp from "./components/HeaderComp.vue";
+import ModalComp, {Form} from "./components/ModalComp.vue";
 
 export default {
 	components: {
+		ModalComp,
 		HeaderComp,
 		EntityComp
 	},
@@ -16,30 +18,21 @@ export default {
 		entities: {
 			'ClientEntity': ClientEntity[],
 			'CenterEntity': CenterEntity[],
-		}
+		},
+		currentlyManagedEntityType: any | null,
 		clientApi: ClientAPI,
 		centerApi: CenterAPI,
 		apiAlive: boolean,
-
-		form: {
-			arg: string,
-			username: string,
-			password: string
-		},
 	} {
 		return {
 			entities: {
 				'ClientEntity': [],
 				'CenterEntity': [],
 			},
+			currentlyManagedEntityType: null,
 			clientApi: new ClientAPI(),
 			centerApi: new CenterAPI(),
 			apiAlive: false,
-			form: {
-				arg: '',
-				username: '',
-				password: ''
-			},
 		}
 	},
 	beforeMount() {
@@ -63,16 +56,19 @@ export default {
 				console.log(error);
 			});
 		},
-		createEntity(constructor: any): Entity {
-			const newEntity: Entity = new constructor(
-				this.form['arg'],
-				this.form['username'],
-				this.form['password'],
+		createEntity(form: Form): Entity {
+			const newEntity: Entity = new this.currentlyManagedEntityType(
+				form.arg,
+				form.username,
+				form.password,
 				true
 			);
-			this.entities[constructor.name].push(newEntity);
-			this.closeModal("closeModal");
+			this.entities[this.currentlyManagedEntityType.name].push(newEntity);
+			this.closeModal();
 			return newEntity;
+		},
+		updateManaged(entity: any): void {
+			this.currentlyManagedEntityType = entity;
 		},
 		deleteEntity(type: any, id: number): void {
 			// this.entities[type.constructor.name] is intentionally not a variable
@@ -82,8 +78,9 @@ export default {
 				this.entities[type.constructor.name].splice(this.entities[type.constructor.name].indexOf(entity), 1);
 			}
 		},
-		closeModal(elemId) {
-			document.getElementById(elemId).click();
+		closeModal(): void {
+			// This is dumb...
+			this.$refs.closeModal.click();
 		},
 		clientStatusButtonStyle(client) {
 			switch (client.status) {
@@ -152,7 +149,7 @@ export default {
 <template>
 	<div class="container-fluid row">
 		<div class="col-6">
-			<HeaderComp :title="ClientEntity.name" @addEntity="createEntity.bind(this, ClientEntity.constructor)"/>
+			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
 			<div class="accordion accordion-flush" id="clientAccordion">
 				<div class="accordion-item" v-for="(client, index) in this.entities.ClientEntity" :key="client.id">
 					<h2 class="accordion-header" :id="'flush-heading-client'+client.id">
@@ -176,7 +173,7 @@ export default {
 		</div>
 
 		<div class="col-6">
-			<HeaderComp :title="CenterEntity.name" @addEntity="createEntity.bind(this, ClientEntity.constructor)"/>
+			<HeaderComp :entity="CenterEntity" @updateManagedEntity="updateManaged"/>
 			<div class="accordion accordion-flush" id="centerAccordion">
 				<div class="accordion-item" v-for="(center, index) in this.entities.CenterEntity" :key="center.id">
 					<h2 class="accordion-header" :id="'flush-heading-center'+center.id">
@@ -200,39 +197,10 @@ export default {
 		</div>
 	</div>
 
-	<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="addClientModalLabel">Add New Client</h1>
-				</div>
-				<div class="modal-body">
-					<form @submit.prevent="createEntity" class="row g-3 align-items-center">
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="URL" v-model="form.arg" required>
-						</div>
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Username" v-model="form.username" required>
-						</div>
-						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Password" v-model="form.password" required>
-						</div>
-						<div class="col-12 text-center">
-							<button type="submit" class="btn btn-success mx-2">Submit</button>
-							<button type="button" class="btn btn-warning mx-2" id="closeClientModal" data-bs-dismiss="modal">Close</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	<ModalComp @submit="createEntity"/>
 </template>
 
 <style scoped>
-.addButton:hover {
-	cursor: pointer;
-}
-
 input {
 	border: none;
 	border-bottom: 1px solid #eee;
