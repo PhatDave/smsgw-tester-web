@@ -16,7 +16,7 @@ export default class ClientAPI extends API {
 				method: 'POST'
 			};
 
-			fetch(`${API.API_URL}/api/client/${entity.getId()}/connect`, options)
+			fetch(`${API.API_URL}/api/client/${entity.id}/connect`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -29,7 +29,7 @@ export default class ClientAPI extends API {
 				method: 'POST'
 			};
 
-			fetch(`${API.API_URL}/api/client/${entity.getId()}/bind`, options)
+			fetch(`${API.API_URL}/api/client/${entity.id}/bind`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));

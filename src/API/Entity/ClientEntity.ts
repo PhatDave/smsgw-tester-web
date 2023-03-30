@@ -5,12 +5,12 @@ import Job from "./Job";
 import Metrics from "./Metrics";
 
 export default class ClientEntity extends Entity {
-    _username: string;
-    _password: string;
+	_id: number;
+	_status: string;
+	_arg: string;
+	_username: string;
+	_password: string;
 	readonly metrics: Metrics = new Metrics();
-	id: number;
-	status: string;
-	arg: string;
 	defaultSingleJob: Job;
 	defaultMultipleJob: Job;
 	api: API;
@@ -22,14 +22,14 @@ export default class ClientEntity extends Entity {
 		super();
 		this._username = username;
 		this._password = password;
-		this.arg = url;
+		this._arg = url;
 		this.api = new ClientAPI();
 
 		if (doPost) {
 			this.api.create(this).then((entity: any) => {
 				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
 				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
-				this.id = entity.id;
+				this._id = entity.id;
 			});
 		}
 	}

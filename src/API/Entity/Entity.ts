@@ -3,14 +3,29 @@ import Job from "./Job";
 import Metrics from "./Metrics";
 
 export default abstract class Entity {
-	abstract id: number;
-	abstract status: string;
-	abstract arg: string;
 	abstract defaultSingleJob: Job;
 	abstract defaultMultipleJob: Job;
 	abstract api: API;
 	// TODO: Implement interaction with WS
 	abstract metrics: Metrics;
+
+	abstract _id: number;
+
+	get id(): number {
+		return this._id;
+	}
+
+	abstract _status: string;
+
+	get status(): string {
+		return this._status;
+	}
+
+	abstract _arg: string;
+
+	get arg(): string {
+		return this._arg;
+	}
 
 	abstract _username: string;
 
@@ -36,7 +51,7 @@ export default abstract class Entity {
 
 	static parseObject(object: any, constructor: any): Entity {
 		let entity: Entity = new constructor(object.arg, object.username, object.password, false);
-		entity.id = object.id;
+		entity._id = object.id;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
 		return entity;
@@ -75,18 +90,6 @@ export default abstract class Entity {
 
 	stopJob(): void {
 		this.api.cancelSendMany(this);
-	}
-
-	getId(): number {
-		return this.id;
-	}
-
-	getStatus(): string {
-		return this.status;
-	}
-
-	getArg(): string {
-		return this.arg;
 	}
 
 	getDefaultSingleJob(): Job {

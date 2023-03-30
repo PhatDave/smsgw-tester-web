@@ -164,7 +164,7 @@ export default {
 								        :data-bs-target="'#flush-collapse-client'+client.id"
 								        aria-expanded="false"
 								        :aria-controls="'flush-collapse-client'+client.id">
-									{{ client.status }} [{{ client.url }}]
+									{{ client.status }} [{{ client.arg }}]
 								</button>
 							</h2>
 							<div :id="'flush-collapse-client'+client.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }"

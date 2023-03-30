@@ -74,7 +74,7 @@ export default abstract class API {
 				body: JSON.stringify(body)
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -87,7 +87,7 @@ export default abstract class API {
 				method: 'DELETE'
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}/connect`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}/connect`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -100,7 +100,7 @@ export default abstract class API {
 				method: 'DELETE'
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -116,7 +116,7 @@ export default abstract class API {
 				body: JSON.stringify(body)
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}/send`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}/send`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -129,7 +129,7 @@ export default abstract class API {
 				method: 'POST'
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}/send/default`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}/send/default`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -145,7 +145,7 @@ export default abstract class API {
 				body: JSON.stringify(body)
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}/sendMany`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}/sendMany`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -158,7 +158,7 @@ export default abstract class API {
 				method: 'POST'
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}/sendMany/default`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}/sendMany/default`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
@@ -171,7 +171,7 @@ export default abstract class API {
 				method: 'DELETE'
 			};
 
-			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.getId()}/sendMany`, options)
+			fetch(`${API.API_URL}/api/${this.entityType.name}/${entity.id}/sendMany`, options)
 				.then(response => response.json())
 				.then(data => resolve(data))
 				.catch(err => reject(err));
