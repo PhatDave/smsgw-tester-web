@@ -180,8 +180,7 @@ export default abstract class API {
 			};
 
 			fetch(`${API.API_URL}/api/ping`, options)
-				.then(() => resolve())
-				.catch(err => reject(err));
+				.then(() => resolve(), () => reject());
 		});
 	}
 

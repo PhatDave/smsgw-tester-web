@@ -7,12 +7,16 @@ import Entity from "./API/Entity/Entity";
 import EntityComp from "./components/EntityComp.vue";
 import HeaderComp from "./components/HeaderComp.vue";
 import ModalComp, {Form} from "./components/ModalComp.vue";
+import AlertIcon from "./Icons/AlertIcon.vue";
+import Overlay from "./Icons/Overlay.vue";
 
 export default {
 	components: {
+		Overlay,
 		ModalComp,
 		HeaderComp,
-		EntityComp
+		EntityComp,
+		AlertIcon
 	},
 	data(): {
 		entities: {
@@ -36,24 +40,32 @@ export default {
 		}
 	},
 	beforeMount() {
-		// TODO: Make backend ping
+		// Maybe we could implement this as an "IM DYING" message on WS?
 		this.pingTimer = setInterval(function () {
 			this.pingApi();
-		}.bind(this), 1000);
-		this.clientApi.doGetAll().then((response: ClientEntity[]) => {
-			this.entities.ClientEntity = response;
-		});
-		this.centerApi.doGetAll().then((response: ClientEntity[]) => {
-			this.entities.CenterEntity = response;
+		}.bind(this), 500);
+		this.pingApi().then(() => {
+			if (this.apiAlive) {
+				this.clientApi.doGetAll().then((response: ClientEntity[]) => {
+					this.entities.ClientEntity = response;
+				});
+				this.centerApi.doGetAll().then((response: ClientEntity[]) => {
+					this.entities.CenterEntity = response;
+				});
+			}
 		});
 	},
 	methods: {
-		pingApi(): void {
-			this.clientApi.ping().then(() => {
-				this.apiAlive = true;
-			}, (error) => {
-				this.apiAlive = false;
-				console.log(error);
+		pingApi(): Promise<void> {
+			return new Promise<void>((resolve, reject) => {
+				// console.log(this.apiAlive);
+				this.clientApi.ping().then(() => {
+					this.apiAlive = true;
+					resolve();
+				}, (error) => {
+					this.apiAlive = false;
+					resolve();
+				});
 			});
 		},
 		createEntity(form: Form): Entity {
@@ -65,7 +77,6 @@ export default {
 			);
 			newEntity.save().then(() => {
 				this.entities[this.currentlyManagedEntityType.name].push(newEntity);
-				this.closeModal();
 				return newEntity;
 			});
 		},
@@ -73,70 +84,11 @@ export default {
 			this.currentlyManagedEntityType = entity;
 		},
 		deleteEntity(entity: Entity, id: number): void {
-			// this.entities[type.constructor.name] is intentionally not a variable
 			if (entity) {
 				entity.delete();
 				this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
 			}
 		},
-		closeModal(): void {
-			// This is dumb...
-			if (this.$refs.closeModal) {
-				this.$refs.closeModal.click();
-			}
-		},
-		clientStatusButtonStyle(client) {
-			switch (client.status) {
-				case 'NOT CONNECTED':
-					return {backgroundColor: "#dc3545"};
-				case 'CONNECTED':
-					return {backgroundColor: "#ffc107"};
-				case 'BOUND':
-					return {backgroundColor: "#198754"};
-				case 'BUSY':
-					return {backgroundColor: "#0dcaf0"};
-				default:
-					return {backgroundColor: "#dc3545"};
-			}
-		},
-		clientStatusBodyStyle(client) {
-			switch (client.status) {
-				case 'NOT CONNECTED':
-					return {backgroundColor: "rgba(220, 53, 69, .3)"};
-				case 'CONNECTED':
-					return {backgroundColor: "rgba(255, 193, 7, .3)"};
-				case 'BOUND':
-					return {backgroundColor: "rgba(25, 135, 84, .3)"};
-				case 'BUSY':
-					return {backgroundColor: "rgba(13, 202, 240, .3)"};
-				default:
-					return {backgroundColor: "rgba(220, 53, 69, .3)"};
-			}
-		},
-		centerStatusButtonStyle(center) {
-			switch (center.status) {
-				case 'WAITING CONNECTION':
-					return {backgroundColor: "#ffc107"};
-				case 'CONNECTION PENDING':
-					return {backgroundColor: "#9acd32"};
-				case 'CONNECTED':
-					return {backgroundColor: "#198754"};
-				default:
-					return {backgroundColor: "#dc3545"};
-			}
-		},
-		centerStatusBodyStyle(center) {
-			switch (center.status) {
-				case 'WAITING CONNECTION':
-					return {backgroundColor: "rgba(255, 193, 7, .3)"};
-				case 'CONNECTION PENDING':
-					return {backgroundColor: "rgba(154, 205, 50, .3)"};
-				case 'CONNECTED':
-					return {backgroundColor: "rgba(25, 135, 84, .3)"};
-				default:
-					return {backgroundColor: "rgba(220, 53, 69, .3)"};
-			}
-		}
 	},
 	computed: {
 		ClientEntity() {
@@ -150,6 +102,8 @@ export default {
 </script>
 
 <template>
+	<Overlay :scale="2.3" v-if="!apiAlive"/>
+
 	<div class="container-fluid row">
 		<div class="col-6">
 			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
@@ -226,5 +180,4 @@ input:focus {
 .accordion-button::after, .accordion-button::before {
 	background-image: none !important;
 }
-
 </style>

@@ -31,12 +31,13 @@ export default {
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
+					<!-- TODO: Make this dynamic -->
 					<h1 class="modal-title fs-5" id="addClientModalLabel">Add New Client</h1>
 				</div>
 				<div class="modal-body">
 					<form @submit.prevent="doSubmit" class="row g-3 align-items-center">
 						<div class="col-12">
-							<input type="text" class="form-control" placeholder="URL" v-model="form.arg" required>
+							<input type="text" class="form-control" placeholder="URL / Port" v-model="form.arg" required>
 						</div>
 						<div class="col-12">
 							<input type="text" class="form-control" placeholder="Username" v-model="form.username" required>
