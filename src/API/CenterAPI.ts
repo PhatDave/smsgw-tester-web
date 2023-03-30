@@ -4,7 +4,6 @@ import Entity from "./Entity/Entity";
 
 export default class CenterAPI extends API {
 	entityType: any = CenterEntity;
-	cache: Map<number, Entity>;
 
 	constructor() {
 		super();

@@ -91,12 +91,12 @@ export default {
 	</div>
 	<div class="row g-1 align-items-center">
 		<div class="col-5">
-			<input type="text" class="form-control" placeholder="Username" :value="entity.getUsername()"
-			       @input="event => entity.setUsername(event.target.value)">
+			<input type="text" class="form-control" placeholder="Username" :value="entity.username"
+			       @input="event => entity.username = event.target.value">
 		</div>
 		<div class="col-5">
-			<input type="text" class="form-control" placeholder="Password" :value="entity.getPassword()"
-			       @input="event => entity.setPassword(event.target.value)">
+			<input type="text" class="form-control" placeholder="Password" :value="entity.password"
+			       @input="event => entity.password = event.target.value">
 		</div>
 		<div class="col-2">
 			<button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteEntity">Delete</button>

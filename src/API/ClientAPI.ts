@@ -4,7 +4,6 @@ import Entity from "./Entity/Entity";
 
 export default class ClientAPI extends API {
 	entityType: any = ClientEntity;
-	cache: Map<number, Entity>;
 
 	constructor() {
 		super();

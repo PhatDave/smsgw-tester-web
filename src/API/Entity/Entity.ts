@@ -4,8 +4,6 @@ import Metrics from "./Metrics";
 
 export default abstract class Entity {
 	abstract id: number;
-	abstract username: string;
-	abstract password: string;
 	abstract status: string;
 	abstract arg: string;
 	abstract defaultSingleJob: Job;
@@ -13,6 +11,28 @@ export default abstract class Entity {
 	abstract api: API;
 	// TODO: Implement interaction with WS
 	abstract metrics: Metrics;
+
+	abstract _username: string;
+
+	get username(): string {
+		return this._username;
+	}
+
+	set username(value: string) {
+		this._username = value;
+		this.update();
+	}
+
+	abstract _password: string;
+
+	get password(): string {
+		return this._password;
+	}
+
+	set password(value: string) {
+		this._password = value;
+		this.update();
+	}
 
 	static parseObject(object: any, constructor: any): Entity {
 		let entity: Entity = new constructor(object.arg, object.username, object.password, false);
@@ -59,24 +79,6 @@ export default abstract class Entity {
 
 	getId(): number {
 		return this.id;
-	}
-
-	getUsername(): string {
-		return this.username;
-	}
-
-	setUsername(username: string): void {
-		this.username = username;
-		this.update();
-	}
-
-	getPassword(): string {
-		return this.password;
-	}
-
-	setPassword(password: string): void {
-		this.password = password;
-		this.update();
 	}
 
 	getStatus(): string {

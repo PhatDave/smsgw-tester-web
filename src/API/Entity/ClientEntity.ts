@@ -5,6 +5,8 @@ import Job from "./Job";
 import Metrics from "./Metrics";
 
 export default class ClientEntity extends Entity {
+    _username: string;
+    _password: string;
 	readonly metrics: Metrics = new Metrics();
 	id: number;
 	status: string;
@@ -32,22 +34,10 @@ export default class ClientEntity extends Entity {
 		}
 	}
 
-	private _username: string;
-
-	set username(value: string) {
-		this.setUsername(value);
-	}
-
-	private _password: string;
-
-	set password(value: string) {
-		this.setPassword(value);
-	}
-
 	serialize(): object {
 		return {
-			username: this._username,
-			password: this._password,
+			username: this.username,
+			password: this.password,
 		}
 	}
 }
