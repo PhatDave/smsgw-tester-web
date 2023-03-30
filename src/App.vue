@@ -5,17 +5,11 @@ import CenterEntity from "./API/Entity/CenterEntity";
 import ClientEntity from "./API/Entity/ClientEntity";
 import Entity from "./API/Entity/Entity";
 import EntityComp from "./components/EntityComp.vue";
+import HeaderComp from "./components/HeaderComp.vue";
 
 export default {
-	computed: {
-		ClientEntity() {
-			return ClientEntity
-		},
-		CenterEntity() {
-			return CenterEntity
-		}
-	},
 	components: {
+		HeaderComp,
 		EntityComp
 	},
 	data(): {
@@ -144,47 +138,45 @@ export default {
 			}
 		}
 	},
+	computed: {
+		ClientEntity() {
+			return ClientEntity
+		},
+		CenterEntity() {
+			return CenterEntity
+		}
+	},
 }
 </script>
 
 <template>
 	<div class="container-fluid row">
-				<div class="col-6">
-					<div class="text-center">
-						<span class="display-6">Clients</span> &nbsp;
-						<span class="addButton" data-bs-toggle="modal" data-bs-target="#addClientModal">
-		          Add+
-		        </span>
-					</div>
-					<div class="accordion accordion-flush" id="clientAccordion">
-						<div class="accordion-item" v-for="(client, index) in this.entities.ClientEntity" :key="client.id">
-							<h2 class="accordion-header" :id="'flush-heading-client'+client.id">
-								<button class="accordion-button collapsed" :style="clientStatusButtonStyle(client)" :class="{ 'collapsed': index !== 0 }" type="button"
-								        data-bs-toggle="collapse"
-								        :data-bs-target="'#flush-collapse-client'+client.id"
-								        aria-expanded="false"
-								        :aria-controls="'flush-collapse-client'+client.id">
-									{{ client.status }} [{{ client.arg }}]
-								</button>
-							</h2>
-							<div :id="'flush-collapse-client'+client.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }"
-							     :aria-labelledby="'flush-heading-client'+client.id"
-							     data-bs-parent="#clientAccordion">
-								<div class="accordion-body py-1 px-2" :style="clientStatusBodyStyle(client)">
-									<EntityComp :entity="client" @deleteEntity="deleteEntity.bind(this, ClientEntity)"/>
-								</div>
-							</div>
+		<div class="col-6">
+			<HeaderComp :title="ClientEntity.name" @addEntity="createEntity.bind(this, ClientEntity.constructor)"/>
+			<div class="accordion accordion-flush" id="clientAccordion">
+				<div class="accordion-item" v-for="(client, index) in this.entities.ClientEntity" :key="client.id">
+					<h2 class="accordion-header" :id="'flush-heading-client'+client.id">
+						<button class="accordion-button collapsed" :style="clientStatusButtonStyle(client)" :class="{ 'collapsed': index !== 0 }" type="button"
+						        data-bs-toggle="collapse"
+						        :data-bs-target="'#flush-collapse-client'+client.id"
+						        aria-expanded="false"
+						        :aria-controls="'flush-collapse-client'+client.id">
+							{{ client.status }} [{{ client.arg }}]
+						</button>
+					</h2>
+					<div :id="'flush-collapse-client'+client.id" class="accordion-collapse collapse" :class="{ 'show': index === 0 }"
+					     :aria-labelledby="'flush-heading-client'+client.id"
+					     data-bs-parent="#clientAccordion">
+						<div class="accordion-body py-1 px-2" :style="clientStatusBodyStyle(client)">
+							<EntityComp :entity="client" @deleteEntity="deleteEntity.bind(this, ClientEntity)"/>
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
 
 		<div class="col-6">
-			<div class="text-center">
-				<span class="display-6">Centers</span> &nbsp;
-				<span class="addButton" data-bs-toggle="modal" data-bs-target="#addCenterModal">
-          Add+
-        </span>
-			</div>
+			<HeaderComp :title="CenterEntity.name" @addEntity="createEntity.bind(this, ClientEntity.constructor)"/>
 			<div class="accordion accordion-flush" id="centerAccordion">
 				<div class="accordion-item" v-for="(center, index) in this.entities.CenterEntity" :key="center.id">
 					<h2 class="accordion-header" :id="'flush-heading-center'+center.id">
@@ -206,7 +198,6 @@ export default {
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
