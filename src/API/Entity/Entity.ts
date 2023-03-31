@@ -71,6 +71,7 @@ export default abstract class Entity {
 	static parseObject(object: any, constructor: new (...args: any[]) => Entity): Entity {
 		let entity: Entity = new constructor(object.url || object.port, object.username, object.password, false);
 		entity._id = object.id;
+		entity._status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
 		return entity;
