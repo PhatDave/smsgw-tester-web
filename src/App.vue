@@ -110,7 +110,7 @@ export default {
 			<EntityContainer :entities="this.entities.ClientEntity"/>
 		</div>
 		<div class="col-6">
-			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
+			<HeaderComp :entity="CenterEntity" @updateManagedEntity="updateManaged"/>
 			<EntityContainer :entities="this.entities.CenterEntity"/>
 		</div>
 	</div>

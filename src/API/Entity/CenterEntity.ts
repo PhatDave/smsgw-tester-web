@@ -1,6 +1,9 @@
 import API from "../API";
 import CenterAPI from "../CenterAPI";
 import Entity from "./Entity";
+import Actions from "./EntityActions/Actions";
+import CenterActions from "./EntityActions/CenterActions";
+import ClientActions from "./EntityActions/ClientActions";
 import Job from "./Job";
 import Metrics from "./Metrics";
 import CenterStatusStyles from "./StatusStyles/CenterStatusStyles";
@@ -18,6 +21,7 @@ export default class CenterEntity extends Entity {
 	_defaultMultipleJob: Job;
 	api: API;
 	statusStyles: StatusStyles = new CenterStatusStyles();
+	actions: Actions = new CenterActions(this);
 
 	constructor(port: string,
 	            username: string,

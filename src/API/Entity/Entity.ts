@@ -1,14 +1,16 @@
 import API from "../API";
-import {GraphData} from "../CommonObjects";
+import {GraphData, Style} from "../CommonObjects";
+import Actions from "./EntityActions/Actions";
 import Job from "./Job";
 import Metrics from "./Metrics";
-import StatusStyles, {Style} from "./StatusStyles/StatusStyles";
+import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default abstract class Entity {
 	abstract api: API;
 	// TODO: Implement interaction with WS
 	abstract metrics: Metrics;
 	statusStyles: StatusStyles;
+	actions: Actions;
 
 	abstract _defaultSingleJob: Job;
 
@@ -132,6 +134,7 @@ export default abstract class Entity {
 				this._defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
 				this._defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
 				this._id = entity.id;
+				this._status = entity.status;
 				resolve();
 			});
 		});

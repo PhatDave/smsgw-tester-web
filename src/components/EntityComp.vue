@@ -1,10 +1,11 @@
 <script lang="ts">
 import Entity from "../API/Entity/Entity";
+import ActionButton from "./ActionButton.vue";
 import JobComp from "./JobComp.vue";
 
 export default {
 	name: "Entity",
-	components: {JobComp},
+	components: {ActionButton, JobComp},
 	props: {
 		entity: Entity
 	},
@@ -83,6 +84,9 @@ export default {
 </script>
 
 <template>
+	<ActionButton :action="entity.actions.disconnect" />
+	<ActionButton :action="entity.actions.connect" />
+	<ActionButton :action="entity.actions.bind" />
 	<div>
 		<div class="row mt-0 mb-2 text-center">
 			<div class="col-6 m-auto">
