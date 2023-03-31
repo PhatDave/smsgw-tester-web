@@ -3,11 +3,9 @@ import CenterAPI from "../CenterAPI";
 import Entity from "./Entity";
 import Actions from "./EntityActions/Actions";
 import CenterActions from "./EntityActions/CenterActions";
-import ClientActions from "./EntityActions/ClientActions";
 import Job from "./Job";
 import Metrics from "./Metrics";
 import CenterStatusStyles from "./StatusStyles/CenterStatusStyles";
-import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class CenterEntity extends Entity {

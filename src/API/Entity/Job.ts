@@ -88,13 +88,12 @@ export default class Job {
 			message = jobObject.pdu.short_message;
 		}
 
-		let job = new Job(parent,
+		return new Job(parent,
 			source,
 			destination,
 			message,
 			jobObject.count,
 			jobObject.perSecond);
-		return job;
 	}
 
 	serialize(): object {

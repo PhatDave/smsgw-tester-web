@@ -3,6 +3,9 @@ import Action from "./Action";
 import Actions from "./Actions";
 
 export default class ClientActions extends Actions {
+	doSend: Action;
+	doSendMany: Action;
+	doStopSend: Action;
 	disconnect: Action;
 	connect: Action;
 	bind: Action;
@@ -12,5 +15,8 @@ export default class ClientActions extends Actions {
 		this.disconnect = new Action("Disconnect", () => client.disconnect(), () => ["CONNECTING", "CONNECTED", "BINDING", "BOUND"].indexOf(client.status) !== -1);
 		this.connect = new Action("Connect", () => client.connect(), () => ["NOT CONNECTED"].indexOf(client.status) !== -1);
 		this.bind = new Action("Bind", () => client.bind(), () => ["CONNECTED"].indexOf(client.status) !== -1);
+		this.doSend = new Action("Send One", () => client.runJob(client.defaultSingleJob), () => ["BOUND"].indexOf(client.status) !== -1);
+		this.doSendMany = new Action("Send Many", () => client.runJob(client.defaultMultipleJob), () => ["BOUND"].indexOf(client.status) !== -1);
+		this.doStopSend = new Action("Stop Send", () => client.stopJob(), () => ["BUSY"].indexOf(client.status) !== -1);
 	}
 }

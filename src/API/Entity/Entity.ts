@@ -9,10 +9,18 @@ export default abstract class Entity {
 	abstract api: API;
 	// TODO: Implement interaction with WS
 	abstract metrics: Metrics;
-	statusStyles: StatusStyles;
-	actions: Actions;
+	abstract actions: Actions;
+	abstract statusStyles: StatusStyles;
 
 	abstract _defaultSingleJob: Job;
+
+	get defaultSingleJob(): Job {
+		return this._defaultSingleJob;
+	}
+
+	set defaultSingleJob(value: Job) {
+		this._defaultSingleJob = value;
+	}
 
 	get statusStyle(): string {
 		let style: Style = this.statusStyles.getStyle(this.status);
@@ -36,14 +44,6 @@ export default abstract class Entity {
 			stringStyle += `color: rgba(${style.panelColor.r}, ${style.panelColor.g}, ${style.panelColor.b}, ${style.panelColor.a});`;
 		}
 		return stringStyle;
-	}
-
-	get defaultSingleJob(): Job {
-		return this._defaultSingleJob;
-	}
-
-	set defaultSingleJob(value: Job) {
-		this._defaultSingleJob = value;
 	}
 
 	abstract _defaultMultipleJob: Job;
@@ -141,7 +141,7 @@ export default abstract class Entity {
 	}
 
 	runJob(job: Job): void {
-		if (!job.perSecond) {
+		if (!!job.perSecond) {
 			this.api.sendManyDefault(this);
 		} else {
 			this.api.sendOneDefault(this);

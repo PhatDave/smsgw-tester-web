@@ -1,12 +1,15 @@
 <script lang="ts">
+import Entity from "../API/Entity/Entity";
 import Job from "../API/Entity/Job";
+import ActionButton from "./ActionButton.vue";
 
 export default {
 	name: "Job",
+	components: {ActionButton},
 	props: {
 		job: Job,
-		busy: Boolean,
 		title: String,
+		entity: Entity
 	},
 	emits: [],
 	data() {
@@ -73,12 +76,9 @@ export default {
 				       @input="changed"/>
 			</div>
 			<div class="col-12 mt-2">
-				<button v-if="!busy" class="btn btn-success w-75" @click="runJob">
-					Run Job
-				</button>
-				<button v-if="busy" class="btn btn-success w-75" @click="stopJob">
-					Stop Job
-				</button>
+				<ActionButton :action="entity.actions.doSend" v-if="!job.perSecond"/>
+				<ActionButton :action="entity.actions.doSendMany" v-if="!!job.perSecond"/>
+				<ActionButton :action="entity.actions.doStopSend" v-if="!!job.perSecond"/>
 			</div>
 		</div>
 	</div>

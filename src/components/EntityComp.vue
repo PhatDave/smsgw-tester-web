@@ -84,9 +84,9 @@ export default {
 </script>
 
 <template>
-	<ActionButton :action="entity.actions.disconnect" />
-	<ActionButton :action="entity.actions.connect" />
-	<ActionButton :action="entity.actions.bind" />
+	<ActionButton :action="entity.actions.disconnect"/>
+	<ActionButton :action="entity.actions.connect"/>
+	<ActionButton :action="entity.actions.bind"/>
 	<div>
 		<div class="row mt-0 mb-2 text-center">
 			<div class="col-6 m-auto">
@@ -111,9 +111,11 @@ export default {
 		</div>
 		<div class="row">
 			<JobComp :job="entity.defaultSingleJob"
-			         :title="singleSendJobTitle"/>
+			         :title="singleSendJobTitle"
+			         :entity="entity"/>
 			<JobComp :job="entity.defaultMultipleJob"
-			         :title="multiSendJobTitle"/>
+			         :title="multiSendJobTitle"
+			         :entity="entity"/>
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
 			<h6 class="mb-3">Modes **PLACEHOLDER**</h6>

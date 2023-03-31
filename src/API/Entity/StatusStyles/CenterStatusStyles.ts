@@ -14,6 +14,9 @@ export default class CenterStatusStyles extends StatusStyles {
 		},
 		{
 			status: "CONNECTED", style: Styles.GOOD
+		},
+		{
+			status: "BUSY", style: Styles.BUSY
 		}
 	];
 }
