@@ -9,6 +9,8 @@ import CenterStatusStyles from "./StatusStyles/CenterStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class CenterEntity extends Entity {
+	processors: string[] = [];
+	currentJobInfo: { count: number; total: number; } = {count: 0, total: 0};
 	_id: number;
 	_status: string;
 	_arg: string;

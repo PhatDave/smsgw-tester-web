@@ -9,6 +9,8 @@ import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class ClientEntity extends Entity {
+	processors: string[] = [];
+	currentJobInfo: { count: number; total: number; } = {count: 0, total: 0};
 	_id: number;
 	_status: string;
 	_arg: string;

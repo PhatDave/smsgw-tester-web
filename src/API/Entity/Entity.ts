@@ -4,6 +4,7 @@ import Actions from "./EntityActions/Actions";
 import Job from "./Job";
 import Metrics from "./Metrics";
 import StatusStyles from "./StatusStyles/StatusStyles";
+import WebsocketHandler from "./WebsocketHandler/WebsocketHandler";
 
 export default abstract class Entity {
 	abstract api: API;
@@ -11,6 +12,14 @@ export default abstract class Entity {
 	abstract metrics: Metrics;
 	abstract actions: Actions;
 	abstract statusStyles: StatusStyles;
+	// TODO: Implement backend interaction with processors
+	abstract processors: string[];
+	abstract currentJobInfo: {count: number, total: number};
+	websocketHandler: WebsocketHandler;
+
+	protected constructor() {
+		this.websocketHandler = new WebsocketHandler(this);
+	}
 
 	abstract _defaultSingleJob: Job;
 
@@ -142,6 +151,7 @@ export default abstract class Entity {
 
 	runJob(job: Job): void {
 		if (!!job.perSecond) {
+			this.currentJobInfo = {count: 0, total: job.count};
 			this.api.sendManyDefault(this);
 		} else {
 			this.api.sendOneDefault(this);

@@ -97,21 +97,26 @@ export default {
 				this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
 			}
 		},
+		update() {
+			console.log(this.entities);
+			this.$forceUpdate();
+		}
 	},
 }
 </script>
 
 <template>
+	<button @click="update">Reefresh</button>
 	<Overlay :scale="2.3" v-if="!apiAlive"/>
 
 	<div class="container-fluid row">
 		<div class="col-6">
 			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
-			<EntityContainer :entities="this.entities.ClientEntity"/>
+			<EntityContainer :entities="this.entities.ClientEntity" @deleteEntity="deleteEntity"/>
 		</div>
 		<div class="col-6">
 			<HeaderComp :entity="CenterEntity" @updateManagedEntity="updateManaged"/>
-			<EntityContainer :entities="this.entities.CenterEntity"/>
+			<EntityContainer :entities="this.entities.CenterEntity" @deleteEntity="deleteEntity"/>
 		</div>
 	</div>
 

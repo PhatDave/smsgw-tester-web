@@ -50,6 +50,7 @@ export default {
 	<div class="col-6 p-2">
 		<h6 class="text-center">{{ title }}</h6>
 		<div class="row g-1 text-center">
+			<!-- TODO: Generify these inputs -->
 			<div class="col-6">
 				<input class="form-control" type="text" :value="job.source" ref="source" placeholder="Source"
 				       @input="changed"/>

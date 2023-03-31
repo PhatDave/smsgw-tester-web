@@ -88,14 +88,8 @@ export default {
 	<ActionButton :action="entity.actions.connect"/>
 	<ActionButton :action="entity.actions.bind"/>
 	<div>
-		<div class="row mt-0 mb-2 text-center">
-			<div class="col-6 m-auto">
-				<button :class="{'disabled' : showConnect}" class="btn btn-sm btn-danger w-100" @click="disconnect">
-					Disconnect
-				</button>
-			</div>
-		</div>
 		<div class="row g-1 align-items-center">
+			<!-- TODO: Generify these inputs -->
 			<div class="col-5">
 				<input type="text" class="form-control" placeholder="Username" :value="entity.username"
 				       @input="event => entity.username = event.target.value">

@@ -56,3 +56,7 @@ export type StatusStyle = {
 	status: string,
 	style: Style
 };
+export type WebsocketMessage = {
+	type: string,
+	data: string
+}
