@@ -83,59 +83,61 @@ export default {
 </script>
 
 <template>
-	<div class="row mt-0 mb-2 text-center">
-		<div class="col-6 m-auto">
-			<button :class="{'disabled' : showConnect}" class="btn btn-sm btn-danger w-100" @click="disconnect">
-				Disconnect
-			</button>
+	<div>
+		<div class="row mt-0 mb-2 text-center">
+			<div class="col-6 m-auto">
+				<button :class="{'disabled' : showConnect}" class="btn btn-sm btn-danger w-100" @click="disconnect">
+					Disconnect
+				</button>
+			</div>
 		</div>
-	</div>
-	<div class="row g-1 align-items-center">
-		<div class="col-5">
-			<input type="text" class="form-control" placeholder="Username" :value="entity.username"
-			       @input="event => entity.username = event.target.value">
+		<div class="row g-1 align-items-center">
+			<div class="col-5">
+				<input type="text" class="form-control" placeholder="Username" :value="entity.username"
+				       @input="event => entity.username = event.target.value">
+			</div>
+			<div class="col-5">
+				<input type="text" class="form-control" placeholder="Password" :value="entity.password"
+				       @input="event => entity.password = event.target.value">
+			</div>
+			<div class="col-2">
+				<button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteEntity">Delete</button>
+			</div>
+			<!-- TODO: Progress Bar -->
 		</div>
-		<div class="col-5">
-			<input type="text" class="form-control" placeholder="Password" :value="entity.password"
-			       @input="event => entity.password = event.target.value">
+		<div class="row">
+			<JobComp :job="entity.defaultSingleJob"
+			         :title="singleSendJobTitle"/>
+			<JobComp :job="entity.defaultMultipleJob"
+			         :title="multiSendJobTitle"/>
 		</div>
-		<div class="col-2">
-			<button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteEntity">Delete</button>
+		<div class="container row text-center my-2 align-items-center justify-content-center">
+			<h6 class="mb-3">Modes **PLACEHOLDER**</h6>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 1</button>
+			</div>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 2</button>
+			</div>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 3</button>
+			</div>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 4</button>
+			</div>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 5</button>
+			</div>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 6</button>
+			</div>
+			<div class="col-3 my-1">
+				<button class="btn btn-dark w-100">Mode 7</button>
+			</div>
 		</div>
-		<!-- TODO: Progress Bar -->
-	</div>
-	<div class="row">
-		<JobComp :job="entity.defaultSingleJob"
-		         :title="singleSendJobTitle"/>
-		<JobComp :job="entity.defaultMultipleJob"
-		         :title="multiSendJobTitle"/>
-	</div>
-	<div class="container row text-center my-2 align-items-center justify-content-center">
-		<h6 class="mb-3">Modes **PLACEHOLDER**</h6>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 1</button>
+		<div class="container">
+			<apexchart type="area" height="250" ref="chart" :options="chartOptions" :series="entity.getGraphData().series"></apexchart>
 		</div>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 2</button>
-		</div>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 3</button>
-		</div>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 4</button>
-		</div>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 5</button>
-		</div>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 6</button>
-		</div>
-		<div class="col-3 my-1">
-			<button class="btn btn-dark w-100">Mode 7</button>
-		</div>
-	</div>
-	<div class="container">
-		<apexchart type="area" height="250" ref="chart" :options="chartOptions" :series="entity.getGraphData().series"></apexchart>
 	</div>
 </template>
 

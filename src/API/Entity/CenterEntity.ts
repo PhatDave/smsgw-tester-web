@@ -3,6 +3,9 @@ import CenterAPI from "../CenterAPI";
 import Entity from "./Entity";
 import Job from "./Job";
 import Metrics from "./Metrics";
+import CenterStatusStyles from "./StatusStyles/CenterStatusStyles";
+import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
+import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class CenterEntity extends Entity {
 	_id: number;
@@ -14,6 +17,7 @@ export default class CenterEntity extends Entity {
 	_defaultSingleJob: Job;
 	_defaultMultipleJob: Job;
 	api: API;
+	statusStyles: StatusStyles = new CenterStatusStyles();
 
 	constructor(port: string,
 	            username: string,

@@ -1,9 +1,6 @@
 <script lang="ts">
-export type Form = {
-	arg: string,
-	username: string,
-	password: string,
-}
+import {Form} from "../API/CommonObjects";
+
 export default {
 	name: "ModalComp",
 	data(): {

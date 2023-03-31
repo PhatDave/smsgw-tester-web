@@ -35,3 +35,24 @@ export type GraphData = {
 		name: string
 	})[]
 };
+export type Form = {
+	arg: string,
+	username: string,
+	password: string,
+};
+export type Color = {
+	r: number,
+	g: number,
+	b: number,
+	a: number,
+};
+export type Style = {
+	backgroundColor: Color,
+	color?: Color,
+	panelBackgroundColor?: Color,
+	panelColor?: Color
+};
+export type StatusStyle = {
+	status: string,
+	style: Style
+};

@@ -2,13 +2,39 @@ import API from "../API";
 import {GraphData} from "../CommonObjects";
 import Job from "./Job";
 import Metrics from "./Metrics";
+import StatusStyles, {Style} from "./StatusStyles/StatusStyles";
 
 export default abstract class Entity {
 	abstract api: API;
 	// TODO: Implement interaction with WS
 	abstract metrics: Metrics;
+	statusStyles: StatusStyles;
 
 	abstract _defaultSingleJob: Job;
+
+	get statusStyle(): string {
+		let style: Style = this.statusStyles.getStyle(this.status);
+		let stringStyle: string = '';
+		if (style.backgroundColor) {
+			stringStyle += `background-color: rgba(${style.backgroundColor.r}, ${style.backgroundColor.g}, ${style.backgroundColor.b}, ${style.backgroundColor.a});`;
+		}
+		if (style.color) {
+			stringStyle += `color: rgba(${style.color.r}, ${style.color.g}, ${style.color.b}, ${style.color.a});`;
+		}
+		return stringStyle;
+	}
+
+	get panelStatusStyle(): string {
+		let style: Style = this.statusStyles.getStyle(this.status);
+		let stringStyle: string = '';
+		if (style.panelBackgroundColor) {
+			stringStyle += `background-color: rgba(${style.panelBackgroundColor.r}, ${style.panelBackgroundColor.g}, ${style.panelBackgroundColor.b}, ${style.panelBackgroundColor.a});`;
+		}
+		if (style.panelColor) {
+			stringStyle += `color: rgba(${style.panelColor.r}, ${style.panelColor.g}, ${style.panelColor.b}, ${style.panelColor.a});`;
+		}
+		return stringStyle;
+	}
 
 	get defaultSingleJob(): Job {
 		return this._defaultSingleJob;

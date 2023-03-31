@@ -3,6 +3,8 @@ import ClientAPI from "../ClientAPI";
 import Entity from "./Entity";
 import Job from "./Job";
 import Metrics from "./Metrics";
+import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
+import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class ClientEntity extends Entity {
 	_id: number;
@@ -14,6 +16,7 @@ export default class ClientEntity extends Entity {
 	_defaultSingleJob: Job;
 	_defaultMultipleJob: Job;
 	api: API;
+	statusStyles: StatusStyles = new ClientStatusStyles();
 
 	constructor(url: string,
 	            username: string,
