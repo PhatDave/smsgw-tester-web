@@ -1,4 +1,4 @@
-import {WebsocketMessage} from "../../CommonObjects";
+import ZlibCoder from "../../ZlibCoder";
 import Entity from "../Entity";
 import CounterEventProcessor from "./Processor/CounterEventProcessor";
 import StatusEventProcessor from "./Processor/StatusEventProcessor";
@@ -31,7 +31,8 @@ export default class WebsocketHandler {
 	}
 
 	private eventWebsocketMessage(message: any): void {
-		this.processors.forEach((processor: WebsocketEventProcessor) => processor.process(JSON.parse(message.data)));
+		let textMessage: string = ZlibCoder.decompress(message.data);
+		this.processors.forEach((processor: WebsocketEventProcessor) => processor.process(JSON.parse(textMessage)));
 	}
 
 	private eventWebsocketClosed(): void {
