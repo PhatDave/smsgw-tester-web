@@ -11,10 +11,6 @@ export default {
 		title: String,
 		entity: Entity
 	},
-	emits: [],
-	data() {
-		return {}
-	},
 	methods: {
 		changed() {
 			let changed: boolean = false;
@@ -35,12 +31,6 @@ export default {
 				return true;
 			}
 			return false;
-		},
-		runJob() {
-			this.job.parent.runJob(this.job);
-		},
-		stopJob() {
-			this.parent.stopJob();
 		}
 	}
 }
