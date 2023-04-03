@@ -2,6 +2,7 @@ import API from "../API";
 import ClientAPI from "../ClientAPI";
 import Entity from "./Entity";
 import Actions from "./EntityActions/Actions";
+import CenterActions from "./EntityActions/CenterActions";
 import ClientActions from "./EntityActions/ClientActions";
 import Job from "./Job";
 import Metrics from "./Metrics";
@@ -17,7 +18,7 @@ export default class ClientEntity extends Entity {
 	_defaultMultipleJob: Job;
 	api: API = new ClientAPI();
 	statusStyles: StatusStyles = new ClientStatusStyles();
-	actions: Actions = new ClientActions(this);
+	actions: Actions;
 
 	constructor(url: string,
 	            username: string,
@@ -47,5 +48,9 @@ export default class ClientEntity extends Entity {
 			}
 		}
 		return url;
+	}
+
+	postInit(): void {
+		this.actions = new ClientActions(this);
 	}
 }

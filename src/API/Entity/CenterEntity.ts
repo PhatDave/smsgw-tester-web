@@ -20,7 +20,7 @@ export default class CenterEntity extends Entity {
 	_defaultMultipleJob: Job;
 	api: API = new CenterAPI();
 	statusStyles: StatusStyles = new CenterStatusStyles();
-	actions: Actions = new CenterActions(this);
+	actions: Actions;
 
 	constructor(port: string,
 	            username: string,
@@ -37,5 +37,9 @@ export default class CenterEntity extends Entity {
 			username: this.username,
 			password: this.password,
 		}
+	}
+
+	postInit(): void {
+		this.actions = new CenterActions(this);
 	}
 }
