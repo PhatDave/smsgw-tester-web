@@ -1,4 +1,5 @@
 import Entity from "./Entity/Entity";
+import PDUProcessor from "./Entity/PDUProcessor/PDUProcessor";
 
 export default abstract class API {
 	static readonly API_URL: string = `http://localhost:8190`;
@@ -185,6 +186,50 @@ export default abstract class API {
 	}
 
 	// TODO: Implement work with processors
+
+	getAllProcessors(entity: Entity): Promise<void> {
+		return new Promise((resolve, reject) => {
+			const options = {
+				method: 'GET'
+			};
+
+			fetch(`${API.API_URL}/api/${entity.constructor.name}/processors`, options)
+				.then(response => response.json())
+				.then((data: any) => {
+					resolve(data.map((processor: any) => PDUProcessor.parse(processor)))
+				}, () => reject());
+		});
+	}
+
+	applyProcessor(entity: Entity, processor: PDUProcessor): Promise<void> {
+		return new Promise((resolve, reject) => {
+			const body = {name: processor.name};
+
+			const options = {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(body)
+			};
+
+			fetch(`${API.API_URL}/api/${entity.constructor.name}/${entity.id}/processors`, options)
+				.then((data: any) => resolve(), () => reject());
+		});
+	}
+
+	removeProcessor(entity: Entity, processor: PDUProcessor): Promise<void> {
+		return new Promise((resolve, reject) => {
+			const body = {name: processor.name};
+
+			const options = {
+				method: 'DELETE',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(body)
+			};
+
+			fetch(`${API.API_URL}/api/${entity.constructor.name}/${entity.id}/processors`, options)
+				.then((data: any) => resolve(), () => reject());
+		});
+	}
 
 	build(entity: object): Entity {
 		return Entity.parseObject(entity, this.entityType);

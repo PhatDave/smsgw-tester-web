@@ -15,7 +15,6 @@ export default class StatusEventProcessor extends WebsocketEventProcessor {
 	process(message: WebsocketMessage): void {
 		if (message.type === this.event) {
 			this.entity.status = message.data;
-			console.log(this.entity.constructor.name);
 		}
 	};
 }

@@ -73,6 +73,22 @@ export default class Job {
 		this.parent.updateJobs();
 	}
 
+	updateFields(entityObject: any): void {
+		if (!!entityObject.pdu && !!entityObject.pdu.source_addr && entityObject.pdu.source_addr !== this.source) {
+			this.source = entityObject.pdu.source_addr;
+		}
+		if (!!entityObject.pdu && !!entityObject.pdu.destination_addr && entityObject.pdu.destination_addr !== this.destination) {
+			this.destination = entityObject.pdu.destination_addr;
+		}
+		if (!!entityObject.pdu && !!entityObject.pdu.short_message && entityObject.pdu.short_message !== this.message) {
+			this.message = entityObject.pdu.short_message;
+		}
+		if (!!this._perSecond) {
+			Entity.updateSimpleField(entityObject, this, 'perSecond', '_perSecond');
+			Entity.updateSimpleField(entityObject, this, 'count', '_count');
+		}
+	}
+
 	static parse(parent: Entity, jobObject: { pdu: PDU, count: number, perSecond: number }): Job {
 		let source: string = '';
 		let destination: string = '';

@@ -103,16 +103,15 @@ export default {
 				this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
 			}
 		},
-		update() {
+		debug() {
 			console.log(this.entities);
-			this.$forceUpdate();
 		}
 	},
 }
 </script>
 
 <template>
-	<button @click="update">Reefresh</button>
+	<button @click="debug">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</button>
 	<Overlay :scale="2.3" v-if="!apiAlive"/>
 
 	<div class="container-fluid row">

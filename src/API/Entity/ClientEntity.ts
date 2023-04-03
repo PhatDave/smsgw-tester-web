@@ -2,10 +2,8 @@ import API from "../API";
 import ClientAPI from "../ClientAPI";
 import Entity from "./Entity";
 import Actions from "./EntityActions/Actions";
-import CenterActions from "./EntityActions/CenterActions";
 import ClientActions from "./EntityActions/ClientActions";
 import Job from "./Job";
-import Metrics from "./Metrics";
 import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
 
@@ -37,6 +35,10 @@ export default class ClientEntity extends Entity {
 		}
 	}
 
+	postInit(): void {
+		this.actions = new ClientActions(this);
+	}
+
 	private buildUrl(url: string): string {
 		let parts: RegExpExecArray | null = /(smpp:\/\/)?(localhost:)?(\d+)/.exec(url);
 		if (parts) {
@@ -48,9 +50,5 @@ export default class ClientEntity extends Entity {
 			}
 		}
 		return url;
-	}
-
-	postInit(): void {
-		this.actions = new ClientActions(this);
 	}
 }

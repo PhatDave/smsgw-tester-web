@@ -3,17 +3,18 @@ import {GraphData, Style} from "../CommonObjects";
 import Actions from "./EntityActions/Actions";
 import Job from "./Job";
 import Metrics from "./Metrics";
+import PDUProcessor from "./PDUProcessor/PDUProcessor";
 import StatusStyles from "./StatusStyles/StatusStyles";
 import WebsocketHandler from "./WebsocketHandler/WebsocketHandler";
 
 export default abstract class Entity {
 	abstract api: API;
-	// TODO: Implement interaction with WS
 	abstract actions: Actions;
 	abstract statusStyles: StatusStyles;
 	// TODO: Implement backend interaction with processors
 	status: string;
-	processors: string[] = [];
+	processors: PDUProcessor[] = [];
+	availableProcessors: PDUProcessor[] = [];
 	currentJobInfo: { count: number, total: number } = {count: 0, total: 0};
 	metrics: Metrics;
 	websocketHandler: WebsocketHandler;
@@ -105,6 +106,8 @@ export default abstract class Entity {
 		entity.status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
+		entity.processors = object.processors.map((processor: any) => PDUProcessor.parse(processor));
+		entity.availableProcessors = object.availableProcessors.map((processor: any) => PDUProcessor.parse(processor));
 		return entity;
 	}
 
@@ -113,6 +116,53 @@ export default abstract class Entity {
 		entity.websocketHandler = new WebsocketHandler(entity);
 		console.log(`Initializing ${entity.constructor.name}`);
 		entity.postInit();
+	}
+
+	static updateSimpleField(originObject: any, targetObject: any, originField: string, targetField: string) {
+		if (!!originObject[originField] && originObject[originField] !== targetObject[targetField]) {
+			targetObject[targetField] = originObject[originField];
+		}
+	}
+
+	save(): Promise<void> {
+		return new Promise<void>((resolve, reject) => {
+			this.api.create(this).then((entity: any) => {
+				this._id = object.id;
+				this.status = object.status;
+				this.defaultSingleJob = Job.parse(this, object.defaultSingleJob);
+				this.defaultMultipleJob = Job.parse(this, object.defaultMultipleJob);
+				this.processors = object.processors.map((processor: any) => PDUProcessor.parse(processor));
+				this.availableProcessors = object.availableProcessors.map((processor: any) => PDUProcessor.parse(processor));
+				resolve();
+			});
+		});
+	}
+
+	addProcessor(processor: PDUProcessor): Promise<void> {
+		return this.api.applyProcessor(this, processor);
+	}
+
+	removeProcessor(processor: PDUProcessor): Promise<void> {
+		return this.api.removeProcessor(this, processor);
+	}
+
+	updateFields(entityObject: any): void {
+		Entity.updateSimpleField(entityObject, this, 'username', '_username');
+		Entity.updateSimpleField(entityObject, this, 'password', '_password');
+		Entity.updateSimpleField(entityObject, this, 'status', 'status');
+
+		entityObject.processors.forEach((processor: any) => {
+			let existing = this.processors.find((p: PDUProcessor) => p.name === processor.name);
+			if (!existing) {
+				this.processors.push(PDUProcessor.parse(processor));
+			}
+		});
+		this.processors.forEach((processor: PDUProcessor) => {
+			let existing = entityObject.processors.find((p: any) => p.name === processor.name);
+			if (!existing) {
+				this.processors.splice(this.processors.indexOf(processor), 1);
+			}
+		});
 	}
 
 	abstract postInit(): void;
@@ -138,18 +188,6 @@ export default abstract class Entity {
 	updateJobs(): void {
 		this.api.configureSendOneDefault(this);
 		this.api.configureSendManyDefault(this);
-	}
-
-	save(): Promise<void> {
-		return new Promise<void>((resolve, reject) => {
-			this.api.create(this).then((entity: any) => {
-				this._defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
-				this._defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
-				this._id = entity.id;
-				this.status = entity.status;
-				resolve();
-			});
-		});
 	}
 
 	runJob(job: Job): void {

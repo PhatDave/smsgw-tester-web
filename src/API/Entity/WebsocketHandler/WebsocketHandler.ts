@@ -1,6 +1,7 @@
 import ZlibCoder from "../../ZlibCoder";
 import Entity from "../Entity";
 import CounterEventProcessor from "./Processor/CounterEventProcessor";
+import StateEventProcessor from "./Processor/StateEventProcessor";
 import StatusEventProcessor from "./Processor/StatusEventProcessor";
 import WebsocketEventProcessor from "./WebsocketEventProcessor";
 
@@ -20,7 +21,7 @@ export default class WebsocketHandler {
 	private constructProcessors(): void {
 		this.processors.push(new StatusEventProcessor(this.entity));
 		this.processors.push(new CounterEventProcessor(this.entity));
-		this.processors.push(new StatusEventProcessor(this.entity));
+		this.processors.push(new StateEventProcessor(this.entity));
 	}
 
 	private setupWebsocket(): void {

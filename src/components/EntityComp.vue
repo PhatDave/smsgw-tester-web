@@ -1,5 +1,6 @@
 <script lang="ts">
 import Entity from "../API/Entity/Entity";
+import PDUProcessor from "../API/Entity/PDUProcessor/PDUProcessor";
 import ActionButton from "./ActionButton.vue";
 import JobComp from "./JobComp.vue";
 
@@ -52,27 +53,23 @@ export default {
 	beforeMount() {
 		this.chartOptions.xaxis = this.entity.getGraphData();
 	},
-	mounted() {
-		// this.center.openWebsocket();
-	},
-	updated() {
-		// this.center.openWebsocket();
-	},
 	methods: {
-		disconnect() {
-			this.entity.disconnect();
-		},
 		deleteEntity() {
 			this.$emit('deleteEntity', this.entity);
 		},
+		toggleProcessor(processor: PDUProcessor): void {
+			let existingProcessor = this.entity.processors.find((p: PDUProcessor) => p.name === processor.name);
+			if (existingProcessor) {
+				this.entity.removeProcessor(processor);
+			} else {
+				this.entity.addProcessor(processor);
+			}
+		},
+		isActive(processor: PDUProcessor): boolean {
+			return this.entity.processors.find((p: PDUProcessor) => p.name === processor.name) !== undefined;
+		}
 	},
 	computed: {
-		showConnect() {
-			return this.entity.status === 'WAITING CONNECTION';
-		},
-		showDisconnect() {
-			return this.entity.status === 'CONNECTED' || this.entity.status === 'CONNECTION PENDING'
-		},
 		multiSendJobTitle(): string {
 			return "Multi Send";
 		},
@@ -112,28 +109,15 @@ export default {
 			         :entity="entity"/>
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
-			<h6 class="mb-3">Modes **PLACEHOLDER**</h6>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 1</button>
-			</div>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 2</button>
-			</div>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 3</button>
-			</div>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 4</button>
-			</div>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 5</button>
-			</div>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 6</button>
-			</div>
-			<div class="col-3 my-1">
-				<button class="btn btn-dark w-100">Mode 7</button>
-			</div>
+			<h6>Modes</h6>
+			<template v-for="processor in entity.availableProcessors">
+				<div>
+					<button :class="{processorActive: isActive(processor)}"
+					        @click="toggleProcessor(processor)">
+						{{ processor.name }}
+					</button>
+				</div>
+			</template>
 		</div>
 		<div class="container">
 			<apexchart type="area" height="250" ref="chart" :options="chartOptions" :series="entity.getGraphData().series"></apexchart>
@@ -161,5 +145,9 @@ textarea {
 	border: none;
 	border-bottom: 1px solid #eee;
 	border-radius: 0;
+}
+
+.processorActive {
+	background-color: #00ff00;
 }
 </style>

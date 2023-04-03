@@ -1,7 +1,6 @@
 import {StatusStyle, Style} from "../../CommonObjects";
 
 export default abstract class StatusStyles {
-	// TODO: Maybe turn this into an endpoint instead of hardcoding it?
 	abstract readonly statuses: StatusStyle[];
 	abstract readonly defaultStyle: Style;
 
