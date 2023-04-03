@@ -1,25 +1,24 @@
 import API from "../API";
 import CenterAPI from "../CenterAPI";
+import ClientAPI from "../ClientAPI";
 import Entity from "./Entity";
 import Actions from "./EntityActions/Actions";
 import CenterActions from "./EntityActions/CenterActions";
+import ClientActions from "./EntityActions/ClientActions";
 import Job from "./Job";
 import Metrics from "./Metrics";
 import CenterStatusStyles from "./StatusStyles/CenterStatusStyles";
+import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class CenterEntity extends Entity {
-	processors: string[] = [];
-	currentJobInfo: { count: number; total: number; } = {count: 0, total: 0};
 	_id: number;
-	_status: string;
 	_arg: string;
 	_username: string;
 	_password: string;
-	readonly metrics: Metrics = new Metrics();
 	_defaultSingleJob: Job;
 	_defaultMultipleJob: Job;
-	api: API;
+	api: API = new CenterAPI();
 	statusStyles: StatusStyles = new CenterStatusStyles();
 	actions: Actions = new CenterActions(this);
 
@@ -30,7 +29,6 @@ export default class CenterEntity extends Entity {
 		this._username = username;
 		this._password = password;
 		this._arg = port;
-		this.api = new CenterAPI();
 	}
 
 	serialize(): object {

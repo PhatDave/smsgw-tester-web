@@ -9,17 +9,13 @@ import ClientStatusStyles from "./StatusStyles/ClientStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
 
 export default class ClientEntity extends Entity {
-	processors: string[] = [];
-	currentJobInfo: { count: number; total: number; } = {count: 0, total: 0};
 	_id: number;
-	_status: string;
 	_arg: string;
 	_username: string;
 	_password: string;
-	readonly metrics: Metrics = new Metrics();
 	_defaultSingleJob: Job;
 	_defaultMultipleJob: Job;
-	api: API;
+	api: API = new ClientAPI();
 	statusStyles: StatusStyles = new ClientStatusStyles();
 	actions: Actions = new ClientActions(this);
 
@@ -30,7 +26,6 @@ export default class ClientEntity extends Entity {
 		this._username = username;
 		this._password = password;
 		this._arg = this.buildUrl(url);
-		this.api = new ClientAPI();
 	}
 
 	serialize(): object {

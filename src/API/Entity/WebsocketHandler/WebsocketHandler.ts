@@ -14,6 +14,7 @@ export default class WebsocketHandler {
 		this.entity = entity;
 		this.constructProcessors();
 		this.setupWebsocket();
+		console.log(`Initializing ${entity.constructor.name}`);
 	}
 
 	private constructProcessors(): void {

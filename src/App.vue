@@ -20,9 +20,15 @@ export default {
 			if (this.apiAlive) {
 				this.clientApi.doGetAll().then((response: ClientEntity[]) => {
 					this.entities.ClientEntity = response;
+					this.entities.ClientEntity.forEach((entity: Entity) => {
+						Entity.initialize(entity);
+					});
 				});
 				this.centerApi.doGetAll().then((response: ClientEntity[]) => {
 					this.entities.CenterEntity = response;
+					this.entities.CenterEntity.forEach((entity: Entity) => {
+						Entity.initialize(entity);
+					});
 				});
 			}
 		});

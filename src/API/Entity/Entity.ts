@@ -9,16 +9,16 @@ import WebsocketHandler from "./WebsocketHandler/WebsocketHandler";
 export default abstract class Entity {
 	abstract api: API;
 	// TODO: Implement interaction with WS
-	abstract metrics: Metrics;
 	abstract actions: Actions;
 	abstract statusStyles: StatusStyles;
 	// TODO: Implement backend interaction with processors
-	abstract processors: string[];
-	abstract currentJobInfo: {count: number, total: number};
+	status: string;
+	processors: string[] = [];
+	currentJobInfo: { count: number, total: number } = {count: 0, total: 0};
+	metrics: Metrics;
 	websocketHandler: WebsocketHandler;
 
 	protected constructor() {
-		this.websocketHandler = new WebsocketHandler(this);
 	}
 
 	abstract _defaultSingleJob: Job;
@@ -71,12 +71,6 @@ export default abstract class Entity {
 		return this._id;
 	}
 
-	abstract _status: string;
-
-	get status(): string {
-		return this._status;
-	}
-
 	abstract _arg: string;
 
 	get arg(): string {
@@ -108,10 +102,16 @@ export default abstract class Entity {
 	static parseObject(object: any, constructor: new (...args: any[]) => Entity): Entity {
 		let entity: Entity = new constructor(object.url || object.port, object.username, object.password, false);
 		entity._id = object.id;
-		entity._status = object.status;
+		entity.status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
 		return entity;
+	}
+
+	static initialize(entity: Entity) {
+		entity.metrics = new Metrics(entity);
+		entity.websocketHandler = new WebsocketHandler(entity);
+		console.log(`Initializing ${entity.constructor.name}`);
 	}
 
 	abstract serialize(): object;
@@ -143,7 +143,7 @@ export default abstract class Entity {
 				this._defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
 				this._defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
 				this._id = entity.id;
-				this._status = entity.status;
+				this.status = entity.status;
 				resolve();
 			});
 		});
