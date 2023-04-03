@@ -14,8 +14,9 @@ export default class PduEventProcessor extends WebsocketEventProcessor {
 
 	process(message: WebsocketMessage): void {
 		if (message.type === this.event) {
-			console.log(message.data);
-			console.log(this.entity);
+			if (!!message.data && !!message.data.command) {
+				this.entity.metrics.processPdu(message.data);
+			}
 		}
 	};
 }

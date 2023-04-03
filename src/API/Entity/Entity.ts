@@ -112,7 +112,7 @@ export default abstract class Entity {
 	}
 
 	static initialize(entity: Entity): void {
-		entity.metrics = new Metrics(entity);
+		entity.metrics = new Metrics();
 		entity.websocketHandler = new WebsocketHandler(entity);
 		console.log(`Initializing ${entity.constructor.name}`);
 		entity.postInit();
