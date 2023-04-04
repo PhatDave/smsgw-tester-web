@@ -51,7 +51,7 @@ export default {
 	},
 	emits: ['deleteEntity'],
 	beforeMount() {
-		console.log(this.entity.getGraphData());
+		console.log(this.entity.availableProcessors);
 		this.chartOptions.xaxis = this.entity.getGraphData();
 	},
 	methods: {
@@ -68,9 +68,6 @@ export default {
 		},
 		isActive(processor: PDUProcessor): boolean {
 			return this.entity.processors.find((p: PDUProcessor) => p.name === processor.name) !== undefined;
-		},
-		getSeries() {
-			return this.entity.getGraphData().series;
 		}
 	},
 	computed: {
@@ -124,7 +121,9 @@ export default {
 			</template>
 		</div>
 		<div class="container">
-			<apexchart type="area" height="250" ref="chart" :options="chartOptions" :series="getSeries()"></apexchart>
+			<apexchart type="area" height="250" ref="chart"
+			           :options="chartOptions"
+			           :series="entity.getGraphData().series"></apexchart>
 		</div>
 	</div>
 </template>
