@@ -13,13 +13,19 @@ export default abstract class Entity {
 	abstract statusStyles: StatusStyles;
 	// TODO: Implement backend interaction with processors
 	status: string;
-	processors: PDUProcessor[] = [];
-	availableProcessors: PDUProcessor[] = [];
+	preprocessors: PDUProcessor[] = [];
+	postprocessors: PDUProcessor[] = [];
+	availablePreprocessors: PDUProcessor[] = [];
+	availablePostprocessors: PDUProcessor[] = [];
 	currentJobInfo: { count: number, total: number } = {count: 0, total: 0};
 	metrics: Metrics;
 	websocketHandler: WebsocketHandler;
 
 	protected constructor() {
+	}
+
+	get processors(): PDUProcessor[] {
+		return this.preprocessors.concat(this.postprocessors);
 	}
 
 	abstract _defaultSingleJob: Job;
@@ -106,8 +112,10 @@ export default abstract class Entity {
 		entity.status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
-		entity.processors = object.processors.map((processor: any) => PDUProcessor.parse(processor));
-		entity.availableProcessors = object.availableProcessors.map((processor: any) => PDUProcessor.parse(processor));
+		entity.preprocessors = object.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
+		entity.postprocessors = object.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
+		entity.availablePreprocessors = object.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
+		entity.availablePostprocessors = object.availablePostprocessors.map((processor: any) => PDUProcessor.parse(processor));
 		return entity;
 	}
 
@@ -127,12 +135,14 @@ export default abstract class Entity {
 	save(): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			this.api.create(this).then((entity: any) => {
-				this._id = object.id;
-				this.status = object.status;
-				this.defaultSingleJob = Job.parse(this, object.defaultSingleJob);
-				this.defaultMultipleJob = Job.parse(this, object.defaultMultipleJob);
-				this.processors = object.processors.map((processor: any) => PDUProcessor.parse(processor));
-				this.availableProcessors = object.availableProcessors.map((processor: any) => PDUProcessor.parse(processor));
+				this._id = entity.id;
+				this.status = entity.status;
+				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
+				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
+				entity.preprocessors = entity.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				entity.postprocessors = entity.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				entity.availablePreprocessors = entity.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				entity.availablePostprocessors = entity.availablePostprocessors.map((processor: any) => PDUProcessor.parse(processor));
 				resolve();
 			});
 		});
@@ -151,16 +161,28 @@ export default abstract class Entity {
 		Entity.updateSimpleField(entityObject, this, 'password', '_password');
 		Entity.updateSimpleField(entityObject, this, 'status', 'status');
 
-		entityObject.processors.forEach((processor: any) => {
-			let existing = this.processors.find((p: PDUProcessor) => p.name === processor.name);
+		entityObject.preprocessors.forEach((processor: any) => {
+			let existing = this.preprocessors.find((p: PDUProcessor) => p.name === processor.name);
 			if (!existing) {
-				this.processors.push(PDUProcessor.parse(processor));
+				this.preprocessors.push(PDUProcessor.parse(processor));
 			}
 		});
-		this.processors.forEach((processor: PDUProcessor) => {
-			let existing = entityObject.processors.find((p: any) => p.name === processor.name);
+		this.preprocessors.forEach((processor: PDUProcessor) => {
+			let existing = entityObject.preprocessors.find((p: any) => p.name === processor.name);
 			if (!existing) {
-				this.processors.splice(this.processors.indexOf(processor), 1);
+				this.preprocessors.splice(this.preprocessors.indexOf(processor), 1);
+			}
+		});
+		entityObject.postprocessors.forEach((processor: any) => {
+			let existing = this.postprocessors.find((p: PDUProcessor) => p.name === processor.name);
+			if (!existing) {
+				this.postprocessors.push(PDUProcessor.parse(processor));
+			}
+		});
+		this.postprocessors.forEach((processor: PDUProcessor) => {
+			let existing = entityObject.postprocessors.find((p: any) => p.name === processor.name);
+			if (!existing) {
+				this.postprocessors.splice(this.postprocessors.indexOf(processor), 1);
 			}
 		});
 	}

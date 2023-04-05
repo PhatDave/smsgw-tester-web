@@ -1,4 +1,4 @@
-import { Style } from "../../CommonObjects";
+import {Style} from "../../CommonObjects";
 import Colors from "./Colors";
 
 export default class Styles {

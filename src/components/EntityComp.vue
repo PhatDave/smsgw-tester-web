@@ -51,7 +51,6 @@ export default {
 	},
 	emits: ['deleteEntity'],
 	beforeMount() {
-		console.log(this.entity.availableProcessors);
 		this.chartOptions.xaxis = this.entity.getGraphData();
 	},
 	methods: {
@@ -111,7 +110,16 @@ export default {
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
 			<h6>Modes</h6>
-			<template v-for="processor in entity.availableProcessors">
+<!--			TODO: Maybe generify this-->
+			<template v-for="processor in entity.availablePreprocessors">
+				<div>
+					<button :class="{processorActive: isActive(processor)}"
+					        @click="toggleProcessor(processor)">
+						{{ processor.name }}
+					</button>
+				</div>
+			</template>
+			<template v-for="processor in entity.availablePostprocessors">
 				<div>
 					<button :class="{processorActive: isActive(processor)}"
 					        @click="toggleProcessor(processor)">

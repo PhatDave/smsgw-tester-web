@@ -1,4 +1,3 @@
-import Entity from "../Entity";
 import Action from "./Action";
 
 export default abstract class Actions {

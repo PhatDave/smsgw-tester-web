@@ -1,4 +1,3 @@
-import {WebsocketMessage} from "../../../CommonObjects";
 import Entity from "../../Entity";
 import WebsocketEventProcessor from "../WebsocketEventProcessor";
 
@@ -12,7 +11,7 @@ export default class PduEventProcessor extends WebsocketEventProcessor {
 		this.entity = entity;
 	}
 
-	process(message: WebsocketMessage): void {
+	process(message: any): void {
 		if (message.type === this.event) {
 			if (!!message.data && !!message.data.command) {
 				this.entity.metrics.processPdu(message.data);

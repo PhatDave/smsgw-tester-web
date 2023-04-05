@@ -1,5 +1,3 @@
-import Entity from "../Entity";
-
 export default class Action {
 	readonly name: string;
 	active: () => boolean;
