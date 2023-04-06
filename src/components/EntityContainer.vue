@@ -14,20 +14,13 @@ export default {
 	},
 	data(): {
 		parentMaxIter: number,
-		currentlyActive: HTMLElement | undefined
 	} {
 		return {
 			parentMaxIter: 10,
-			currentlyActive: undefined,
 		};
 	},
 	emits: {
 		deleteEntity: (entity: Entity) => true
-	},
-	updated() {
-		if (this.currentlyActive) {
-			this.currentlyActive.click();
-		}
 	},
 	methods: {
 		deleteEntity(entity: Entity): void {
@@ -44,17 +37,9 @@ export default {
 				}
 			}
 			target.classList.toggle("active");
-			this.currentlyActive = target;
-
 			let panel: HTMLElement = target.nextElementSibling as HTMLElement;
-			if (panel && panel.style) {
-				if (panel.style.maxHeight) {
-					panel.style.maxHeight = null;
-				} else {
-					panel.style.maxHeight = panel.scrollHeight + "px";
-				}
-			}
-		},
+			panel.classList.toggle("active");
+		}
 	},
 }
 </script>
@@ -79,10 +64,12 @@ export default {
 	cursor: pointer;
 	padding: 18px;
 	width: 100%;
-	text-align: left;
 	border: none;
 	outline: none;
 	transition: 0.2s;
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.2rem;
 }
 
 .active, .accordion:hover {
@@ -95,5 +82,8 @@ export default {
 	max-height: 0;
 	overflow: hidden;
 	transition: max-height 0.2s ease-out;
+}
+.panel.active {
+	max-height: 1000px;
 }
 </style>
