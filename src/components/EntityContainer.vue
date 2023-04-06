@@ -4,16 +4,31 @@ import EntityComp from "./EntityComp.vue";
 import HeaderComp from "./HeaderComp.vue";
 
 export default {
+	name: "EntityContainer",
 	components: {HeaderComp, EntityComp},
+	props: {
+		entities: {
+			type: Array<Entity>,
+			required: true
+		}
+	},
 	data(): {
 		parentMaxIter: number,
+		currentlyActive: HTMLElement | undefined
 	} {
 		return {
-			parentMaxIter: 10
+			parentMaxIter: 10,
+			currentlyActive: undefined,
 		};
 	},
 	emits: {
 		deleteEntity: (entity: Entity) => true
+	},
+	updated() {
+		console.log(this.currentlyActive);
+		if (this.currentlyActive) {
+			this.currentlyActive.click();
+		}
 	},
 	methods: {
 		deleteEntity(entity: Entity): void {
@@ -30,6 +45,7 @@ export default {
 				}
 			}
 			target.classList.toggle("active");
+			this.currentlyActive = target;
 
 			let panel: HTMLElement = target.nextElementSibling as HTMLElement;
 			if (panel.style.maxHeight) {
@@ -39,13 +55,6 @@ export default {
 			}
 		},
 	},
-	name: "EntityContainer",
-	props: {
-		entities: {
-			type: Array<Entity>,
-			required: true
-		}
-	}
 }
 </script>
 
@@ -53,7 +62,7 @@ export default {
 	<div>
 		<template v-for="entity in this.entities">
 			<button class="accordion" @click="open" :style="entity.statusStyle">
-				{{entity.status}} [{{entity.arg}}]
+				{{ entity.status }} [{{ entity.arg }}]
 			</button>
 			<div class="panel" :style="entity.panelStatusStyle">
 				<EntityComp :entity="entity" @deleteEntity="deleteEntity"/>
