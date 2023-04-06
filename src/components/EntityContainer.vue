@@ -20,7 +20,7 @@ export default {
 		};
 	},
 	emits: {
-		deleteEntity: (entity: Entity) => true
+		deleteEntity: () => true
 	},
 	methods: {
 		deleteEntity(entity: Entity): void {
@@ -45,15 +45,13 @@ export default {
 </script>
 
 <template>
-	<div>
-		<template v-for="entity in this.entities">
-			<button :style="entity.statusStyle" class="accordion" @click="open">
-				{{ entity.status }} [{{ entity.arg }}]
-			</button>
-			<div :style="entity.panelStatusStyle" class="panel">
-				<EntityComp :entity="entity" @deleteEntity="deleteEntity"/>
-			</div>
-		</template>
+	<div v-for="entity in this.entities">
+		<button :style="entity.statusStyle" class="accordion" @click="open">
+			{{ entity.status }} [{{ entity.arg }}]
+		</button>
+		<div :style="entity.panelStatusStyle" class="panel">
+			<EntityComp :entity="entity" @deleteEntity="deleteEntity"/>
+		</div>
 	</div>
 </template>
 
@@ -83,6 +81,7 @@ export default {
 	overflow: hidden;
 	transition: max-height 0.2s ease-out;
 }
+
 .panel.active {
 	max-height: 1000px;
 }
