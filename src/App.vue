@@ -11,141 +11,122 @@ import ModalComp from "./components/ModalComp.vue";
 import Overlay from "./Icons/Overlay.vue";
 
 export default {
-	beforeMount() {
-		// Maybe we could implement this as an "IM DYING" message on WS?
-		this.pingTimer = setInterval(function () {
-			this.pingApi();
-		}.bind(this), 500);
-		this.pingApi().then(() => {
-			if (this.apiAlive) {
-				this.clientApi.doGetAll().then((response: ClientEntity[]) => {
-					this.entities.ClientEntity = response;
-					this.entities.ClientEntity.forEach((entity: Entity) => {
-						Entity.initialize(entity);
-					});
-				});
-				this.centerApi.doGetAll().then((response: ClientEntity[]) => {
-					this.entities.CenterEntity = response;
-					this.entities.CenterEntity.forEach((entity: Entity) => {
-						Entity.initialize(entity);
-					});
-				});
-			}
-		});
-	},
-	components: {
-		EntityContainer,
-		HeaderComp,
-		ModalComp,
-		Overlay
-	},
-	computed: {
-		ClientEntity(): typeof ClientEntity {
-			return ClientEntity
-		},
-		CenterEntity(): typeof CenterEntity {
-			return CenterEntity
-		}
-	},
-	data(): {
-		apiAlive: boolean,
-		centerApi: CenterAPI,
-		clientApi: ClientAPI,
-		currentlyManagedEntityType: typeof Entity | null,
-		entities: {
-			'ClientEntity': ClientEntity[],
-			'CenterEntity': CenterEntity[],
-		},
-	} {
-		return {
-			apiAlive: false,
-			centerApi: new CenterAPI(),
-			clientApi: new ClientAPI(),
-			currentlyManagedEntityType: null,
-			entities: {
-				'ClientEntity': [],
-				'CenterEntity': [],
-			},
-		}
-	},
-	methods: {
-		pingApi(): Promise<void> {
-			return new Promise<void>((resolve, reject) => {
-				// console.log(this.apiAlive);
-				this.clientApi.ping().then(() => {
-					this.apiAlive = true;
-					resolve();
-				}, (error) => {
-					this.apiAlive = false;
-					resolve();
-				});
-			});
-		},
-		createEntity(form: Form): Entity {
-			const newEntity: Entity = new this.currentlyManagedEntityType(
-				form.arg,
-				form.username,
-				form.password,
-				true
-			);
-			newEntity.save().then(() => {
-				this.entities[this.currentlyManagedEntityType.name].push(newEntity);
-				Entity.initialize(newEntity);
-				return newEntity;
-			});
-		},
-		updateManaged(entity: typeof Entity): void {
-			this.currentlyManagedEntityType = entity;
-		},
-		deleteEntity(entity: Entity): void {
-			if (entity) {
-				entity.delete();
-				this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
-			}
-		},
-		debug() {
-			console.log(this.entities);
-		}
-	},
+    beforeMount() {
+        // Maybe we could implement this as an "IM DYING" message on WS?
+        setInterval(function () {
+            this.pingApi();
+        }.bind(this), 500);
+        this.pingApi().then(() => {
+            if (this.apiAlive) {
+                this.clientApi.doGetAll().then((response: ClientEntity[]) => {
+                    this.entities.ClientEntity = response;
+                    this.entities.ClientEntity.forEach((entity: Entity) => {
+                        Entity.initialize(entity);
+                    });
+                });
+                this.centerApi.doGetAll().then((response: ClientEntity[]) => {
+                    this.entities.CenterEntity = response;
+                    this.entities.CenterEntity.forEach((entity: Entity) => {
+                        Entity.initialize(entity);
+                    });
+                });
+            }
+        });
+    },
+    components: {
+        EntityContainer,
+        HeaderComp,
+        ModalComp,
+        Overlay
+    },
+    computed: {
+        ClientEntity(): typeof ClientEntity {
+            return ClientEntity
+        },
+        CenterEntity(): typeof CenterEntity {
+            return CenterEntity
+        }
+    },
+    data(): {
+        apiAlive: boolean,
+        centerApi: CenterAPI,
+        clientApi: ClientAPI,
+        currentlyManagedEntityType: typeof Entity | null,
+        entities: {
+            'ClientEntity': ClientEntity[],
+            'CenterEntity': CenterEntity[],
+        },
+    } {
+        return {
+            apiAlive: false,
+            centerApi: new CenterAPI(),
+            clientApi: new ClientAPI(),
+            currentlyManagedEntityType: null,
+            entities: {
+                'ClientEntity': [],
+                'CenterEntity': [],
+            },
+        }
+    },
+    methods: {
+        pingApi(): Promise<void> {
+            return new Promise<void>((resolve) => {
+                this.clientApi.ping().then(() => {
+                    this.apiAlive = true;
+                    resolve();
+                }, () => {
+                    this.apiAlive = false;
+                    resolve();
+                });
+            });
+        },
+        createEntity(form: Form): Entity {
+            const newEntity: Entity = new this.currentlyManagedEntityType(
+                form.arg,
+                form.username,
+                form.password,
+                true
+            );
+            newEntity.save().then(() => {
+                this.entities[this.currentlyManagedEntityType.name].push(newEntity);
+                Entity.initialize(newEntity);
+                return newEntity;
+            });
+        },
+        updateManaged(entity: typeof Entity): void {
+            this.currentlyManagedEntityType = entity;
+        },
+        deleteEntity(entity: Entity): void {
+            if (entity) {
+                entity.delete();
+                this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
+            }
+        },
+        debug() {
+            console.log(this.entities);
+        }
+    },
 }
 </script>
 
 <template>
-	<Overlay v-if="!apiAlive" :scale="2.3"/>
-
-	<div class="entityContainer">
-		<div class="entity">
-			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
-			<EntityContainer :entities="this.entities.ClientEntity" @deleteEntity="deleteEntity"/>
-		</div>
-		<div class="entity">
-			<HeaderComp :entity="CenterEntity" @updateManagedEntity="updateManaged"/>
-			<EntityContainer :entities="this.entities.CenterEntity" @deleteEntity="deleteEntity"/>
-		</div>
-	</div>
-
-	<ModalComp @submit="createEntity"/>
+    <Overlay v-if="!apiAlive" :scale="2.3"/>
+    <div class="entityContainer">
+        <div class="entity">
+            <HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
+            <EntityContainer :entities="this.entities.ClientEntity" @deleteEntity="deleteEntity"/>
+        </div>
+        <div class="entity">
+            <HeaderComp :entity="CenterEntity" @updateManagedEntity="updateManaged"/>
+            <EntityContainer :entities="this.entities.CenterEntity" @deleteEntity="deleteEntity"/>
+        </div>
+    </div>
+    <ModalComp @submit="createEntity"/>
 </template>
 
 <style scoped>
-input {
-	border: none;
-	border-bottom: 1px solid #eee;
-	border-radius: 0;
-}
-
-input:focus {
-	outline: none !important;
-	box-shadow: none;
-	border-bottom: 1px solid #bbb;
-}
-
 .entityContainer {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-}
-
-.entity {
-	padding: 1vh 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 </style>
