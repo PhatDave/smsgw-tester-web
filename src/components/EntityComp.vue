@@ -77,15 +77,19 @@ export default {
 				                    :processors="entity.availablePostprocessors"/>
 			</div>
 		</div>
-		<div class="container">
-			<apexchart ref="chart" :options="chartOptionsRX" :series="entity.graphDataRX.series"
-			           height="250"
-			           type="area"></apexchart>
-		</div>
-		<div class="container">
-			<apexchart ref="chart" :options="chartOptionsTX" :series="entity.graphDataTX.series"
-			           height="250"
-			           type="area"></apexchart>
+		<div class="graphs">
+			<div>
+				<h5>Receive</h5>
+				<apexchart ref="chart" :options="chartOptionsRX" :series="entity.graphDataRX.series"
+				           height="250"
+				           type="area"></apexchart>
+			</div>
+			<div>
+				<h5>Send</h5>
+				<apexchart ref="chart" :options="chartOptionsTX" :series="entity.graphDataTX.series"
+				           height="250"
+				           type="area"></apexchart>
+			</div>
 		</div>
 	</div>
 </template>
@@ -122,5 +126,12 @@ textarea {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	padding: 0.3vh;
+}
+
+.graphs {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: 1fr;
+	width: 100%;
 }
 </style>
