@@ -90,6 +90,7 @@ export default {
 			);
 			newEntity.save().then(() => {
 				this.entities[this.currentlyManagedEntityType.name].push(newEntity);
+				Entity.initialize(newEntity);
 				return newEntity;
 			});
 		},

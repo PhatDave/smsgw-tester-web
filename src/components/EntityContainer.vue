@@ -25,7 +25,6 @@ export default {
 		deleteEntity: (entity: Entity) => true
 	},
 	updated() {
-		console.log(this.currentlyActive);
 		if (this.currentlyActive) {
 			this.currentlyActive.click();
 		}
