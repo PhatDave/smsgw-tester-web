@@ -69,7 +69,7 @@ export default {
 			         :title="multiSendJobTitle"/>
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
-			<h6>Processors</h6>
+			<h5>Processors</h5>
 			<div class="processorContainer">
 				<ProcessorContainer :entity="entity"
 				                    :processors="entity.availablePreprocessors"/>

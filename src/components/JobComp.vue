@@ -38,7 +38,7 @@ export default {
 
 <template>
 	<div class="col-6 p-2">
-		<h6 class="text-center">{{ title }}</h6>
+		<h5 class="text-center">{{ title }}</h5>
 		<div class="row g-1 text-center">
 			<!-- TODO: Generify these inputs -->
 			<div class="col-6">
