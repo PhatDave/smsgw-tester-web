@@ -1,13 +1,13 @@
 <script lang="ts">
 import {DefaultChartOptions} from "../API/CommonObjects";
 import Entity from "../API/Entity/Entity";
-import PDUProcessor from "../API/Entity/PDUProcessor/PDUProcessor";
 import ActionButton from "./ActionButton.vue";
 import JobComp from "./JobComp.vue";
+import ProcessorContainer from "./ProcessorContainer.vue";
 
 export default {
 	name: "Entity",
-	components: {ActionButton, JobComp},
+	components: {ProcessorContainer, ActionButton, JobComp},
 	props: {
 		entity: Entity
 	},
@@ -26,17 +26,6 @@ export default {
 		deleteEntity() {
 			this.$emit('deleteEntity', this.entity);
 		},
-		toggleProcessor(processor: PDUProcessor): void {
-			let existingProcessor = this.entity.processors.find((p: PDUProcessor) => p.name === processor.name);
-			if (existingProcessor) {
-				this.entity.removeProcessor(processor);
-			} else {
-				this.entity.addProcessor(processor);
-			}
-		},
-		isActive(processor: PDUProcessor): boolean {
-			return this.entity.processors.find((p: PDUProcessor) => p.name === processor.name) !== undefined;
-		}
 	},
 	computed: {
 		multiSendJobTitle(): string {
@@ -50,9 +39,11 @@ export default {
 </script>
 
 <template>
-	<ActionButton :action="entity.actions.disconnect"/>
-	<ActionButton :action="entity.actions.connect"/>
-	<ActionButton :action="entity.actions.bind"/>
+	<div class="buttonContainer">
+		<ActionButton :action="entity.actions.disconnect"/>
+		<ActionButton :action="entity.actions.connect"/>
+		<ActionButton :action="entity.actions.bind"/>
+	</div>
 	<div>
 		<div class="row g-1 align-items-center">
 			<!-- TODO: Generify these inputs -->
@@ -78,24 +69,13 @@ export default {
 			         :entity="entity"/>
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
-			<h6>Modes</h6>
-			<!--			TODO: Maybe generify this-->
-			<template v-for="processor in entity.availablePreprocessors">
-				<div>
-					<button :class="{processorActive: isActive(processor)}"
-					        @click="toggleProcessor(processor)">
-						{{ processor.name }}
-					</button>
-				</div>
-			</template>
-			<template v-for="processor in entity.availablePostprocessors">
-				<div>
-					<button :class="{processorActive: isActive(processor)}"
-					        @click="toggleProcessor(processor)">
-						{{ processor.name }}
-					</button>
-				</div>
-			</template>
+			<h6>Processors</h6>
+			<div class="processorContainer">
+				<ProcessorContainer :entity="entity"
+				                    :processors="entity.availablePreprocessors"/>
+				<ProcessorContainer :entity="entity"
+				                    :processors="entity.availablePostprocessors"/>
+			</div>
 		</div>
 		<div class="container">
 			<apexchart type="area" height="250" ref="chart"
@@ -132,7 +112,15 @@ textarea {
 	border-radius: 0;
 }
 
-.processorActive {
-	background-color: #00ff00;
+.processorContainer {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: 1fr;
+}
+
+.buttonContainer {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	padding: 0.3vh;
 }
 </style>

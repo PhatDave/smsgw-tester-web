@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-	<button v-if="action.active()" @click="action.execute()">
+	<button :disabled="!action.active()" @click="action.execute()">
 		{{action.name}}
 	</button>
 </template>
