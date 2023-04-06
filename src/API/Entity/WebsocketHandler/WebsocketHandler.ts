@@ -50,7 +50,7 @@ export default class WebsocketHandler {
 	}
 
 	private eventWebsocketOpen(): void {
-		let entityName = this.entity.constructor.name.split("Entity")[0];
+		let entityName: string = this.entity.constructor.name.split("Entity")[0];
 		this.websocket.send(`${entityName}:${this.entity.id}`);
 	}
 }
