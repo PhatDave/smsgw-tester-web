@@ -1,4 +1,5 @@
 <script lang="ts">
+import {DefaultChartOptions} from "../API/CommonObjects";
 import Entity from "../API/Entity/Entity";
 import PDUProcessor from "../API/Entity/PDUProcessor/PDUProcessor";
 import ActionButton from "./ActionButton.vue";
@@ -12,46 +13,14 @@ export default {
 	},
 	data() {
 		return {
-			// TODO: Create a type for this
-			chartOptions: {
-				chart: {
-					height: 350,
-					type: 'area',
-					animations: {
-						enabled: true,
-						easing: 'easeinout',
-						speed: 800,
-						animateGradually: {
-							enabled: true,
-							delay: 150
-						},
-						dynamicAnimation: {
-							enabled: true,
-							speed: 350
-						}
-					},
-					toolbar: {
-						show: false
-					}
-				},
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					curve: 'smooth'
-				},
-				xaxis: [],
-				tooltip: {
-					x: {
-						format: 'dd/MM/yy HH:mm'
-					},
-				},
-			},
+			chartOptionsRX: DefaultChartOptions.chartOptions,
+			chartOptionsTX: DefaultChartOptions.chartOptions,
 		}
 	},
 	emits: ['deleteEntity'],
 	beforeMount() {
-		this.chartOptions.xaxis = this.entity.getGraphData();
+		this.chartOptionsRX.xaxis = this.entity.graphDataRX.xaxis;
+		this.chartOptionsTX.xaxis = this.entity.graphDataTX.xaxis;
 	},
 	methods: {
 		deleteEntity() {
@@ -110,7 +79,7 @@ export default {
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
 			<h6>Modes</h6>
-<!--			TODO: Maybe generify this-->
+			<!--			TODO: Maybe generify this-->
 			<template v-for="processor in entity.availablePreprocessors">
 				<div>
 					<button :class="{processorActive: isActive(processor)}"
@@ -130,8 +99,13 @@ export default {
 		</div>
 		<div class="container">
 			<apexchart type="area" height="250" ref="chart"
-			           :options="chartOptions"
-			           :series="entity.getGraphData().series"></apexchart>
+			           :options="chartOptionsRX"
+			           :series="entity.graphDataRX.series"></apexchart>
+		</div>
+		<div class="container">
+			<apexchart type="area" height="250" ref="chart"
+			           :options="chartOptionsTX"
+			           :series="entity.graphDataTX.series"></apexchart>
 		</div>
 	</div>
 </template>

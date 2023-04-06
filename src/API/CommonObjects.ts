@@ -59,4 +59,59 @@ export type StatusStyle = {
 export type WebsocketMessage = {
 	type: string,
 	data: string
+};
+export type ChartOptions = {
+	dataLabels: { enabled: boolean };
+	xaxis: any[];
+	tooltip: { x: { format: string } };
+	chart: {
+		toolbar: { show: boolean };
+		animations: {
+			dynamicAnimation: { enabled: boolean; speed: number };
+			animateGradually: { delay: number; enabled: boolean };
+			easing: string;
+			enabled: boolean;
+			speed: number
+		};
+		type: string;
+		height: number
+	};
+	stroke: { curve: string }
+}
+
+export class DefaultChartOptions {
+	static readonly chartOptions: ChartOptions = {
+		chart: {
+			height: 350,
+			type: 'area',
+			animations: {
+				enabled: true,
+				easing: 'easeinout',
+				speed: 800,
+				animateGradually: {
+					enabled: true,
+					delay: 150
+				},
+				dynamicAnimation: {
+					enabled: true,
+					speed: 350
+				}
+			},
+			toolbar: {
+				show: false
+			}
+		},
+		dataLabels: {
+			enabled: false
+		},
+		stroke: {
+			curve: 'smooth'
+		},
+		xaxis: [],
+		tooltip: {
+			x: {
+				format: 'dd/MM/yy HH:mm'
+			},
+		},
+	}
 }

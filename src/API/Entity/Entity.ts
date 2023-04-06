@@ -18,7 +18,8 @@ export default abstract class Entity {
 	availablePreprocessors: PDUProcessor[] = [];
 	availablePostprocessors: PDUProcessor[] = [];
 	currentJobInfo: { count: number, total: number } = {count: 0, total: 0};
-	metrics: Metrics;
+	metricsRX: Metrics;
+	metricsTX: Metrics;
 	websocketHandler: WebsocketHandler;
 
 	protected constructor() {
@@ -120,7 +121,8 @@ export default abstract class Entity {
 	}
 
 	static initialize(entity: Entity): void {
-		entity.metrics = new Metrics();
+		entity.metricsRX = new Metrics();
+		entity.metricsTX = new Metrics();
 		entity.websocketHandler = new WebsocketHandler(entity);
 		console.log(`Initializing ${entity.constructor.name}`);
 		entity.postInit();
@@ -225,8 +227,12 @@ export default abstract class Entity {
 		this.api.cancelSendMany(this);
 	}
 
-	getGraphData(): GraphData {
-		return this.metrics.graphData;
+	get graphDataRX(): GraphData {
+		return this.metricsRX.graphData;
+	}
+
+	get graphDataTX(): GraphData {
+		return this.metricsTX.graphData;
 	}
 
 	delete(): Promise<void> {
