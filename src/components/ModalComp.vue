@@ -24,27 +24,27 @@ export default {
 </script>
 
 <template>
-	<div class="modal fade" id="addClientModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+	<div id="addClientModal" aria-hidden="true" aria-labelledby="addClientModalLabel" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<!-- TODO: Make this dynamic -->
-					<h1 class="modal-title fs-5" id="addClientModalLabel">Add New Client</h1>
+					<h1 id="addClientModalLabel" class="modal-title fs-5">Add New Client</h1>
 				</div>
 				<div class="modal-body">
-					<form @submit.prevent="doSubmit" class="row g-3 align-items-center">
+					<form class="row g-3 align-items-center" @submit.prevent="doSubmit">
 						<div class="col-12">
-							<input type="text" class="form-control" placeholder="URL / Port" v-model="form.arg" required>
+							<input v-model="form.arg" class="form-control" placeholder="URL / Port" required type="text">
 						</div>
 						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Username" v-model="form.username" required>
+							<input v-model="form.username" class="form-control" placeholder="Username" required type="text">
 						</div>
 						<div class="col-12">
-							<input type="text" class="form-control" placeholder="Password" v-model="form.password" required>
+							<input v-model="form.password" class="form-control" placeholder="Password" required type="text">
 						</div>
 						<div class="col-12 text-center">
-							<button type="submit" class="btn btn-success mx-2">Submit</button>
-							<button type="button" class="btn btn-warning mx-2" ref="closeModal" data-bs-dismiss="modal">Close</button>
+							<button class="btn btn-success mx-2" type="submit">Submit</button>
+							<button ref="closeModal" class="btn btn-warning mx-2" data-bs-dismiss="modal" type="button">Close</button>
 						</div>
 					</form>
 				</div>

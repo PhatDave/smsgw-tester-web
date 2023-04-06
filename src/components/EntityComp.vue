@@ -48,25 +48,25 @@ export default {
 		<div class="row g-1 align-items-center">
 			<!-- TODO: Generify these inputs -->
 			<div class="col-5">
-				<input type="text" class="form-control" placeholder="Username" :value="entity.username"
+				<input :value="entity.username" class="form-control" placeholder="Username" type="text"
 				       @input="event => entity.username = event.target.value">
 			</div>
 			<div class="col-5">
-				<input type="text" class="form-control" placeholder="Password" :value="entity.password"
+				<input :value="entity.password" class="form-control" placeholder="Password" type="text"
 				       @input="event => entity.password = event.target.value">
 			</div>
 			<div class="col-2">
-				<button type="button" class="btn btn-sm btn-danger w-100" @dblclick="deleteEntity">Delete</button>
+				<button class="btn btn-sm btn-danger w-100" type="button" @dblclick="deleteEntity">Delete</button>
 			</div>
 			<!-- TODO: Progress Bar -->
 		</div>
 		<div class="row">
-			<JobComp :job="entity.defaultSingleJob"
-			         :title="singleSendJobTitle"
-			         :entity="entity"/>
-			<JobComp :job="entity.defaultMultipleJob"
-			         :title="multiSendJobTitle"
-			         :entity="entity"/>
+			<JobComp :entity="entity"
+			         :job="entity.defaultSingleJob"
+			         :title="singleSendJobTitle"/>
+			<JobComp :entity="entity"
+			         :job="entity.defaultMultipleJob"
+			         :title="multiSendJobTitle"/>
 		</div>
 		<div class="container row text-center my-2 align-items-center justify-content-center">
 			<h6>Processors</h6>
@@ -78,14 +78,14 @@ export default {
 			</div>
 		</div>
 		<div class="container">
-			<apexchart type="area" height="250" ref="chart"
-			           :options="chartOptionsRX"
-			           :series="entity.graphDataRX.series"></apexchart>
+			<apexchart ref="chart" :options="chartOptionsRX" :series="entity.graphDataRX.series"
+			           height="250"
+			           type="area"></apexchart>
 		</div>
 		<div class="container">
-			<apexchart type="area" height="250" ref="chart"
-			           :options="chartOptionsTX"
-			           :series="entity.graphDataTX.series"></apexchart>
+			<apexchart ref="chart" :options="chartOptionsTX" :series="entity.graphDataTX.series"
+			           height="250"
+			           type="area"></apexchart>
 		</div>
 	</div>
 </template>

@@ -62,10 +62,10 @@ export default {
 <template>
 	<div>
 		<template v-for="entity in this.entities">
-			<button class="accordion" @click="open" :style="entity.statusStyle">
+			<button :style="entity.statusStyle" class="accordion" @click="open">
 				{{ entity.status }} [{{ entity.arg }}]
 			</button>
-			<div class="panel" :style="entity.panelStatusStyle">
+			<div :style="entity.panelStatusStyle" class="panel">
 				<EntityComp :entity="entity" @deleteEntity="deleteEntity"/>
 			</div>
 		</template>

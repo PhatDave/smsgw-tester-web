@@ -1,14 +1,14 @@
 .dark-mode {
-  background-color: #0d1011;
-  color: white;
-  font-size: 1.5rem;
-  position: relative;
+    background-color: #0d1011;
+    color: white;
+    font-size: 1.5rem;
+    position: relative;
 }
 
 .unselectable {
-  user-select: none;
+    user-select: none;
 }
 
 .selectable {
-  user-select: text;
+    user-select: text;
 }

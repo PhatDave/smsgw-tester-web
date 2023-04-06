@@ -11,7 +11,7 @@ export default {
 
 <template>
 	<button :disabled="!action.active()" @click="action.execute()">
-		{{action.name}}
+		{{ action.name }}
 	</button>
 </template>
 

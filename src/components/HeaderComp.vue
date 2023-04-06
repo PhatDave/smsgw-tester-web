@@ -19,7 +19,7 @@ export default {
 <template>
 	<div class="text-center">
 		<span class="display-6">{{ entity.name }}</span> &nbsp;
-		<span class="addButton" data-bs-toggle="modal" data-bs-target="#addClientModal" @click="updateManagedEntity">
+		<span class="addButton" data-bs-target="#addClientModal" data-bs-toggle="modal" @click="updateManagedEntity">
 		          Add+
 		        </span>
 	</div>

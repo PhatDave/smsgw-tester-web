@@ -111,15 +111,14 @@ export default {
 </script>
 
 <template>
-	<button @click="debug">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</button>
-	<Overlay :scale="2.3" v-if="!apiAlive"/>
+	<Overlay v-if="!apiAlive" :scale="2.3"/>
 
-	<div class="container-fluid row">
-		<div class="col-6">
+	<div class="entityContainer">
+		<div class="entity">
 			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
 			<EntityContainer :entities="this.entities.ClientEntity" @deleteEntity="deleteEntity"/>
 		</div>
-		<div class="col-6">
+		<div class="entity">
 			<HeaderComp :entity="CenterEntity" @updateManagedEntity="updateManaged"/>
 			<EntityContainer :entities="this.entities.CenterEntity" @deleteEntity="deleteEntity"/>
 		</div>
@@ -139,5 +138,14 @@ input:focus {
 	outline: none !important;
 	box-shadow: none;
 	border-bottom: 1px solid #bbb;
+}
+
+.entityContainer {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+.entity {
+	padding: 1vh 0;
 }
 </style>

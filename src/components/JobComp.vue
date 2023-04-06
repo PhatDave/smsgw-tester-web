@@ -42,34 +42,34 @@ export default {
 		<div class="row g-1 text-center">
 			<!-- TODO: Generify these inputs -->
 			<div class="col-6">
-				<input class="form-control" type="text" :value="job.source" ref="source" placeholder="Source"
+				<input ref="source" :value="job.source" class="form-control" placeholder="Source" type="text"
 				       @input="changed"/>
 			</div>
 			<div class="col-6">
-				<input class="form-control" type="text" :value="job.destination" ref="destination" placeholder="Destination"
+				<input ref="destination" :value="job.destination" class="form-control" placeholder="Destination" type="text"
 				       @input="changed"/>
 			</div>
 			<div class="col-12">
-					<textarea class="form-control" rows="2" cols="50" :value="job.message" ref="message" placeholder="Message"
+					<textarea ref="message" :value="job.message" class="form-control" cols="50" placeholder="Message" rows="2"
 					          @input="changed"/>
 			</div>
-			<div class="col-8" v-if="!!job.perSecond">
+			<div v-if="!!job.perSecond" class="col-8">
 				<div class="input-group">
-					<input class="form-control" type="number" :value="job.perSecond" ref="perSecond" min="0" placeholder="0"
+					<input ref="perSecond" :value="job.perSecond" class="form-control" min="0" placeholder="0" type="number"
 					       @input="changed"/>
-					<label for="multiJobInterval" class="input-group-text">
+					<label class="input-group-text" for="multiJobInterval">
 						m/s
 					</label>
 				</div>
 			</div>
-			<div class="col-4" v-if="!!job.count">
-				<input class="form-control" type="number" :value="job.count" ref="count" min="0" placeholder="0"
+			<div v-if="!!job.count" class="col-4">
+				<input ref="count" :value="job.count" class="form-control" min="0" placeholder="0" type="number"
 				       @input="changed"/>
 			</div>
 			<div class="col-12 mt-2">
-				<ActionButton :action="entity.actions.doSend" v-if="!job.perSecond"/>
-				<ActionButton :action="entity.actions.doSendMany" v-if="!!job.perSecond"/>
-				<ActionButton :action="entity.actions.doStopSend" v-if="!!job.perSecond"/>
+				<ActionButton v-if="!job.perSecond" :action="entity.actions.doSend"/>
+				<ActionButton v-if="!!job.perSecond" :action="entity.actions.doSendMany"/>
+				<ActionButton v-if="!!job.perSecond" :action="entity.actions.doStopSend"/>
 			</div>
 		</div>
 	</div>

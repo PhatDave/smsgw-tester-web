@@ -107,6 +107,14 @@ export default abstract class Entity {
 		this.update();
 	}
 
+	get graphDataRX(): GraphData {
+		return this.metricsRX.graphData;
+	}
+
+	get graphDataTX(): GraphData {
+		return this.metricsTX.graphData;
+	}
+
 	static parseObject(object: any, constructor: new (...args: any[]) => Entity): Entity {
 		let entity: Entity = new constructor(object.url || object.port, object.username, object.password, false);
 		entity._id = object.id;
@@ -225,14 +233,6 @@ export default abstract class Entity {
 
 	stopJob(): void {
 		this.api.cancelSendMany(this);
-	}
-
-	get graphDataRX(): GraphData {
-		return this.metricsRX.graphData;
-	}
-
-	get graphDataTX(): GraphData {
-		return this.metricsTX.graphData;
 	}
 
 	delete(): Promise<void> {

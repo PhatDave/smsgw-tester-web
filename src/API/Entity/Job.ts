@@ -72,6 +72,7 @@ export default class Job {
 		this._perSecond = value;
 		this.parent.updateJobs();
 	}
+
 	static parse(parent: Entity, jobObject: { pdu: PDU, count: number, perSecond: number }): Job {
 		let source: string = '';
 		let destination: string = '';
