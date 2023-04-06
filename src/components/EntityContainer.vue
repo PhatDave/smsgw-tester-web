@@ -48,10 +48,12 @@ export default {
 			this.currentlyActive = target;
 
 			let panel: HTMLElement = target.nextElementSibling as HTMLElement;
-			if (panel.style.maxHeight) {
-				panel.style.maxHeight = null;
-			} else {
-				panel.style.maxHeight = panel.scrollHeight + "px";
+			if (panel && panel.style) {
+				if (panel.style.maxHeight) {
+					panel.style.maxHeight = null;
+				} else {
+					panel.style.maxHeight = panel.scrollHeight + "px";
+				}
 			}
 		},
 	},

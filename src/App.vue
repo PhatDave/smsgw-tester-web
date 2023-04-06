@@ -96,8 +96,7 @@ export default {
 		updateManaged(entity: typeof Entity): void {
 			this.currentlyManagedEntityType = entity;
 		},
-		deleteEntity(entity: Entity, id: number): void {
-			// TODO: See why id is here
+		deleteEntity(entity: Entity): void {
 			if (entity) {
 				entity.delete();
 				this.entities[entity.constructor.name].splice(this.entities[entity.constructor.name].indexOf(entity), 1);
