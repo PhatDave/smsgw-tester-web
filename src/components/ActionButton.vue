@@ -13,9 +13,9 @@ export default {
 				case 'Stop Send':
 					return 'btn-danger'
 				case 'Connect':
-					return 'btn-success'
-				case 'Bind':
 					return 'btn-warning'
+				case 'Bind':
+					return 'btn-success'
 				case 'Send One':
 				case 'Send Many':
 					return 'btn-info';
