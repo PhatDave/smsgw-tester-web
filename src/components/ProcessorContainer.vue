@@ -21,6 +21,9 @@ export default {
 		},
 		isActive(processor: PDUProcessor): boolean {
 			return this.entity.processors.find((p: PDUProcessor) => p.name === processor.name) !== undefined;
+		},
+		getProcessorName(processor: PDUProcessor): string {
+			return processor.name.replace("Processor", "");
 		}
 	}
 }
@@ -30,10 +33,10 @@ export default {
 	<div>
 		<template v-for="processor in processors">
 			<div class="container">
-				<button :class="{processorActive: isActive(processor)}"
-				        @click="toggleProcessor(processor)">
-					{{ processor.name }}
-				</button>
+				<input type="checkbox" class="btn-check" :id="'btn-check-'+ processor.name" :checked="isActive(processor)">
+				<label class="btn btn-sm btn-outline-success" :for="'btn-check-'+ processor.name" @click="toggleProcessor(processor)">
+					{{ getProcessorName(processor) }}
+				</label>
 			</div>
 		</template>
 	</div>
@@ -44,9 +47,5 @@ export default {
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
 	grid-template-rows: 1fr;
-}
-
-.processorActive {
-	background-color: #00ff00;
 }
 </style>
