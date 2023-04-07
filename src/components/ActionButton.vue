@@ -10,11 +10,15 @@ export default {
 		getClass(actionName) {
 			switch (actionName) {
 				case 'Disconnect':
+				case 'Stop Send':
 					return 'btn-danger'
 				case 'Connect':
 					return 'btn-success'
 				case 'Bind':
 					return 'btn-warning'
+				case 'Send One':
+				case 'Send Many':
+					return 'btn-info';
 			}
 		}
 	}
