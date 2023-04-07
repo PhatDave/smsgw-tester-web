@@ -68,7 +68,7 @@ export default {
 			         :job="entity.defaultMultipleJob"
 			         :title="multiSendJobTitle"/>
 		</div>
-		<div class="container row text-center my-2 align-items-center justify-content-center">
+		<div class="text-center my-2">
 			<h5>Processors</h5>
 			<div class="processorContainer">
 				<ProcessorContainer :entity="entity"
@@ -77,18 +77,18 @@ export default {
 				                    :processors="entity.availablePostprocessors"/>
 			</div>
 		</div>
-		<div class="graphs">
-			<div>
-				<h5>Receive</h5>
+		<div class="row text-center">
+			<div class="col-6">
+				<h5 class="m-0">Receive</h5>
 				<apexchart ref="chart" :options="chartOptionsRX" :series="entity.graphDataRX.series"
 				           height="250"
-				           type="area"></apexchart>
+				           type="area"/>
 			</div>
-			<div>
-				<h5>Send</h5>
+			<div class="col-6">
+				<h5 class="m-0">Send</h5>
 				<apexchart ref="chart" :options="chartOptionsTX" :series="entity.graphDataTX.series"
 				           height="250"
-				           type="area"></apexchart>
+				           type="area"/>
 			</div>
 		</div>
 	</div>
@@ -126,12 +126,5 @@ textarea {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	padding: 0.3vh;
-}
-
-.graphs {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: 1fr;
-	width: 100%;
 }
 </style>
