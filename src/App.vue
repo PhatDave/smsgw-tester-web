@@ -123,7 +123,31 @@ export default {
 .grid-size-2 {
 	grid-column: 1 / span 2;
 }
+
 .grid-size-3 {
 	grid-column: 1 / span 3;
+}
+
+.BAD {
+	background-color: orangered;
+	opacity: 0.85;
+}
+
+.OK {
+	background-color: darkorange;
+	opacity: 0.85;
+}
+
+.GOOD {
+	background-color: limegreen;
+	opacity: 0.85;
+}
+
+.NEUTRAL {
+	background-color: deepskyblue;
+	opacity: 0.85;
+}
+.DISABLED {
+	opacity: 0.3;
 }
 </style>

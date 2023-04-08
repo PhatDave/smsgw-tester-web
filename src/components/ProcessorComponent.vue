@@ -35,7 +35,8 @@ export default {
 <style scoped>
 button {
 	width: 100%;
-	height: 7vh;
+	font-size: 1rem;
+	height: 2rem;
 }
 
 .active {

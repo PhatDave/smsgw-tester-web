@@ -27,20 +27,4 @@ export default {
 button {
 	margin: 0 .3rem;
 }
-
-.BAD {
-	background-color: orangered;
-}
-.OK {
-	background-color: darkorange;
-}
-.GOOD {
-	background-color: limegreen;
-}
-.NEUTRAL {
-	background-color: deepskyblue;
-}
-.DISABLED {
-	opacity: 0.3;
-}
 </style>

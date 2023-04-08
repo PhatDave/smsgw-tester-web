@@ -1,6 +1,7 @@
 <script lang="ts">
 import {DefaultChartOptions} from "../API/CommonObjects";
 import Entity from "../API/Entity/Entity";
+import Styles from "../API/Entity/StatusStyles/Styles";
 import ActionButton from "./ActionButton.vue";
 import InputFieldComponent from "./InputFieldComponent.vue";
 import JobComp from "./JobComp.vue";
@@ -31,6 +32,9 @@ export default {
 		},
 	},
 	computed: {
+		Styles() {
+			return Styles
+		},
 		multiSendJobTitle(): string {
 			return "Multi Send";
 		},
@@ -51,8 +55,7 @@ export default {
 		<div class="infoContainer">
 			<InputFieldComponent :entity="entity" field="username"/>
 			<InputFieldComponent :entity="entity" field="password"/>
-			<!--			// TODO Make this button fix-->
-			<button @dblclick="deleteEntity">Delete</button>
+			<button @dblclick="deleteEntity" class="BAD">Delete</button>
 		</div>
 		<div class="row">
 			<JobComp :entity="entity"
