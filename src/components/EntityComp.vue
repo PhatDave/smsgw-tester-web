@@ -17,7 +17,9 @@ export default {
 			chartOptionsTX: DefaultChartOptions.chartOptions,
 		}
 	},
-	emits: ['deleteEntity'],
+	emits: {
+		deleteEntity: (entity: Entity) => true
+	},
 	beforeMount() {
 		this.chartOptionsRX.xaxis = this.entity.graphDataRX.xaxis;
 		this.chartOptionsTX.xaxis = this.entity.graphDataTX.xaxis;
@@ -58,7 +60,6 @@ export default {
 			<div class="col-2">
 				<button class="btn btn-sm btn-danger w-100" type="button" @dblclick="deleteEntity">Delete</button>
 			</div>
-			<!-- TODO: Progress Bar -->
 		</div>
 		<div class="row">
 			<JobComp :entity="entity"
