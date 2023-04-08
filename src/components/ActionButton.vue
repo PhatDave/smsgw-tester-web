@@ -6,27 +6,19 @@ export default {
 	props: {
 		action: Action
 	},
-	methods: {
-		getClass(actionName) {
-			switch (actionName) {
-				case 'Disconnect':
-				case 'Stop Send':
-					return 'btn-danger'
-				case 'Connect':
-					return 'btn-warning'
-				case 'Bind':
-					return 'btn-success'
-				case 'Send One':
-				case 'Send Many':
-					return 'btn-info';
-			}
+	computed: {
+		getClass() {
+			let clazz = {};
+			clazz[this.action.type] = true;
+			clazz["DISABLED"] = !this.action.active();
+			return clazz;
 		}
 	}
 }
 </script>
 
 <template>
-	<button :class="getClass(action.name)" class="btn btn-sm" :disabled="!action.active()" @click="action.execute()">
+	<button :class="getClass" @click="action.execute()">
 		{{ action.name }}
 	</button>
 </template>
@@ -34,5 +26,21 @@ export default {
 <style scoped>
 button {
 	margin: 0 .3rem;
+}
+
+.BAD {
+	background-color: orangered;
+}
+.OK {
+	background-color: darkorange;
+}
+.GOOD {
+	background-color: limegreen;
+}
+.NEUTRAL {
+	background-color: deepskyblue;
+}
+.DISABLED {
+	opacity: 0.3;
 }
 </style>

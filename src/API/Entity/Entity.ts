@@ -151,10 +151,10 @@ export default abstract class Entity {
 				this.status = entity.status;
 				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
 				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
-				entity.preprocessors = entity.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
-				entity.postprocessors = entity.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
-				entity.availablePreprocessors = entity.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
-				entity.availablePostprocessors = entity.availablePostprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.preprocessors = entity.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.postprocessors = entity.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.availablePreprocessors = entity.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.availablePostprocessors = entity.availablePostprocessors.map((processor: any) => PDUProcessor.parse(processor));
 				resolve();
 			});
 		});
