@@ -8,7 +8,6 @@ export default class CounterEventProcessor extends WebsocketEventProcessor {
 
 	constructor(entity: Entity) {
 		super();
-		console.log(`Creating new ${this.constructor.name}`);
 		this.entity = entity;
 	}
 

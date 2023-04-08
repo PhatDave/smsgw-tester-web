@@ -7,7 +7,6 @@ export default class PduRXEventProcessor extends WebsocketEventProcessor {
 
 	constructor(entity: Entity) {
 		super();
-		console.log(`Creating new ${this.constructor.name}`);
 		this.entity = entity;
 	}
 

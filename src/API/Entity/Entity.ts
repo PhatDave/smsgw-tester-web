@@ -1,3 +1,4 @@
+import {reactive} from "vue";
 import API from "../API";
 import {GraphData, Style} from "../CommonObjects";
 import Actions from "./EntityActions/Actions";
@@ -116,7 +117,7 @@ export default abstract class Entity {
 	}
 
 	static parseObject(object: any, constructor: new (...args: any[]) => Entity): Entity {
-		let entity: Entity = new constructor(object.url || object.port, object.username, object.password, false);
+		let entity: Entity = this.new(constructor, object.url || object.port, object.username, object.password);
 		entity._id = object.id;
 		entity.status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
@@ -128,12 +129,11 @@ export default abstract class Entity {
 		return entity;
 	}
 
-	static initialize(entity: Entity): void {
-		entity.metricsRX = new Metrics();
-		entity.metricsTX = new Metrics();
-		entity.websocketHandler = new WebsocketHandler(entity);
-		console.log(`Initializing ${entity.constructor.name}`);
-		entity.postInit();
+	static new(constructor: new (...args: any[]) => Entity, ...args: any[]): Entity {
+		let entity: Entity = new constructor(...args);
+		entity = <Entity>reactive(entity);
+		entity.init();
+		return entity;
 	}
 
 	static updateSimpleField(originObject: any, targetObject: any, originField: string, targetField: string) {
@@ -141,6 +141,8 @@ export default abstract class Entity {
 			targetObject[targetField] = originObject[originField];
 		}
 	}
+
+	abstract init(): void;
 
 	save(): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
@@ -196,8 +198,6 @@ export default abstract class Entity {
 			}
 		});
 	}
-
-	abstract postInit(): void;
 
 	abstract serialize(): object;
 
