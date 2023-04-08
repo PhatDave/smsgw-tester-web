@@ -122,6 +122,7 @@ export default abstract class Entity {
 		entity.status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
+		entity.defaultMultipleJob.isMulti = true;
 		entity.preprocessors = object.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
 		entity.postprocessors = object.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
 		entity.availablePreprocessors = object.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
@@ -151,6 +152,7 @@ export default abstract class Entity {
 				this.status = entity.status;
 				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
 				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
+				this.defaultMultipleJob.isMulti = true;
 				this.preprocessors = entity.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
 				this.postprocessors = entity.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
 				this.availablePreprocessors = entity.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));

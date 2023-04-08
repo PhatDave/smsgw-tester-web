@@ -118,3 +118,12 @@ export default {
 	grid-template-columns: repeat(2, 1fr);
 }
 </style>
+
+<style>
+.grid-size-2 {
+	grid-column: 1 / span 2;
+}
+.grid-size-3 {
+	grid-column: 1 / span 3;
+}
+</style>

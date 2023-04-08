@@ -2,12 +2,13 @@
 import {DefaultChartOptions} from "../API/CommonObjects";
 import Entity from "../API/Entity/Entity";
 import ActionButton from "./ActionButton.vue";
+import InputFieldComponent from "./InputFieldComponent.vue";
 import JobComp from "./JobComp.vue";
 import ProcessorContainer from "./ProcessorContainer.vue";
 
 export default {
 	name: "Entity",
-	components: {ProcessorContainer, ActionButton, JobComp},
+	components: {InputFieldComponent, ProcessorContainer, ActionButton, JobComp},
 	props: {
 		entity: Entity
 	},
@@ -47,19 +48,11 @@ export default {
 		<ActionButton :action="entity.actions.bind"/>
 	</div>
 	<div>
-		<div class="row g-1 align-items-center">
-			<!-- TODO: Generify these inputs -->
-			<div class="col-5">
-				<input :value="entity.username" class="form-control" placeholder="Username" type="text"
-				       @input="event => entity.username = event.target.value">
-			</div>
-			<div class="col-5">
-				<input :value="entity.password" class="form-control" placeholder="Password" type="text"
-				       @input="event => entity.password = event.target.value">
-			</div>
-			<div class="col-2">
-				<button class="btn btn-sm btn-danger w-100" type="button" @dblclick="deleteEntity">Delete</button>
-			</div>
+		<div class="infoContainer">
+			<InputFieldComponent :entity="entity" field="username"/>
+			<InputFieldComponent :entity="entity" field="password"/>
+			<!--			// TODO Make this button fix-->
+			<button @dblclick="deleteEntity">Delete</button>
 		</div>
 		<div class="row">
 			<JobComp :entity="entity"
@@ -121,10 +114,17 @@ textarea {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 }
-
 .buttonContainer {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	padding: 0.3vh;
+}
+
+.infoContainer {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+.infoContainer * {
+	margin: 0 0.3rem;
 }
 </style>
