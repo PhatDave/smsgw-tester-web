@@ -1,3 +1,4 @@
+import {reactive} from "vue";
 import API from "../API";
 import {GraphData, Style} from "../CommonObjects";
 import Actions from "./EntityActions/Actions";
@@ -116,11 +117,12 @@ export default abstract class Entity {
 	}
 
 	static parseObject(object: any, constructor: new (...args: any[]) => Entity): Entity {
-		let entity: Entity = new constructor(object.url || object.port, object.username, object.password, false);
+		let entity: Entity = this.new(constructor, object.url || object.port, object.username, object.password);
 		entity._id = object.id;
 		entity.status = object.status;
 		entity.defaultSingleJob = Job.parse(entity, object.defaultSingleJob);
 		entity.defaultMultipleJob = Job.parse(entity, object.defaultMultipleJob);
+		entity.defaultMultipleJob.isMulti = true;
 		entity.preprocessors = object.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
 		entity.postprocessors = object.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
 		entity.availablePreprocessors = object.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
@@ -128,12 +130,11 @@ export default abstract class Entity {
 		return entity;
 	}
 
-	static initialize(entity: Entity): void {
-		entity.metricsRX = new Metrics();
-		entity.metricsTX = new Metrics();
-		entity.websocketHandler = new WebsocketHandler(entity);
-		console.log(`Initializing ${entity.constructor.name}`);
-		entity.postInit();
+	static new(constructor: new (...args: any[]) => Entity, ...args: any[]): Entity {
+		let entity: Entity = new constructor(...args);
+		entity = <Entity>reactive(entity);
+		entity.init();
+		return entity;
 	}
 
 	static updateSimpleField(originObject: any, targetObject: any, originField: string, targetField: string) {
@@ -142,6 +143,8 @@ export default abstract class Entity {
 		}
 	}
 
+	abstract init(): void;
+
 	save(): Promise<void> {
 		return new Promise<void>((resolve, reject) => {
 			this.api.create(this).then((entity: any) => {
@@ -149,10 +152,11 @@ export default abstract class Entity {
 				this.status = entity.status;
 				this.defaultSingleJob = Job.parse(this, entity.defaultSingleJob);
 				this.defaultMultipleJob = Job.parse(this, entity.defaultMultipleJob);
-				entity.preprocessors = entity.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
-				entity.postprocessors = entity.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
-				entity.availablePreprocessors = entity.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
-				entity.availablePostprocessors = entity.availablePostprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.defaultMultipleJob.isMulti = true;
+				this.preprocessors = entity.preprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.postprocessors = entity.postprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.availablePreprocessors = entity.availablePreprocessors.map((processor: any) => PDUProcessor.parse(processor));
+				this.availablePostprocessors = entity.availablePostprocessors.map((processor: any) => PDUProcessor.parse(processor));
 				resolve();
 			});
 		});
@@ -196,8 +200,6 @@ export default abstract class Entity {
 			}
 		});
 	}
-
-	abstract postInit(): void;
 
 	abstract serialize(): object;
 

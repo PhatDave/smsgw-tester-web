@@ -2,11 +2,12 @@
 
 import Entity from "../API/Entity/Entity";
 import PDUProcessor from "../API/Entity/PDUProcessor/PDUProcessor";
+import ProcessorComponent from "./ProcessorComponent.vue";
 
 export default {
 	name: "ProcessorContainer",
+	components: {ProcessorComponent},
 	props: {
-
 		entity: Entity,
 		processors: Array<PDUProcessor>,
 	},
@@ -21,20 +22,17 @@ export default {
 		},
 		isActive(processor: PDUProcessor): boolean {
 			return this.entity.processors.find((p: PDUProcessor) => p.name === processor.name) !== undefined;
-		}
+		},
 	}
 }
 </script>
 
 <template>
-	<div>
+	<div class="container">
 		<template v-for="processor in processors">
-			<div class="container">
-				<button :class="{processorActive: isActive(processor)}"
-				        @click="toggleProcessor(processor)">
-					{{ processor.name }}
-				</button>
-			</div>
+			<ProcessorComponent :processor="processor"
+			                    :active="isActive(processor)"
+			                    @click="toggleProcessor(processor)"/>
 		</template>
 	</div>
 </template>
@@ -43,10 +41,5 @@ export default {
 .container {
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
-	grid-template-rows: 1fr;
-}
-
-.processorActive {
-	background-color: #00ff00;
 }
 </style>

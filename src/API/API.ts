@@ -185,22 +185,6 @@ export default abstract class API {
 		});
 	}
 
-	// TODO: Implement work with processors
-
-	getAllProcessors(entity: Entity): Promise<void> {
-		return new Promise((resolve, reject) => {
-			const options = {
-				method: 'GET'
-			};
-
-			fetch(`${API.API_URL}/api/${entity.constructor.name}/processors`, options)
-				.then(response => response.json())
-				.then((data: any) => {
-					resolve(data.map((processor: any) => PDUProcessor.parse(processor)))
-				}, () => reject());
-		});
-	}
-
 	applyProcessor(entity: Entity, processor: PDUProcessor): Promise<void> {
 		return new Promise((resolve, reject) => {
 			const body = {name: processor.name};

@@ -1,13 +1,15 @@
 <script lang="ts">
 import {DefaultChartOptions} from "../API/CommonObjects";
 import Entity from "../API/Entity/Entity";
+import Styles from "../API/Entity/StatusStyles/Styles";
 import ActionButton from "./ActionButton.vue";
+import InputFieldComponent from "./InputFieldComponent.vue";
 import JobComp from "./JobComp.vue";
 import ProcessorContainer from "./ProcessorContainer.vue";
 
 export default {
 	name: "Entity",
-	components: {ProcessorContainer, ActionButton, JobComp},
+	components: {InputFieldComponent, ProcessorContainer, ActionButton, JobComp},
 	props: {
 		entity: Entity
 	},
@@ -17,7 +19,9 @@ export default {
 			chartOptionsTX: DefaultChartOptions.chartOptions,
 		}
 	},
-	emits: ['deleteEntity'],
+	emits: {
+		deleteEntity: (entity: Entity) => true
+	},
 	beforeMount() {
 		this.chartOptionsRX.xaxis = this.entity.graphDataRX.xaxis;
 		this.chartOptionsTX.xaxis = this.entity.graphDataTX.xaxis;
@@ -28,6 +32,9 @@ export default {
 		},
 	},
 	computed: {
+		Styles() {
+			return Styles
+		},
 		multiSendJobTitle(): string {
 			return "Multi Send";
 		},
@@ -45,20 +52,10 @@ export default {
 		<ActionButton :action="entity.actions.bind"/>
 	</div>
 	<div>
-		<div class="row g-1 align-items-center">
-			<!-- TODO: Generify these inputs -->
-			<div class="col-5">
-				<input :value="entity.username" class="form-control" placeholder="Username" type="text"
-				       @input="event => entity.username = event.target.value">
-			</div>
-			<div class="col-5">
-				<input :value="entity.password" class="form-control" placeholder="Password" type="text"
-				       @input="event => entity.password = event.target.value">
-			</div>
-			<div class="col-2">
-				<button class="btn btn-sm btn-danger w-100" type="button" @dblclick="deleteEntity">Delete</button>
-			</div>
-			<!-- TODO: Progress Bar -->
+		<div class="infoContainer">
+			<InputFieldComponent :entity="entity" field="username"/>
+			<InputFieldComponent :entity="entity" field="password"/>
+			<button @dblclick="deleteEntity" class="BAD">Delete</button>
 		</div>
 		<div class="row">
 			<JobComp :entity="entity"
@@ -68,7 +65,7 @@ export default {
 			         :job="entity.defaultMultipleJob"
 			         :title="multiSendJobTitle"/>
 		</div>
-		<div class="container row text-center my-2 align-items-center justify-content-center">
+		<div class="text-center my-2">
 			<h5>Processors</h5>
 			<div class="processorContainer">
 				<ProcessorContainer :entity="entity"
@@ -77,18 +74,18 @@ export default {
 				                    :processors="entity.availablePostprocessors"/>
 			</div>
 		</div>
-		<div class="graphs">
-			<div>
-				<h5>Receive</h5>
+		<div class="row text-center">
+			<div class="col-6">
+				<h5 class="m-0">Receive</h5>
 				<apexchart ref="chart" :options="chartOptionsRX" :series="entity.graphDataRX.series"
 				           height="250"
-				           type="area"></apexchart>
+				           type="area"/>
 			</div>
-			<div>
-				<h5>Send</h5>
+			<div class="col-6">
+				<h5 class="m-0">Send</h5>
 				<apexchart ref="chart" :options="chartOptionsTX" :series="entity.graphDataTX.series"
 				           height="250"
-				           type="area"></apexchart>
+				           type="area"/>
 			</div>
 		</div>
 	</div>
@@ -119,19 +116,18 @@ textarea {
 .processorContainer {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: 1fr;
 }
-
 .buttonContainer {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	padding: 0.3vh;
 }
 
-.graphs {
+.infoContainer {
 	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: 1fr;
-	width: 100%;
+	grid-template-columns: repeat(3, 1fr);
+}
+.infoContainer * {
+	margin: 0 0.3rem;
 }
 </style>

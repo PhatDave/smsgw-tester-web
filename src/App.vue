@@ -13,22 +13,16 @@ import Overlay from "./Icons/Overlay.vue";
 export default {
 	beforeMount() {
 		// Maybe we could implement this as an "IM DYING" message on WS?
-		this.pingTimer = setInterval(function () {
+		setInterval(function () {
 			this.pingApi();
 		}.bind(this), 500);
 		this.pingApi().then(() => {
 			if (this.apiAlive) {
 				this.clientApi.doGetAll().then((response: ClientEntity[]) => {
 					this.entities.ClientEntity = response;
-					this.entities.ClientEntity.forEach((entity: Entity) => {
-						Entity.initialize(entity);
-					});
 				});
 				this.centerApi.doGetAll().then((response: ClientEntity[]) => {
 					this.entities.CenterEntity = response;
-					this.entities.CenterEntity.forEach((entity: Entity) => {
-						Entity.initialize(entity);
-					});
 				});
 			}
 		});
@@ -70,27 +64,20 @@ export default {
 	},
 	methods: {
 		pingApi(): Promise<void> {
-			return new Promise<void>((resolve, reject) => {
-				// console.log(this.apiAlive);
+			return new Promise<void>((resolve) => {
 				this.clientApi.ping().then(() => {
 					this.apiAlive = true;
 					resolve();
-				}, (error) => {
+				}, () => {
 					this.apiAlive = false;
 					resolve();
 				});
 			});
 		},
 		createEntity(form: Form): Entity {
-			const newEntity: Entity = new this.currentlyManagedEntityType(
-				form.arg,
-				form.username,
-				form.password,
-				true
-			);
+			let newEntity: Entity = Entity.new(this.currentlyManagedEntityType, form.arg, form.username, form.password);
 			newEntity.save().then(() => {
 				this.entities[this.currentlyManagedEntityType.name].push(newEntity);
-				Entity.initialize(newEntity);
 				return newEntity;
 			});
 		},
@@ -112,7 +99,6 @@ export default {
 
 <template>
 	<Overlay v-if="!apiAlive" :scale="2.3"/>
-
 	<div class="entityContainer">
 		<div class="entity">
 			<HeaderComp :entity="ClientEntity" @updateManagedEntity="updateManaged"/>
@@ -123,29 +109,45 @@ export default {
 			<EntityContainer :entities="this.entities.CenterEntity" @deleteEntity="deleteEntity"/>
 		</div>
 	</div>
-
 	<ModalComp @submit="createEntity"/>
 </template>
 
 <style scoped>
-input {
-	border: none;
-	border-bottom: 1px solid #eee;
-	border-radius: 0;
-}
-
-input:focus {
-	outline: none !important;
-	box-shadow: none;
-	border-bottom: 1px solid #bbb;
-}
-
 .entityContainer {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 }
+</style>
 
-.entity {
-	padding: 1vh 0;
+<style>
+.grid-size-2 {
+	grid-column: 1 / span 2;
+}
+
+.grid-size-3 {
+	grid-column: 1 / span 3;
+}
+
+.BAD {
+	background-color: orangered;
+	opacity: 0.85;
+}
+
+.OK {
+	background-color: darkorange;
+	opacity: 0.85;
+}
+
+.GOOD {
+	background-color: limegreen;
+	opacity: 0.85;
+}
+
+.NEUTRAL {
+	background-color: deepskyblue;
+	opacity: 0.85;
+}
+.DISABLED {
+	opacity: 0.3;
 }
 </style>

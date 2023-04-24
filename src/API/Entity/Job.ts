@@ -3,6 +3,7 @@ import Entity from "./Entity";
 
 export default class Job {
 	readonly parent: Entity;
+	isMulti: boolean = false;
 
 	constructor(parent: Entity,
 	            source: string,

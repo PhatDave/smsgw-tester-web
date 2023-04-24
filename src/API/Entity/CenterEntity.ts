@@ -4,8 +4,10 @@ import Entity from "./Entity";
 import Actions from "./EntityActions/Actions";
 import CenterActions from "./EntityActions/CenterActions";
 import Job from "./Job";
+import Metrics from "./Metrics";
 import CenterStatusStyles from "./StatusStyles/CenterStatusStyles";
 import StatusStyles from "./StatusStyles/StatusStyles";
+import WebsocketHandler from "./WebsocketHandler/WebsocketHandler";
 
 export default class CenterEntity extends Entity {
 	_id: number;
@@ -18,13 +20,20 @@ export default class CenterEntity extends Entity {
 	statusStyles: StatusStyles = new CenterStatusStyles();
 	actions: Actions;
 
-	constructor(port: string,
-	            username: string,
-	            password: string) {
+	protected constructor(port: string,
+	                      username: string,
+	                      password: string) {
 		super();
 		this._username = username;
 		this._password = password;
 		this._arg = port;
+	}
+
+	init(): void {
+		this.metricsRX = new Metrics();
+		this.metricsTX = new Metrics();
+		this.websocketHandler = new WebsocketHandler(this);
+		this.actions = new CenterActions(this);
 	}
 
 	serialize(): object {
@@ -33,9 +42,5 @@ export default class CenterEntity extends Entity {
 			username: this.username,
 			password: this.password,
 		}
-	}
-
-	postInit(): void {
-		this.actions = new CenterActions(this);
 	}
 }
