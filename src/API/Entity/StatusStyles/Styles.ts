@@ -1,6 +1,7 @@
 import {Style} from "../../CommonObjects";
 import Colors from "./Colors";
 
+// TODO: Rework all this stupid shit to be css classes you donkey
 export default class Styles {
 	static readonly BAD: Style = {
 		backgroundColor: Colors.RED,
