@@ -6,6 +6,9 @@ const {
 } = require('electron');
 
 const isDev = process.env.IS_DEV == "true" ? true : false;
+if (!isDev) {
+	require('./dist/main.js');
+}
 
 function createWindow() {
 	const mainWindow = new BrowserWindow({
