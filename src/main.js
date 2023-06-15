@@ -8,16 +8,16 @@ import VueApexCharts from "vue3-apexcharts";
 import './style.css';
 
 const routes = [
-	{
-		path: '/:any*',
-		component: App
-	}
+    {
+        path: '/:any*',
+        component: App
+    }
 ]
 
 const router = createRouter({
-	                            history: createWebHistory(),
-	                            routes,
-                            });
+    history: createWebHistory(),
+    routes,
+});
 
 
 const app = createApp({});

@@ -6,9 +6,6 @@ export default abstract class API {
 	static _instance: API;
 	abstract entityType: any;
 
-	protected constructor() {
-	}
-
 	doGetAll(): Promise<Entity[]> {
 		return new Promise((resolve, reject) => {
 			const options = {

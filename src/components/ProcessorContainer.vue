@@ -39,7 +39,7 @@ export default {
 
 <style scoped>
 .container {
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
+	display: flex;
+	flex-direction: column;
 }
 </style>

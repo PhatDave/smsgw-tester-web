@@ -15,8 +15,16 @@ export default class WebsocketHandler {
 
 	constructor(entity: Entity) {
 		this.entity = entity;
-		this.constructProcessors();
-		this.setupWebsocket();
+		this.setupEntity();
+	}
+
+	private setupEntity(): void {
+		if (this.entity.id !== undefined) {
+			this.constructProcessors();
+			this.setupWebsocket();
+		} else {
+			setTimeout(() => this.setupEntity(), 50);
+		}
 	}
 
 	private constructProcessors(): void {
