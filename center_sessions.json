@@ -1,0 +1,109 @@
+[
+    {
+        "id": 0,
+        "port": "7000",
+        "username": "test",
+        "password": "test",
+        "status": "WAITING CONNECTION",
+        "defaultSingleJob": {
+            "pdu": {
+                "command": "deliver_sm",
+                "command_length": 0,
+                "command_id": 5,
+                "command_status": 0,
+                "sequence_number": 0,
+                "service_type": "",
+                "source_addr_ton": 0,
+                "source_addr_npi": 0,
+                "source_addr": "",
+                "dest_addr_ton": 0,
+                "dest_addr_npi": 0,
+                "destination_addr": "",
+                "esm_class": 0,
+                "protocol_id": 0,
+                "priority_flag": 0,
+                "schedule_delivery_time": "",
+                "validity_period": "",
+                "registered_delivery": 0,
+                "replace_if_present_flag": 0,
+                "data_coding": null,
+                "sm_default_msg_id": 0,
+                "short_message": ""
+            }
+        },
+        "defaultMultipleJob": {
+            "pdu": {
+                "command": "deliver_sm",
+                "command_length": 0,
+                "command_id": 5,
+                "command_status": 0,
+                "sequence_number": 0,
+                "service_type": "",
+                "source_addr_ton": 0,
+                "source_addr_npi": 0,
+                "source_addr": "",
+                "dest_addr_ton": 0,
+                "dest_addr_npi": 0,
+                "destination_addr": "",
+                "esm_class": 0,
+                "protocol_id": 0,
+                "priority_flag": 0,
+                "schedule_delivery_time": "",
+                "validity_period": "",
+                "registered_delivery": 0,
+                "replace_if_present_flag": 0,
+                "data_coding": null,
+                "sm_default_msg_id": 0,
+                "short_message": ""
+            },
+            "perSecond": 1,
+            "count": 1
+        },
+        "preprocessors": [],
+        "postprocessors": [
+            {
+                "servesSessionType": "Center",
+                "name": "SubmitSmReplyProcessor",
+                "type": "Postprocessor"
+            },
+            {
+                "servesSessionType": "Center",
+                "name": "BindTranscieverReplyProcessor",
+                "type": "Postprocessor"
+            },
+            {
+                "servesSessionType": "Center",
+                "name": "EnquireLinkReplyProcessor",
+                "type": "Postprocessor"
+            }
+        ],
+        "availablePreprocessors": [],
+        "availablePostprocessors": [
+            {
+                "servesSessionType": "Center",
+                "name": "EnquireLinkReplyProcessor",
+                "type": "Postprocessor"
+            },
+            {
+                "servesSessionType": "Center",
+                "name": "SubmitSmReplyProcessor",
+                "type": "Postprocessor"
+            },
+            {
+                "servesSessionType": "Center",
+                "name": "BindTranscieverReplyProcessor",
+                "type": "Postprocessor"
+            },
+            {
+                "servesSessionType": "Center",
+                "name": "EchoPduProcessor",
+                "type": "Postprocessor"
+            },
+            {
+                "servesSessionType": "Center",
+                "name": "DeliveryReceiptProcessor",
+                "type": "Postprocessor"
+            }
+        ]
+    }
+]
