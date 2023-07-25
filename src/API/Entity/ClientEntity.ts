@@ -53,7 +53,7 @@ export default class ClientEntity extends Entity {
 		const hasIp = /^smpp:\/\/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/.test(url);
 		const hasLocalhost = /^smpp:\/\/localhost/.test(url);
 		if (!hasIp && !hasLocalhost) {
-			url = url.replace(/^smpp:\/\//, 'smpp://localhost/');
+			url = url.replace(/^smpp:\/\//, 'smpp://localhost:');
 		}
 
 		console.log(url);
